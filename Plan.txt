@@ -1,12 +1,14 @@
-1) at least one variant of Breakout that you thought was interesting and what was interesting about it
+1)
 The Pinball version of breakout was particularly interesting. The user having control over two levers as well as
 the blocks that deflect the ball and never break provide added challenges. The user not only has to control two
 separate levers but also has to time when to trigger them and can use that to attempt to aim the ball. Additionally,
 the non-breaking block adds a barrier as well as an air of unpredictability to the ball's path. These features
 set the Pinball version apart from the original Breakout game and create new challenges for the player.
 
-2) a general description of the different levels you intend to build (perhaps with "pictures" of the block configurations)
+2) Different Levels:
     There are general sketches of the levels included in the resources tab.
+    Note: These are rough sketches and it is likely the proportions and possible the number of blocks will change,
+    however the general design/layout should remain the same.
 
     Level 1) The first level will contain three rows of blocks covering the horizontal span of the screen about 1/3
     of the way up the screen. There will also be a space one block height between two more rows of block about this,
@@ -25,6 +27,7 @@ set the Pinball version apart from the original Breakout game and create new cha
     deflect the ball, similar to the one in the Pinball version. It will have blocks surrounding it in a pattern
     similar to a diamond with white space largely interspersed. All the blocks on the internal part of the diamond
     will require multiple hits to break.
+
 3) several different blocks you want to create
     1) Typical block that takes one hit to break
     2) Blocks that take multiple hits to be broken. These will likely be indicated with different block colors
@@ -34,20 +37,33 @@ set the Pinball version apart from the original Breakout game and create new cha
 4) several different power ups you want to create
     Currently, the plan is the have each of these be gained at specific scores. For example, when a multiple of 100
     is achieved, another ball is added.
+
+    Power-ups:
     1) Temporarily slows down the ball
     2) Another ball is added
     3) An extra life is earned
+
+    Paddle Abilities:
     4) The paddle can go "around the corner" meaning if it hits the wall is will disappear and reappear at the other
     wall
-    5) A second paddle is added that responds inversely to the controls used such that there are two paddles the user
-    is controlling simultaneously
+    5) A second paddle is added that responds inversely to the controls used such that there are two paddles the
+    user is controlling simultaneously
     6) The paddle never stops moving such that the controls can only be used to change directions
 
 5) several different cheat keys you are planning to include
     1) A random block is blown up - this will allow for quickly speeding through a level
     2) A point multiplier such that every block that is broken is worth X times amount more
     3) Skip to the next level
+    4) Skip to win screen
+    5) Skip to lose screen
+    6) Skip to main menu
+    7) Second paddle is added
+    8) Paddle never stops moving
+
+    More of these will likely be added once testing commences.
 
 
 6) something extra you intend to add and why you think it is a substantial addition
-    I want to add an extra level where the block placement is randomly generated.
+    I want to add an extra level where the block placement and number of blocks is randomly generated within each
+    row. This will provide a changing level where the difficulty will vary and it will consistently provide new
+    challenges for the player.
