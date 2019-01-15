@@ -11,16 +11,18 @@ public class Block extends Rectangle {
     private final Paint TWOHEALTH = Color.rgb(0, 0, 200);
     private final Paint THREEHEALTH = Color.rgb(0, 0, 150);
     private final Paint FOURHEALTH = Color.rgb(0, 0, 100);
+    private final Paint OUTLINE = Color.BLACK;
 
-    private final Paint FOURHEALTH
 
     Block(double height, double width, int health){
         myHealth = health;
         myHeight = height;
         myWidth = width;
 
+        //Setting Properties
         this.setWidth(myWidth);
         this.setHeight(myHeight);
+        this.setStroke(OUTLINE);
         this.setFill(determineColor());
     }
 
