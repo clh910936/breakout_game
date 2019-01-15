@@ -63,7 +63,7 @@ public class Breakout extends Application{
 
     //Creating an Arraylist of all upper left corner points for Blocks
     private void makeAllBlockCoordinates(){
-        for(int k = 0; k < SIZE; k += SIZE/20){
+        for(int k = 0; k < SIZE; k += (SIZE/20)-2){
             for(int j = 0; j < SIZE; j += SIZE/10){
                 Point temp = new Point(j, k);
                 myAllBlockCoordinates.add(temp);
