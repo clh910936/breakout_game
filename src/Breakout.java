@@ -3,13 +3,14 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.scene.shape.Line;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Random;
 
 
 public class Breakout extends Application{
@@ -40,27 +41,56 @@ public class Breakout extends Application{
         //Initialize stuff
         makeAllBlockCoordinates();
 
+        //TODO: make this a method
         myLevelOneScene = createLevel("Level1.txt");
         myLevelTwoScene = createLevel("Level2.txt");
         myLevelThreeScene = createLevel("Level3.txt");
-        stage.setScene(myLevelThreeScene);
+        myBonusLevelScene = createLevel(" ");
+
+        stage.setScene(myLevelTwoScene);
         stage.setTitle(TITLE);
         stage.show();
     }
+
 
 
     public static void main(String args[]){
         launch(args);
     }
 
+    //Generates a scene for a level with a text file as the parameter
+    //Used for Levels 1, 2, 3
     private Scene createLevel(String file) throws Exception{
         var root = new Group();
         var scene = new Scene(root, SIZE, SIZE, BACKGROUND);
-        ArrayList<Block> blocks = generateBlocks(file);
-        for(int k = 0; k < blocks.size(); k++){
-            root.getChildren().add(blocks.get(k));
+
+        if(file.equals(" ")) {
+            //TODO: make this its own method
+            int numBlocks = randomNumGen(15, 179);
+            HashSet<Integer> points = new HashSet<>();
+            while(points.size() < numBlocks){
+                int coordinatesIndex = randomNumGen(0, 179);
+                if(points.add(coordinatesIndex)){
+                    int health = randomNumGen(1, 5);
+                    //TODO: maybe make block dimensions intrinsic to the block class
+                    Block currentBlock = new Block(BLOCK_HEIGHT, BLOCK_WIDTH, health, myAllBlockCoordinates.get(coordinatesIndex));
+                    root.getChildren().add(currentBlock);
+                }
+            }
+        }
+        else {
+            //TODO: make this its own method
+            ArrayList<Block> blocks = generateBlocks(file);
+            for (int k = 0; k < blocks.size(); k++) {
+                root.getChildren().add(blocks.get(k));
+            }
         }
         return scene;
+        }
+
+    private int randomNumGen(int min, int max){
+        Random generator = new Random();
+        return generator.nextInt(max-min+1) + min;
     }
 
     //Creating an Arraylist of all upper left corner points for Blocks
@@ -80,6 +110,7 @@ public class Breakout extends Application{
         ArrayList<Block> result = new ArrayList<>();
 
         BufferedReader in = new BufferedReader(new FileReader(file));
+        //TODO: Make this a method
         while(in.ready()) {
             String line = in.readLine();
             String[] split = line.split(" ");
