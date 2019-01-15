@@ -40,8 +40,9 @@ public class Breakout extends Application{
         //Initialize stuff
         makeAllBlockCoordinates();
 
-        myLevelOneScene = createLevel1();
-        stage.setScene(myLevelOneScene);
+        myLevelOneScene = createLevel("Level1.txt");
+        myLevelTwoScene = createLevel("Level2.txt");
+        stage.setScene(myLevelTwoScene);
         stage.setTitle(TITLE);
         stage.show();
     }
@@ -51,10 +52,10 @@ public class Breakout extends Application{
         launch(args);
     }
 
-    private Scene createLevel1() throws Exception{
+    private Scene createLevel(String file) throws Exception{
         var root = new Group();
         var scene = new Scene(root, SIZE, SIZE, BACKGROUND);
-        ArrayList<Block> blocks = generateBlocks("Level1.txt");
+        ArrayList<Block> blocks = generateBlocks(file);
         for(int k = 0; k < blocks.size(); k++){
             root.getChildren().add(blocks.get(k));
         }

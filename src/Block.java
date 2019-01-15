@@ -9,10 +9,11 @@ public class Block extends Rectangle {
     public double myX;
     public double myY;
 
-    private final Paint ONEHEALTH = Color.rgb(0, 50, 250);
-    private final Paint TWOHEALTH = Color.rgb(0, 0, 200);
-    private final Paint THREEHEALTH = Color.rgb(0, 0, 150);
-    private final Paint FOURHEALTH = Color.rgb(0, 0, 100);
+    private final Paint ONEHEALTH = Color.rgb(0, 188, 255);
+    private final Paint TWOHEALTH = Color.rgb(0, 255, 17);
+    private final Paint THREEHEALTH = Color.rgb(250, 255, 0);
+    private final Paint FOURHEALTH = Color.rgb(240, 150, 66);
+    private final Paint FIVEHEALTH = Color.rgb(200, 0, 0);
     private final Paint OUTLINE = Color.BLACK;
 
 
@@ -44,8 +45,11 @@ public class Block extends Rectangle {
         else if(myHealth == 3){
             return THREEHEALTH;
         }
-        else{
+        else if(myHealth == 4){
             return FOURHEALTH;
+        }
+        else{
+            return FIVEHEALTH;
         }
 
     }
