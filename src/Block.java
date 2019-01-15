@@ -6,6 +6,8 @@ public class Block extends Rectangle {
     public int myHealth;
     public double myHeight;
     public double myWidth;
+    public double myX;
+    public double myY;
 
     private final Paint ONEHEALTH = Color.rgb(0, 50, 250);
     private final Paint TWOHEALTH = Color.rgb(0, 0, 200);
@@ -14,16 +16,21 @@ public class Block extends Rectangle {
     private final Paint OUTLINE = Color.BLACK;
 
 
-    Block(double height, double width, int health){
+    Block(double height, double width, int health, Point point){
         myHealth = health;
         myHeight = height;
         myWidth = width;
+        myX = point.getX();
+        myY = point.getY();
+
 
         //Setting Properties
         this.setWidth(myWidth);
         this.setHeight(myHeight);
         this.setStroke(OUTLINE);
         this.setFill(determineColor());
+        this.setX(myX);
+        this.setY(myY);
     }
 
     //Returns the color corresponding to the Block's health
