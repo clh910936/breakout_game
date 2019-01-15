@@ -62,8 +62,11 @@ public class Breakout extends Application{
         var root = new Group();
         var scene = new Scene(root, SIZE, SIZE, BACKGROUND);
 
-        Ball test = new Ball(new Point(200.0, 390.0));
-        root.getChildren().add(test);
+        Ball ballTest = new Ball();
+        Paddle paddleTest = new Paddle();
+
+        root.getChildren().add(ballTest);
+        root.getChildren().add(paddleTest);
 
         if(file.equals(" ")) {
             //TODO: make this its own method
@@ -96,7 +99,7 @@ public class Breakout extends Application{
 
     //Creating an Arraylist of all upper left corner points for Blocks
     private void makeAllBlockCoordinates(){
-        for(int k = 0; k < SIZE; k += (SIZE/20)-2){
+        for(int k = 0; k < SIZE-2; k += SIZE/20){
             for(int j = 0; j < SIZE; j += SIZE/10){
                 Point temp = new Point(j, k);
                 myAllBlockCoordinates.add(temp);
