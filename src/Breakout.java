@@ -33,8 +33,6 @@ public class Breakout extends Application{
 
     //Scene Components
     public ArrayList<Point> myAllBlockCoordinates = new ArrayList<>();
-    public static final double BLOCK_HEIGHT = SIZE/20;
-    public static final double BLOCK_WIDTH = SIZE/10;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -76,7 +74,7 @@ public class Breakout extends Application{
                 if(points.add(coordinatesIndex)){
                     int health = randomNumGen(1, 5);
                     //TODO: maybe make block dimensions intrinsic to the block class
-                    Block currentBlock = new Block(BLOCK_HEIGHT, BLOCK_WIDTH, health, myAllBlockCoordinates.get(coordinatesIndex));
+                    Block currentBlock = new Block(health, myAllBlockCoordinates.get(coordinatesIndex));
                     root.getChildren().add(currentBlock);
                 }
             }
@@ -121,7 +119,7 @@ public class Breakout extends Application{
             int health = Integer.parseInt(split[1]);
             Point currentPoint = myAllBlockCoordinates.get(index);
 
-            Block currentBlock = new Block(BLOCK_HEIGHT, BLOCK_WIDTH, health, currentPoint);
+            Block currentBlock = new Block(health, currentPoint);
             result.add(currentBlock);
         }
         return result;

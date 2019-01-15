@@ -6,9 +6,9 @@ public class Ball extends Circle {
     public Point myCenter;
 
     //TODO: figure out radius
-    public final double myRadius = 10;
-    public int myXSpeed = 50;
-    public int myYSpeed = 50;
+    public static final double RADIUS = 10;
+    private int myXSpeed = 50;
+    private int myYSpeed = 50;
 
     private final Paint ballColor = Color.AQUAMARINE;
     private final Paint ballOutlineColor = Color.BLACK;
@@ -20,7 +20,7 @@ public class Ball extends Circle {
         this.setStroke(ballOutlineColor);
         this.setCenterX(myCenter.getX());
         this.setCenterY(myCenter.getY());
-        this.setRadius(myRadius);
+        this.setRadius(RADIUS);
     }
 
     public void setSpeed(int xSpeed, int ySpeed){

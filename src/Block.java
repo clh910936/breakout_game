@@ -4,8 +4,8 @@ import javafx.scene.shape.Rectangle;
 
 public class Block extends Rectangle {
     public int myHealth;
-    public double myHeight;
-    public double myWidth;
+    public static final double myHeight = 20;
+    public static final double myWidth = 40;
     public double myX;
     public double myY;
 
@@ -17,10 +17,8 @@ public class Block extends Rectangle {
     private final Paint OUTLINE = Color.BLACK;
 
 
-    Block(double height, double width, int health, Point point){
+    Block(int health, Point point){
         myHealth = health;
-        myHeight = height;
-        myWidth = width;
         myX = point.getX();
         myY = point.getY();
 
