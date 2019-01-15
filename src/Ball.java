@@ -20,6 +20,7 @@ public class Ball extends Circle {
         this.setStroke(ballOutlineColor);
         this.setCenterX(myCenter.getX());
         this.setCenterY(myCenter.getY());
+        this.setRadius(myRadius);
     }
 
     public void setSpeed(int xSpeed, int ySpeed){

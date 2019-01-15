@@ -64,6 +64,9 @@ public class Breakout extends Application{
         var root = new Group();
         var scene = new Scene(root, SIZE, SIZE, BACKGROUND);
 
+        Ball test = new Ball(new Point(200.0, 390.0));
+        root.getChildren().add(test);
+
         if(file.equals(" ")) {
             //TODO: make this its own method
             int numBlocks = randomNumGen(15, 179);
