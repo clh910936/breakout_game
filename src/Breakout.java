@@ -42,7 +42,8 @@ public class Breakout extends Application{
 
         myLevelOneScene = createLevel("Level1.txt");
         myLevelTwoScene = createLevel("Level2.txt");
-        stage.setScene(myLevelTwoScene);
+        myLevelThreeScene = createLevel("Level3.txt");
+        stage.setScene(myLevelThreeScene);
         stage.setTitle(TITLE);
         stage.show();
     }
