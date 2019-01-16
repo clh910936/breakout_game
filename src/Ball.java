@@ -38,4 +38,11 @@ public class Ball extends Circle {
         this.setCenterX(myCenter.getX());
         this.setCenterY(myCenter.getY());
     }
+
+    public int getXSpeed(){
+        return myXSpeed;
+    }
+    public int getYSpeed(){
+        return myYSpeed;
+    }
 }

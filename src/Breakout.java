@@ -1,14 +1,19 @@
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.scene.shape.Line;
+import javafx.util.Duration;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -30,30 +35,61 @@ public class Breakout extends Application{
     private Scene myWinScene;
     private Scene myLoseScene;
     private Scene myBonusLevelScene;
+    private Scene myCurrentScene;
+
 
     //Scene Components
-    public ArrayList<Point> myAllBlockCoordinates = new ArrayList<>();
+    private ArrayList<Point> myAllBlockCoordinates = new ArrayList<>();
+
+    private int myScore = 0;
 
     @Override
     public void start(Stage stage) throws Exception {
         //Initialize stuff
         makeAllBlockCoordinates();
+        createAllScenes();
 
-        //TODO: make this a method
-        myLevelOneScene = createLevel("Level1.txt");
-        myLevelTwoScene = createLevel("Level2.txt");
-        myLevelThreeScene = createLevel("Level3.txt");
-        myBonusLevelScene = createLevel(" ");
-
-        stage.setScene(myLevelTwoScene);
+        myCurrentScene = myLevelOneScene;
+        stage.setScene(myCurrentScene);
         stage.setTitle(TITLE);
         stage.show();
+
+        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY, stage));
+        var animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        animation.play();
     }
-
-
 
     public static void main(String args[]){
         launch(args);
+    }
+
+    private void step(double elapsedTime, Stage stage){
+        /*ArrayList<Ball> sceneBalls = mySceneBalls.get(myCurrentScene);
+        ArrayList<Paddle> scenePaddles = myScenePaddles.get(myCurrentScene);
+        ArrayList<Block> sceneBlocks = mySceneBlocks.get(myCurrentScene);
+
+
+        for(int k = 0; k < sceneBalls.size(); k++){
+            Ball currentBall = sceneBalls.get(k);
+            double xCoord = currentBall.getCenterX();
+            double yCoord = currentBall.getCenterY();
+
+            Point newPosition = new Point(xCoord + currentBall.getXSpeed() * elapsedTime, yCoord + currentBall.getYSpeed() * elapsedTime);
+            currentBall.setLocation(newPosition);
+        }*/
+    }
+
+    private void createAllScenes() throws Exception{
+        myCurrentScene = myLevelOneScene;
+        myLevelOneScene = createLevel("Level1.txt");
+        myCurrentScene = myLevelTwoScene;
+        myLevelTwoScene = createLevel("Level2.txt");
+        myCurrentScene = myLevelThreeScene;
+        myLevelThreeScene = createLevel("Level3.txt");
+        myCurrentScene = myBonusLevelScene;
+        myBonusLevelScene = createLevel(" ");
     }
 
     //Generates a scene for a level with a text file as the parameter
@@ -62,35 +98,45 @@ public class Breakout extends Application{
         var root = new Group();
         var scene = new Scene(root, SIZE, SIZE, BACKGROUND);
 
-        Ball ballTest = new Ball();
-        Paddle paddleTest = new Paddle();
+        Ball ball = new Ball();
+        Paddle paddle = new Paddle();
 
-        root.getChildren().add(ballTest);
-        root.getChildren().add(paddleTest);
+        ArrayList<Ball> ballList = new ArrayList<>();
+        ballList.add(ball);
+
+        ArrayList<Paddle> paddleList = new ArrayList<>();
+        paddleList.add(paddle);
 
         if(file.equals(" ")) {
-            //TODO: make this its own method
-            int numBlocks = randomNumGen(15, 179);
-            HashSet<Integer> points = new HashSet<>();
-            while(points.size() < numBlocks){
-                int coordinatesIndex = randomNumGen(0, 179);
-                if(points.add(coordinatesIndex)){
-                    int health = randomNumGen(1, 5);
-                    //TODO: maybe make block dimensions intrinsic to the block class
-                    Block currentBlock = new Block(health, myAllBlockCoordinates.get(coordinatesIndex));
-                    root.getChildren().add(currentBlock);
-                }
-            }
+            createBonusLevel(root);
         }
         else {
-            //TODO: make this its own method
-            ArrayList<Block> blocks = generateBlocks(file);
-            for (int k = 0; k < blocks.size(); k++) {
-                root.getChildren().add(blocks.get(k));
-            }
+            createRegularLevelsAndMySceneBlocks(file, root);
         }
         return scene;
         }
+
+    private void createRegularLevelsAndMySceneBlocks(String file, Group root) throws Exception {
+        ArrayList<Block> blocks = generateBlocks(file);
+        for (int k = 0; k < blocks.size(); k++) {
+            root.getChildren().add(blocks.get(k));
+        }
+    }
+
+    private void createBonusLevel(Group root) {
+        int numBlocks = randomNumGen(15, 179);
+        HashSet<Integer> points = new HashSet<>();
+
+        //TODO: make method
+        while(points.size() < numBlocks){
+            int coordinatesIndex = randomNumGen(0, 179);
+            if(points.add(coordinatesIndex)){
+                int health = randomNumGen(1, 5);
+                Block currentBlock = new Block(health, myAllBlockCoordinates.get(coordinatesIndex));
+                root.getChildren().add(currentBlock);
+            }
+        }
+    }
 
     private int randomNumGen(int min, int max){
         Random generator = new Random();
