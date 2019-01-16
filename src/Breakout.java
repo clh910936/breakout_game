@@ -28,18 +28,18 @@ public class Breakout extends Application{
     public static final Paint BACKGROUND = Color.WHITE;
 
     //Scenes
-    private Scene myHomeScene;
-    private Scene myLevelOneScene;
-    private Scene myLevelTwoScene;
-    private Scene myLevelThreeScene;
-    private Scene myWinScene;
-    private Scene myLoseScene;
-    private Scene myBonusLevelScene;
-    private Scene myCurrentScene;
+    private LevelScene myHomeScene;
+    private LevelScene myLevelOneScene;
+    private LevelScene myLevelTwoScene;
+    private LevelScene myLevelThreeScene;
+    private LevelScene myWinScene;
+    private LevelScene myLoseScene;
+    private LevelScene myBonusLevelScene;
+    private LevelScene myCurrentScene;
 
 
     //Scene Components
-    private ArrayList<Point> myAllBlockCoordinates = new ArrayList<>();
+    public static ArrayList<Point> myAllBlockCoordinates = new ArrayList<>();
 
     private int myScore = 0;
 
@@ -81,67 +81,20 @@ public class Breakout extends Application{
         }*/
     }
 
-    private void createAllScenes() throws Exception{
-        myCurrentScene = myLevelOneScene;
-        myLevelOneScene = createLevel("Level1.txt");
-        myCurrentScene = myLevelTwoScene;
-        myLevelTwoScene = createLevel("Level2.txt");
-        myCurrentScene = myLevelThreeScene;
-        myLevelThreeScene = createLevel("Level3.txt");
-        myCurrentScene = myBonusLevelScene;
-        myBonusLevelScene = createLevel(" ");
+    private void createAllScenes() throws Exception {
+        myLevelOneScene = new LevelScene("Level1.txt", new Group());
+        myLevelTwoScene = new LevelScene("Level2.txt", new Group());
+        myLevelThreeScene = new LevelScene("Level3.txt", new Group());
+        myBonusLevelScene = new LevelScene(" ", new Group());
     }
 
-    //Generates a scene for a level with a text file as the parameter
-    //Used for Levels 1, 2, 3
-    private Scene createLevel(String file) throws Exception{
-        var root = new Group();
-        var scene = new Scene(root, SIZE, SIZE, BACKGROUND);
 
-        Ball ball = new Ball();
-        Paddle paddle = new Paddle();
 
-        ArrayList<Ball> ballList = new ArrayList<>();
-        ballList.add(ball);
 
-        ArrayList<Paddle> paddleList = new ArrayList<>();
-        paddleList.add(paddle);
 
-        if(file.equals(" ")) {
-            createBonusLevel(root);
-        }
-        else {
-            createRegularLevelsAndMySceneBlocks(file, root);
-        }
-        return scene;
-        }
 
-    private void createRegularLevelsAndMySceneBlocks(String file, Group root) throws Exception {
-        ArrayList<Block> blocks = generateBlocks(file);
-        for (int k = 0; k < blocks.size(); k++) {
-            root.getChildren().add(blocks.get(k));
-        }
-    }
 
-    private void createBonusLevel(Group root) {
-        int numBlocks = randomNumGen(15, 179);
-        HashSet<Integer> points = new HashSet<>();
 
-        //TODO: make method
-        while(points.size() < numBlocks){
-            int coordinatesIndex = randomNumGen(0, 179);
-            if(points.add(coordinatesIndex)){
-                int health = randomNumGen(1, 5);
-                Block currentBlock = new Block(health, myAllBlockCoordinates.get(coordinatesIndex));
-                root.getChildren().add(currentBlock);
-            }
-        }
-    }
-
-    private int randomNumGen(int min, int max){
-        Random generator = new Random();
-        return generator.nextInt(max-min+1) + min;
-    }
 
     //Creating an Arraylist of all upper left corner points for Blocks
     private void makeAllBlockCoordinates(){
@@ -153,26 +106,7 @@ public class Breakout extends Application{
         }
     }
 
-    //Create an ArrayList of Blocks for a level
-    //The first number on the line will be the index of the coordinates to the block from the myAllBlockCoordinates array
-    //The second number will be the health of the block
-    private ArrayList<Block> generateBlocks(String file) throws Exception{
-        ArrayList<Block> result = new ArrayList<>();
 
-        BufferedReader in = new BufferedReader(new FileReader(file));
-        //TODO: Make this a method
-        while(in.ready()) {
-            String line = in.readLine();
-            String[] split = line.split(" ");
-            int index = Integer.parseInt(split[0]);
-            int health = Integer.parseInt(split[1]);
-            Point currentPoint = myAllBlockCoordinates.get(index);
-
-            Block currentBlock = new Block(health, currentPoint);
-            result.add(currentBlock);
-        }
-        return result;
-    }
 
 
 }
