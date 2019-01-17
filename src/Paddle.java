@@ -3,7 +3,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class Paddle extends Rectangle {
-    private int mySpeed = 20;
+    private int mySpeed = 200;
     private Point myLocation;
 
     public static final double WIDTH = 50.0;
@@ -34,5 +34,11 @@ public class Paddle extends Rectangle {
         myLocation = point;
         this.setX(myLocation.getX());
         this.setY(myLocation.getY());
+    }
+
+    public void move(double elapsedTime, int direction){
+        double newX = myLocation.getX() + mySpeed * elapsedTime * direction;
+        Point newPosition = new Point(newX, myLocation.getY());
+        this.setLocation(newPosition);
     }
 }

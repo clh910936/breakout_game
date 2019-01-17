@@ -75,4 +75,11 @@ public class Ball extends Circle {
         }
     }
 
+    public void move(double elapsedTime){
+        double newX = myCenter.getX() + myXSpeed * elapsedTime;
+        double newY = myCenter.getY() + myYSpeed * elapsedTime;
+        Point newPosition = new Point(newX, newY);
+        this.setLocation(newPosition);
+    }
+
 }

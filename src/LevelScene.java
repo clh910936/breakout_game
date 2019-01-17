@@ -1,5 +1,6 @@
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.shape.Shape;
 
 import java.io.BufferedReader;
@@ -20,6 +21,7 @@ public class LevelScene extends Scene {
 
     LevelScene(String fileName, Group root) throws Exception{
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
+        this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         myFile = fileName;
         myRoot = root;
 
@@ -108,11 +110,7 @@ public class LevelScene extends Scene {
     private void updateBalls(){
         for(int k = 0; k < myBalls.size(); k++){
             Ball currentBall = myBalls.get(k);
-            double xCoord = currentBall.getCenterX();
-            double yCoord = currentBall.getCenterY();
-
-            Point newPosition = new Point(xCoord + currentBall.getXSpeed() * myElapsedTime, yCoord + currentBall.getYSpeed() * myElapsedTime);
-            currentBall.setLocation(newPosition);
+            currentBall.move(myElapsedTime);
 
             currentBall.checkWallCollision();
             checkPaddleCollision(currentBall);
@@ -163,5 +161,19 @@ public class LevelScene extends Scene {
 
     public ArrayList<Paddle> getPaddles(){
         return myPaddles;
+    }
+
+    //Handling each KeyPress
+    private void handleKeyInput(KeyCode code){
+        for(int k = 0; k < myPaddles.size(); k++) {
+            Paddle currentPaddle = myPaddles.get(k);
+            if (code == KeyCode.RIGHT) {
+                currentPaddle.move(myElapsedTime, 1);
+            }
+            else if(code == KeyCode.LEFT) {
+                currentPaddle.move(myElapsedTime, -1);
+            }
+        }
+
     }
 }

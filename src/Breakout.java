@@ -92,12 +92,6 @@ public class Breakout extends Application{
 
 
 
-
-
-
-
-
-
     //Creating an Arraylist of all upper left corner points for Blocks
     private void makeAllBlockCoordinates(){
         for(int k = 0; k < SIZE-2; k += SIZE/20){
@@ -108,14 +102,7 @@ public class Breakout extends Application{
         }
     }
 
-    //Handling each KeyPress
-/*    private void handleKeyInput(KeyCode code){
-        ArrayList<Paddle> = myCurrentScene.getPaddles();
-        if(code == KeyCode.RIGHT){
 
-        }
-
-    }*/
 
 
 
