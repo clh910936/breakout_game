@@ -5,6 +5,7 @@ import javafx.scene.shape.Rectangle;
 public class Paddle extends Rectangle {
     private int mySpeed = 200;
     private Point myLocation;
+    private final double myY = Breakout.SIZE - HEIGHT;
 
     public static final double WIDTH = 50.0;
     public static final double HEIGHT = 10.0;
@@ -17,28 +18,43 @@ public class Paddle extends Rectangle {
         this.setWidth(WIDTH);
         this.setFill(paddleFill);
         this.setStroke(paddleStroke);
-        //TODO: not sure this setup feels ok
-        calcStartLocation();
-        this.setLocation(myLocation);
+
+        calcAndSetStartLocation();
     }
-    private void calcStartLocation(){
+
+    private void calcAndSetStartLocation(){
         double x = Breakout.SIZE/2 - WIDTH/2;
-        double y = Breakout.SIZE - HEIGHT;
-        myLocation = new Point(x, y);
+        this.setLocation(x);
     }
+
     public void setSpeed(int speed){
         mySpeed = speed;
     }
 
-    public void setLocation(Point point){
-        myLocation = point;
-        this.setX(myLocation.getX());
-        this.setY(myLocation.getY());
+    //Y never changes so don't need to change that
+    public void setLocation(double newX){
+        myLocation = new Point(newX, myY);
+        this.setX(newX);
+        this.setY(myY);
     }
 
     public void move(double elapsedTime, int direction){
         double newX = myLocation.getX() + mySpeed * elapsedTime * direction;
-        Point newPosition = new Point(newX, myLocation.getY());
-        this.setLocation(newPosition);
+        setLocation(newX);
+        checkWallCollision();
+    }
+
+    public void checkWallCollision(){
+        double xLeft = myLocation.getX();
+        double xRight = xLeft + WIDTH;
+
+        //Flip to other side of screen
+        if(xLeft < 0){
+            double newX = Breakout.SIZE - WIDTH;
+            this.setLocation(newX);
+        }
+        else if(xRight > Breakout.SIZE){
+            this.setLocation(0);
+        }
     }
 }
