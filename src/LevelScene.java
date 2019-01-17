@@ -1,5 +1,6 @@
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.shape.Shape;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -14,6 +15,8 @@ public class LevelScene extends Scene {
     public ArrayList<Ball> myBalls= new ArrayList<>();
     public ArrayList<Paddle> myPaddles = new ArrayList<>();
     public ArrayList<Block> myBlocks = new ArrayList<>();
+
+    private double myElapsedTime;
 
     LevelScene(String fileName, Group root) throws Exception{
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
@@ -85,7 +88,6 @@ public class LevelScene extends Scene {
         return generator.nextInt(max-min+1) + min;
     }
 
-
     public void addBall(){
         Ball tempBall = new Ball();
         myBalls.add(tempBall);
@@ -96,5 +98,70 @@ public class LevelScene extends Scene {
         Paddle tempPaddle = new Paddle();
         myPaddles.add(tempPaddle);
         myRoot.getChildren().add(tempPaddle);
+    }
+
+    public void update(double elapsedTime){
+        myElapsedTime = elapsedTime;
+        updateBalls();
+    }
+
+    private void updateBalls(){
+        for(int k = 0; k < myBalls.size(); k++){
+            Ball currentBall = myBalls.get(k);
+            double xCoord = currentBall.getCenterX();
+            double yCoord = currentBall.getCenterY();
+
+            Point newPosition = new Point(xCoord + currentBall.getXSpeed() * myElapsedTime, yCoord + currentBall.getYSpeed() * myElapsedTime);
+            currentBall.setLocation(newPosition);
+
+            currentBall.checkWallCollision();
+            checkPaddleCollision(currentBall);
+            checkBlockCollision(currentBall);
+        }
+    }
+
+
+
+    private void checkPaddleCollision(Ball ball){
+        for(int k = 0; k < myPaddles.size(); k++) {
+            Paddle currentPaddle = myPaddles.get(k);
+            checkShapeCollisionAndFlipSpeed(ball, currentPaddle);
+        }
+    }
+
+    private void checkBlockCollision(Ball ball) {
+        for (int k = 0; k < myBlocks.size(); k++) {
+            Block currentBlock = myBlocks.get(k);
+
+            if (checkShapeCollisionAndFlipSpeed(ball, currentBlock)) {
+                int score = currentBlock.blockHit();
+                if (score == 10) {
+                    myRoot.getChildren().remove(currentBlock);
+                    myBlocks.remove(k);
+                    k -= 1;     //a block was removed so preventing k from indexing up
+                }
+            }
+        }
+    }
+
+    private boolean checkShapeCollisionAndFlipSpeed(Ball ball, Shape shape){
+        Shape tempShape = Shape.intersect(ball, shape);
+        double shapeHeight = tempShape.getBoundsInLocal().getHeight();
+        double shapeWidth = tempShape.getBoundsInLocal().getWidth();
+
+        if(shapeHeight != -1 || shapeWidth != -1){
+            if(shapeHeight > shapeWidth){
+                ball.flipXSpeed();
+            }
+            else{
+                ball.flipYSpeed();
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public ArrayList<Paddle> getPaddles(){
+        return myPaddles;
     }
 }

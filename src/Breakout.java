@@ -3,6 +3,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Shape;
@@ -79,6 +80,7 @@ public class Breakout extends Application{
             Point newPosition = new Point(xCoord + currentBall.getXSpeed() * elapsedTime, yCoord + currentBall.getYSpeed() * elapsedTime);
             currentBall.setLocation(newPosition);
         }*/
+        myCurrentScene.update(elapsedTime);
     }
 
     private void createAllScenes() throws Exception {
@@ -106,6 +108,14 @@ public class Breakout extends Application{
         }
     }
 
+    //Handling each KeyPress
+/*    private void handleKeyInput(KeyCode code){
+        ArrayList<Paddle> = myCurrentScene.getPaddles();
+        if(code == KeyCode.RIGHT){
+
+        }
+
+    }*/
 
 
 

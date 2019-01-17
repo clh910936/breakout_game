@@ -52,4 +52,15 @@ public class Block extends Rectangle {
 
     }
 
+    public int blockHit(){
+        myHealth -= 1;
+        if(myHealth == 0){
+            return 10;
+        }
+        else {
+            this.setFill(determineColor());
+            return 5;
+        }
+    }
+
 }
