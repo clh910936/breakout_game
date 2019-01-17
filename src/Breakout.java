@@ -33,10 +33,14 @@ public class Breakout extends Application{
     private LevelScene myLevelOneScene;
     private LevelScene myLevelTwoScene;
     private LevelScene myLevelThreeScene;
-    private LevelScene myWinScene;
-    private LevelScene myLoseScene;
+    private WinLoseScene myWinScene;
+    private WinLoseScene myLoseScene;
     private LevelScene myBonusLevelScene;
-    private LevelScene myCurrentScene;
+
+    //keeping track of current scene and scene type
+    private LevelScene myCurrentLevelScene;
+    private WinLoseScene myCurrentWinLoseScene;
+    private boolean myLevel = false;
 
 
     //Scene Components
@@ -50,8 +54,8 @@ public class Breakout extends Application{
         makeAllBlockCoordinates();
         createAllScenes();
 
-        myCurrentScene = myLevelOneScene;
-        stage.setScene(myCurrentScene);
+        myCurrentWinLoseScene = myWinScene;
+        stage.setScene(myCurrentWinLoseScene);
         stage.setTitle(TITLE);
         stage.show();
 
@@ -80,7 +84,9 @@ public class Breakout extends Application{
             Point newPosition = new Point(xCoord + currentBall.getXSpeed() * elapsedTime, yCoord + currentBall.getYSpeed() * elapsedTime);
             currentBall.setLocation(newPosition);
         }*/
-        myCurrentScene.update(elapsedTime);
+        if(myLevel) {
+            myCurrentLevelScene.update(elapsedTime);
+        }
     }
 
     private void createAllScenes() throws Exception {
@@ -88,6 +94,7 @@ public class Breakout extends Application{
         myLevelTwoScene = new LevelScene("Level2.txt", new Group());
         myLevelThreeScene = new LevelScene("Level3.txt", new Group());
         myBonusLevelScene = new LevelScene(" ", new Group());
+        myWinScene = new WinLoseScene(new Group(), myScore, "win");
     }
 
 
