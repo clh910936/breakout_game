@@ -14,16 +14,17 @@ public class WinLoseScene extends Scene {
 
     private int myScore;
     private String myString;
+    private Logistics myLogistic;
 
     public Group myRoot;
     private boolean readyForNextLevel = false;
 
-    WinLoseScene(Group root, int score, String string){
+    WinLoseScene(Group root, String string, Logistics logistic){
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
         this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 
         myRoot = root;
-        myScore = score;
+        myLogistic = logistic;
         myString = string;
         if(myString.equals("win")){
             createWinLoseHeader(WIN);
@@ -33,10 +34,10 @@ public class WinLoseScene extends Scene {
             createWinLoseHeader(LOSE);
             createSpaceBarText("Menu");
         }
-        createScoreText();
     }
 
     public boolean update(){
+        createScoreText();
         return readyForNextLevel;
     }
     private void createWinLoseHeader(String header){
@@ -48,12 +49,9 @@ public class WinLoseScene extends Scene {
         myRoot.getChildren().add(congratsLine);
     }
 
-    public void setScore(int score){
-        myScore = score;
-    }
 
     private void createScoreText(){
-        BetterText scoreLine = new BetterText("Final Score: " + myScore);
+        BetterText scoreLine = new BetterText("Final Score: " + myLogistic.getScore());
         scoreLine.setFont(new Font(15));
         scoreLine.setFill(TEXT_COLOR);
 

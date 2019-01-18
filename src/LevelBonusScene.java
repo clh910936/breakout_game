@@ -3,8 +3,8 @@ import java.util.HashSet;
 
 public class LevelBonusScene extends LevelScene {
 
-    LevelBonusScene(String filename, Group root) throws Exception {
-        super(filename, root);
+    LevelBonusScene(String filename, Group root, Logistics logistic) throws Exception {
+        super(filename, root, logistic);
 
     }
 

@@ -3,8 +3,8 @@ import javafx.scene.shape.Shape;
 
 public class LevelThreeScene extends LevelScene {
     private BouncyBlock myBouncyBlock;
-    LevelThreeScene(String fileName, Group root) throws Exception {
-        super(fileName, root);
+    LevelThreeScene(String fileName, Group root, Logistics logistic) throws Exception {
+        super(fileName, root, logistic);
         initializeLevelThree();
     }
 

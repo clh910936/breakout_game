@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class LevelTwoScene extends LevelScene {
 
-    LevelTwoScene(String fileName, Group root) throws Exception {
-        super(fileName, root);
+    LevelTwoScene(String fileName, Group root, Logistics logistic) throws Exception {
+        super(fileName, root, logistic);
     }
 
     @Override

@@ -22,15 +22,16 @@ public class LevelScene extends Scene {
     protected double myElapsedTime;
     protected ArrayList<String> myNextScenesInfo;
     protected boolean timeForSceneSwitch;
-    protected int myScore;
 
-    LevelScene(String fileName, Group root) throws Exception{
+    protected Logistics myLogistics;
+
+    LevelScene(String fileName, Group root, Logistics logistic) throws Exception{
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
         this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         myFile = fileName;
         myRoot = root;
         myNextScenesInfo = new ArrayList<>();
-        myScore = 0;
+        myLogistics = logistic;
 
         addBall();
         addPaddle();
@@ -115,7 +116,7 @@ public class LevelScene extends Scene {
 
             if (checkShapeCollisionAndFlipSpeed(ball, currentBlock)) {
                 int score = currentBlock.blockHit();
-                myScore += score;
+                myLogistics.increaseScore(score);
                 if (score == 10) {
                     removeBlock(k);
                     k -= 1;     //a block was removed so preventing k from indexing up
@@ -193,7 +194,6 @@ public class LevelScene extends Scene {
     //needs to be accessed by LevelThreeScene
     protected void checkLevelWon(){
         if(myBlocks.size() == 0){
-            myNextScenesInfo.add(Integer.toString(myScore));
             myNextScenesInfo.add("Win");
             timeForSceneSwitch = true;
         }
@@ -201,10 +201,6 @@ public class LevelScene extends Scene {
 
     public ArrayList<String> checkSceneSwitch(){
         return myNextScenesInfo;
-    }
-
-    public void setScore(int score){
-        myScore = score;
     }
 
 }

@@ -21,6 +21,8 @@ public class Breakout extends Application{
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.BLACK;
 
+    private Logistics myLogistics;
+
     //Scenes
     private LevelScene myHomeScene;
     private LevelOneScene myLevelOneScene;
@@ -49,9 +51,11 @@ public class Breakout extends Application{
     public void start(Stage stage) throws Exception {
         //Initialize stuff
         makeAllBlockCoordinates();
-        initializeScenes();
+
         myStage = stage;
         myScore = 0;
+        myLogistics = new Logistics();
+        initializeScenes();
 
         myCurrentWinLoseScene = myWinScene;
         myCurrentLevelScene = myLevelOneScene;
@@ -73,25 +77,23 @@ public class Breakout extends Application{
     private void step(double elapsedTime, Stage stage){
         if(myLevel) {
             myCurrentLevelScene.update(elapsedTime);
-            ArrayList<String> nextLevelsInfo = myCurrentLevelScene.checkSceneSwitch();
-            if(nextLevelsInfo.size() != 0){
-                myScore = Integer.parseInt(nextLevelsInfo.get(0));
-                changeScene(nextLevelsInfo.get(1));
+            ArrayList<String> nextLevels = myCurrentLevelScene.checkSceneSwitch();
+            if(nextLevels.size() != 0){
+                changeScene(nextLevels.get(0));
                 if(myCurrentWinLoseScene.update()){
-                    changeScene(nextLevelsInfo.get(2));
+                    changeScene(nextLevels.get(1));
                 }
             }
         }
     }
 
     private void initializeScenes() throws Exception {
-        myLevelOneScene = new LevelOneScene("Level1.txt", new Group());
-
-        myLevelTwoScene = new LevelTwoScene("Level2.txt", new Group());
-        myLevelThreeScene = new LevelThreeScene("Level3.txt", new Group());
-        myBonusLevelScene = new LevelBonusScene(" ", new Group());
-        myWinScene = new WinLoseScene(new Group(), myScore, "win");
-        myLoseScene = new WinLoseScene(new Group(), myScore, "");
+        myLevelOneScene = new LevelOneScene("Level1.txt", new Group(), myLogistics);
+        myLevelTwoScene = new LevelTwoScene("Level2.txt", new Group(), myLogistics);
+        myLevelThreeScene = new LevelThreeScene("Level3.txt", new Group(), myLogistics);
+        myBonusLevelScene = new LevelBonusScene(" ", new Group(), myLogistics);
+        myWinScene = new WinLoseScene(new Group(), "win", myLogistics);
+        myLoseScene = new WinLoseScene(new Group(), "lose", myLogistics);
 
         myScenes = new HashMap<>();
         myScenes.put("LevelOne", myLevelOneScene);
@@ -122,11 +124,9 @@ public class Breakout extends Application{
         Scene next = myScenes.get(nextScene);
         if(next instanceof LevelScene){
             myCurrentLevelScene = (LevelScene) next;
-            myCurrentLevelScene.setScore(myScore);
         }
         else{
             myCurrentWinLoseScene = (WinLoseScene) next;
-            myCurrentWinLoseScene.setScore(myScore);
         }
         myStage.setScene(myScenes.get(nextScene));
     }
