@@ -5,6 +5,7 @@ import javafx.scene.shape.Rectangle;
 public class Paddle extends Rectangle {
     private int mySpeed = 250;
     private Point myLocation;
+    private boolean wallCollide = false;
     private final double myY = Breakout.SIZE - HEIGHT;
 
     public static final double WIDTH = 50.0;
@@ -49,12 +50,13 @@ public class Paddle extends Rectangle {
         double xRight = xLeft + WIDTH;
 
         //Flip to other side of screen
-        if(xLeft < 0){
-            double newX = Breakout.SIZE - WIDTH;
-            this.setLocation(newX);
-        }
-        else if(xRight > Breakout.SIZE){
-            this.setLocation(0);
+        if(!wallCollide) {
+            if (xLeft < 0) {
+                double newX = Breakout.SIZE - WIDTH;
+                this.setLocation(newX);
+            } else if (xRight > Breakout.SIZE) {
+                this.setLocation(0);
+            }
         }
     }
 }
