@@ -33,8 +33,8 @@ public class LevelScene extends Scene {
         myNextScenesInfo = new ArrayList<>();
         myLogistics = logistic;
 
-        addBall();
         addPaddle();
+        addBall();
         createLevel();
     }
 
@@ -70,7 +70,7 @@ public class LevelScene extends Scene {
     }
 
     public void addBall(){
-        Ball tempBall = new Ball();
+        Ball tempBall = new Ball(myPaddles.get(0));
         myBalls.add(tempBall);
         myRoot.getChildren().add(tempBall);
     }
@@ -92,7 +92,6 @@ public class LevelScene extends Scene {
         for(int k = 0; k < myBalls.size(); k++){
             Ball currentBall = myBalls.get(k);
             currentBall.move(myElapsedTime);
-
             checkAllCollisions(currentBall);
         }
     }
@@ -166,39 +165,46 @@ public class LevelScene extends Scene {
             Paddle currentPaddle = myPaddles.get(k);
             if (code == KeyCode.RIGHT) {
                 currentPaddle.move(myElapsedTime, 1);
-            }
-            else if(code == KeyCode.LEFT) {
+            } else if (code == KeyCode.LEFT) {
                 currentPaddle.move(myElapsedTime, -1);
-            }
-
-//            //TODO: Glitchy needs to be dealt with
-            //remove random block
-            else if(code == KeyCode.R){
-                int numBlocks = myBlocks.size();
-                if(numBlocks > 0) {
-                    int randIndex = randomNumGen(0, numBlocks - 1);
-                    removeBlock(randIndex);
-                }
-            }
-
-            //Clears blocks and checks if it wins - it will
-            else if(code == KeyCode.N){
-                myBlocks.clear();
-                myRoot.getChildren().clear();
             }
         }
 
+        if (code == KeyCode.UP) {
+            for (int k = 0; k < myBalls.size(); k++) {
+                if (myBalls.get(k).isSticky()) {
+                    myBalls.get(k).flipSticky();
+                    break;
+                }
+            }
+        }
+//            //TODO: Glitchy needs to be dealt with
+        //remove random block
+        else if(code == KeyCode.R){
+            int numBlocks = myBlocks.size();
+            if(numBlocks > 0) {
+                int randIndex = randomNumGen(0, numBlocks - 1);
+                removeBlock(randIndex);
+            }
+        }
 
+        //Clears blocks and checks if it wins - it will
+        else if(code == KeyCode.N){
+            myBlocks.clear();
+            myRoot.getChildren().clear();
+        }
     }
 
     //needs to be accessed by LevelThreeScene
     protected void checkLevelWon(){
-        if(myBlocks.size() == 0){
+        if(myBlocks.size() == 0 && myNextScenesInfo.size() == 0){
             myNextScenesInfo.add("Win");
+            System.out.println("Win added");
             timeForSceneSwitch = true;
         }
     }
 
+    //Overriden by each subclass
     public ArrayList<String> checkSceneSwitch(){
         return myNextScenesInfo;
     }

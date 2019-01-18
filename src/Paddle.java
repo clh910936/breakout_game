@@ -82,4 +82,9 @@ public class Paddle extends Rectangle {
     public void setWallCollideOn(boolean arg){
         myWallCollideOn = arg;
     }
+
+    //used by ball to determine where it should start/move
+    public Point getLocation(){
+        return myLocation;
+    }
 }

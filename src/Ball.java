@@ -1,12 +1,11 @@
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
-
-import java.util.ArrayList;
 
 public class Ball extends Circle {
     private Point myCenter;
+    private boolean mySticky;
+    private Paddle myPaddle;        //the paddle the ball starts on
 
     //TODO: figure out radius
     public static final double RADIUS = 7;
@@ -16,18 +15,22 @@ public class Ball extends Circle {
     private final Paint ballColor = Color.AQUAMARINE;
     private final Paint ballOutlineColor = Color.BLACK;
 
-    Ball(){
+    Ball(Paddle paddle){
         this.setFill(ballColor);
         this.setStroke(ballOutlineColor);
         this.setRadius(RADIUS);
+
+        mySticky = true;
+        myPaddle = paddle;
 
         calcStartLocation();
         setLocation(myCenter);
     }
 
     private void calcStartLocation(){
-        double x = Breakout.SIZE/2;
-        double y = Breakout.SIZE - Paddle.HEIGHT - RADIUS -2;       //subtract 2 so the ball doesn't intersect the paddle at the beginning
+        Point paddlePoint = myPaddle.getLocation();
+        double x = paddlePoint.getX() + myPaddle.getWidth()/2;
+        double y = paddlePoint.getY() - RADIUS;
         myCenter = new Point(x, y);
 
     }
@@ -76,10 +79,27 @@ public class Ball extends Circle {
     }
 
     public void move(double elapsedTime){
-        double newX = myCenter.getX() + myXSpeed * elapsedTime;
-        double newY = myCenter.getY() + myYSpeed * elapsedTime;
-        Point newPosition = new Point(newX, newY);
-        this.setLocation(newPosition);
+        //ball moves freely
+        if(!mySticky) {
+            double newX = myCenter.getX() + myXSpeed * elapsedTime;
+            double newY = myCenter.getY() + myYSpeed * elapsedTime;
+            Point newPosition = new Point(newX, newY);
+            this.setLocation(newPosition);
+        }
+        //Ball aligns with paddle
+        else{
+            calcStartLocation();
+            setLocation(myCenter);
+        }
+    }
+
+    public void flipSticky(){
+        mySticky = false;
+    }
+
+    //used in LevelScene controls so the first ball found to be sticky is flipped
+    public boolean isSticky(){
+        return mySticky;
     }
 
 }

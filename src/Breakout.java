@@ -106,6 +106,7 @@ public class Breakout extends Application{
 
 
 
+    //TODO: move to LevelScene
     //Creating an Arraylist of all upper left corner points for Blocks
     private void makeAllBlockCoordinates(){
         for(int k = 0; k < SIZE-2; k += SIZE/20){
@@ -119,13 +120,12 @@ public class Breakout extends Application{
     }
 
 
-    //TODO: not updating current level scene
     private void changeScene(String nextScene){
         Scene next = myScenes.get(nextScene);
         if(next instanceof LevelScene){
             myCurrentLevelScene = (LevelScene) next;
         }
-        else{
+        else if(next instanceof WinLoseScene){
             myCurrentWinLoseScene = (WinLoseScene) next;
         }
         myStage.setScene(myScenes.get(nextScene));
