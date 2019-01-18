@@ -11,8 +11,8 @@ public class LevelTwoScene extends LevelScene {
     @Override
     public ArrayList<String> checkSceneSwitch(){
         if(timeForSceneSwitch) {
-            myNextScenes.add("LevelThree");
-            return myNextScenes;
+            myNextScenesInfo.add("LevelThree");
+            return myNextScenesInfo;
         }
         return new ArrayList<String>();
     }

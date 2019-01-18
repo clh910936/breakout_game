@@ -6,12 +6,13 @@ import javafx.scene.shape.Shape;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Random;
 
 public class LevelScene extends Scene {
     public String myFile;
     public Group myRoot;
+
+
 
     protected ArrayList<Ball> myBalls= new ArrayList<>();
     protected ArrayList<Paddle> myPaddles = new ArrayList<>();
@@ -19,15 +20,17 @@ public class LevelScene extends Scene {
 
     //need to be accessed by subclasses
     protected double myElapsedTime;
-    protected ArrayList<String> myNextScenes;
+    protected ArrayList<String> myNextScenesInfo;
     protected boolean timeForSceneSwitch;
+    protected int myScore;
 
     LevelScene(String fileName, Group root) throws Exception{
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
         this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         myFile = fileName;
         myRoot = root;
-        myNextScenes = new ArrayList<>();
+        myNextScenesInfo = new ArrayList<>();
+        myScore = 0;
 
         addBall();
         addPaddle();
@@ -112,6 +115,7 @@ public class LevelScene extends Scene {
 
             if (checkShapeCollisionAndFlipSpeed(ball, currentBlock)) {
                 int score = currentBlock.blockHit();
+                myScore += score;
                 if (score == 10) {
                     removeBlock(k);
                     k -= 1;     //a block was removed so preventing k from indexing up
@@ -133,6 +137,10 @@ public class LevelScene extends Scene {
         if(shapeHeight != -1 || shapeWidth != -1){
             if(shapeHeight > shapeWidth){
                 ball.flipXSpeed();
+            }
+            if(shapeHeight == shapeWidth){
+                ball.flipXSpeed();
+                ball.flipYSpeed();
             }
             else{
                 ball.flipYSpeed();
@@ -185,13 +193,18 @@ public class LevelScene extends Scene {
     //needs to be accessed by LevelThreeScene
     protected void checkLevelWon(){
         if(myBlocks.size() == 0){
-            myNextScenes.add("Win");
+            myNextScenesInfo.add(Integer.toString(myScore));
+            myNextScenesInfo.add("Win");
             timeForSceneSwitch = true;
         }
     }
 
     public ArrayList<String> checkSceneSwitch(){
-        return myNextScenes;
+        return myNextScenesInfo;
+    }
+
+    public void setScore(int score){
+        myScore = score;
     }
 
 }

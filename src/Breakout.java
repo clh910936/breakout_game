@@ -3,20 +3,13 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
-import javafx.scene.shape.Line;
 import javafx.util.Duration;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Random;
 
 
 public class Breakout extends Application{
@@ -50,7 +43,7 @@ public class Breakout extends Application{
     //Scene Components
     public static ArrayList<Point> myAllBlockCoordinates = new ArrayList<>();
 
-    private int myScore = 0;
+    private int myScore;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -58,6 +51,7 @@ public class Breakout extends Application{
         makeAllBlockCoordinates();
         initializeScenes();
         myStage = stage;
+        myScore = 0;
 
         myCurrentWinLoseScene = myWinScene;
         myCurrentLevelScene = myLevelOneScene;
@@ -79,11 +73,12 @@ public class Breakout extends Application{
     private void step(double elapsedTime, Stage stage){
         if(myLevel) {
             myCurrentLevelScene.update(elapsedTime);
-            ArrayList<String> nextLevels = myCurrentLevelScene.checkSceneSwitch();
-            if(nextLevels.size() != 0){
-                changeScene(nextLevels.get(0));
+            ArrayList<String> nextLevelsInfo = myCurrentLevelScene.checkSceneSwitch();
+            if(nextLevelsInfo.size() != 0){
+                myScore = Integer.parseInt(nextLevelsInfo.get(0));
+                changeScene(nextLevelsInfo.get(1));
                 if(myCurrentWinLoseScene.update()){
-                    changeScene(nextLevels.get(1));
+                    changeScene(nextLevelsInfo.get(2));
                 }
             }
         }
@@ -127,9 +122,11 @@ public class Breakout extends Application{
         Scene next = myScenes.get(nextScene);
         if(next instanceof LevelScene){
             myCurrentLevelScene = (LevelScene) next;
+            myCurrentLevelScene.setScore(myScore);
         }
         else{
             myCurrentWinLoseScene = (WinLoseScene) next;
+            myCurrentWinLoseScene.setScore(myScore);
         }
         myStage.setScene(myScenes.get(nextScene));
     }
