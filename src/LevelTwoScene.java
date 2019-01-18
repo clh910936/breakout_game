@@ -1,4 +1,8 @@
-package PACKAGE_NAME;
+import javafx.scene.Group;
 
-public class LevelTwoScene {
+public class LevelTwoScene extends LevelScene {
+
+    LevelTwoScene(String fileName, Group root) throws Exception {
+        super(fileName, root);
+    }
 }
