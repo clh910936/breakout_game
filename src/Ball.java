@@ -74,7 +74,7 @@ public class Ball extends Circle {
             myXSpeed *= -1;
         }
 
-        if(y + RADIUS < 0){
+        if(y - RADIUS < 0){
             myYSpeed *= -1;
         }
     }
