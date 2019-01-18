@@ -171,7 +171,15 @@ public class LevelScene extends Scene {
                     removeBlock(randIndex);
                 }
             }
+
+            //Clears blocks and checks if it wins - it will
+            else if(code == KeyCode.N){
+                myBlocks.clear();
+                myRoot.getChildren().clear();
+            }
         }
+
+
     }
 
     //needs to be accessed by LevelThreeScene

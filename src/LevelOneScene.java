@@ -23,6 +23,7 @@ public class LevelOneScene extends LevelScene {
     @Override
     public ArrayList<String> checkSceneSwitch(){
         if(timeForSceneSwitch) {
+            System.out.println("Made it to checkSceneSwitch called by Breakout");
             myNextScenes.add("LevelTwo");
             return myNextScenes;
         }
