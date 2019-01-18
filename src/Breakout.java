@@ -37,10 +37,14 @@ public class Breakout extends Application{
     private WinLoseScene myLoseScene;
     private LevelBonusScene myBonusLevelScene;
 
+    //keep track of all the scenes
+    private HashMap<String, Scene> myScenes;
+
     //keeping track of current scene and scene type
     private LevelScene myCurrentLevelScene;
     private WinLoseScene myCurrentWinLoseScene;
     private boolean myLevel = true;
+    private Stage myStage;
 
 
     //Scene Components
@@ -52,13 +56,14 @@ public class Breakout extends Application{
     public void start(Stage stage) throws Exception {
         //Initialize stuff
         makeAllBlockCoordinates();
-        createAllScenes();
+        initializeScenes();
+        myStage = stage;
 
         myCurrentWinLoseScene = myWinScene;
         myCurrentLevelScene = myLevelOneScene;
-        stage.setScene(myCurrentLevelScene);
-        stage.setTitle(TITLE);
-        stage.show();
+        myStage.setScene(myCurrentLevelScene);
+        myStage.setTitle(TITLE);
+        myStage.show();
 
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY, stage));
         var animation = new Timeline();
@@ -72,30 +77,31 @@ public class Breakout extends Application{
     }
 
     private void step(double elapsedTime, Stage stage){
-        /*ArrayList<Ball> sceneBalls = mySceneBalls.get(myCurrentScene);
-        ArrayList<Paddle> scenePaddles = myScenePaddles.get(myCurrentScene);
-        ArrayList<Block> sceneBlocks = mySceneBlocks.get(myCurrentScene);
-
-
-        for(int k = 0; k < sceneBalls.size(); k++){
-            Ball currentBall = sceneBalls.get(k);
-            double xCoord = currentBall.getCenterX();
-            double yCoord = currentBall.getCenterY();
-
-            Point newPosition = new Point(xCoord + currentBall.getXSpeed() * elapsedTime, yCoord + currentBall.getYSpeed() * elapsedTime);
-            currentBall.setLocation(newPosition);
-        }*/
         if(myLevel) {
             myCurrentLevelScene.update(elapsedTime);
+            String nextLevel = myCurrentLevelScene.checkSceneSwitch();
+            if(nextLevel != null){
+                changeScene(nextLevel);
+            }
         }
     }
 
-    private void createAllScenes() throws Exception {
+    private void initializeScenes() throws Exception {
         myLevelOneScene = new LevelOneScene("Level1.txt", new Group());
+
         myLevelTwoScene = new LevelScene("Level2.txt", new Group());
         myLevelThreeScene = new LevelScene("Level3.txt", new Group());
         myBonusLevelScene = new LevelBonusScene(" ", new Group());
         myWinScene = new WinLoseScene(new Group(), myScore, "win");
+        myLoseScene = new WinLoseScene(new Group(), myScore, "");
+
+        myScenes = new HashMap<>();
+        myScenes.put("LevelOne", myLevelOneScene);
+        myScenes.put("LevelTwo", myLevelTwoScene);
+        myScenes.put("LevelThree", myLevelThreeScene);
+        myScenes.put("BonusLevel", myBonusLevelScene);
+        myScenes.put("Win", myWinScene);
+        myScenes.put("Lose", myLoseScene);
     }
 
 
@@ -108,6 +114,10 @@ public class Breakout extends Application{
                 myAllBlockCoordinates.add(temp);
             }
         }
+    }
+
+    private void changeScene(String nextScene){
+        myStage.setScene(myScenes.get(nextScene));
     }
 
 

@@ -18,6 +18,7 @@ public class LevelScene extends Scene {
     public ArrayList<Block> myBlocks = new ArrayList<>();
 
     private double myElapsedTime;
+    private String myNextScene;
 
     LevelScene(String fileName, Group root) throws Exception{
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
@@ -76,6 +77,7 @@ public class LevelScene extends Scene {
     public void update(double elapsedTime){
         myElapsedTime = elapsedTime;
         updateBalls();
+        checkLevelWon();
     }
 
     private void updateBalls(){
@@ -111,7 +113,7 @@ public class LevelScene extends Scene {
     }
 
     private void removeBlock(int index){
-        myRoot.getChildren().remove(index);
+        myRoot.getChildren().remove(myBlocks.get(index));
         myBlocks.remove(index);
     }
 
@@ -152,7 +154,7 @@ public class LevelScene extends Scene {
                 currentPaddle.move(myElapsedTime, -1);
             }
 
-            //TODO: Glitchy needs to be dealt with
+//            //TODO: Glitchy needs to be dealt with
             //remove random block
             else if(code == KeyCode.R){
                 int numBlocks = myBlocks.size();
@@ -166,8 +168,11 @@ public class LevelScene extends Scene {
 
     private void checkLevelWon(){
         if(myBlocks.size() == 0){
-
+            myNextScene = "Win";
         }
+    }
+    public String checkSceneSwitch(){
+        return myNextScene;
     }
 
 }
