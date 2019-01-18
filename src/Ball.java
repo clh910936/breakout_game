@@ -1,6 +1,7 @@
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 
 public class Ball extends Circle {
     private Point myCenter;
@@ -102,4 +103,33 @@ public class Ball extends Circle {
         return mySticky;
     }
 
+    public boolean checkShapeCollisionAndFlipSpeed(Shape shape){
+        Shape tempShape = intersect(this, shape);
+        double shapeHeight = tempShape.getBoundsInLocal().getHeight();
+        double shapeWidth = tempShape.getBoundsInLocal().getWidth();
+
+        if(shapeHeight != -1 || shapeWidth != -1){
+            if(shapeHeight > shapeWidth){
+                myXSpeed *= -1;
+            }
+            if(shapeHeight == shapeWidth){
+                myXSpeed *= -1;
+                myYSpeed *= -1;
+                movementJump();
+            }
+            else{
+                myYSpeed *= -1;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    //skips the ball slightly in one direction to try to reduce glitches/getting stuck
+    private void movementJump(){
+        double newX = myCenter.getX() + Integer.signum(myXSpeed) * 3;
+        double newY = myCenter.getY() + Integer.signum(myYSpeed) * 3;
+        Point newPosition = new Point(newX, newY);
+        this.setLocation(newPosition);
+    }
 }

@@ -1,7 +1,6 @@
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
-import javafx.scene.shape.Shape;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -105,7 +104,7 @@ public class LevelScene extends Scene {
     private void checkPaddleCollision(Ball ball){
         for(int k = 0; k < myPaddles.size(); k++) {
             Paddle currentPaddle = myPaddles.get(k);
-            checkShapeCollisionAndFlipSpeed(ball, currentPaddle);
+            ball.checkShapeCollisionAndFlipSpeed(currentPaddle);
         }
     }
 
@@ -113,7 +112,7 @@ public class LevelScene extends Scene {
         for (int k = 0; k < myBlocks.size(); k++) {
             Block currentBlock = myBlocks.get(k);
 
-            if (checkShapeCollisionAndFlipSpeed(ball, currentBlock)) {
+            if (ball.checkShapeCollisionAndFlipSpeed(currentBlock)) {
                 int score = currentBlock.blockHit();
                 myLogistics.increaseScore(score);
                 if (score == 10) {
@@ -127,27 +126,6 @@ public class LevelScene extends Scene {
     private void removeBlock(int index){
         myRoot.getChildren().remove(myBlocks.get(index));
         myBlocks.remove(index);
-    }
-
-    private boolean checkShapeCollisionAndFlipSpeed(Ball ball, Shape shape){
-        Shape tempShape = Shape.intersect(ball, shape);
-        double shapeHeight = tempShape.getBoundsInLocal().getHeight();
-        double shapeWidth = tempShape.getBoundsInLocal().getWidth();
-
-        if(shapeHeight != -1 || shapeWidth != -1){
-            if(shapeHeight > shapeWidth){
-                ball.flipXSpeed();
-            }
-            if(shapeHeight == shapeWidth){
-                ball.flipXSpeed();
-                ball.flipYSpeed();
-            }
-            else{
-                ball.flipYSpeed();
-            }
-            return true;
-        }
-        return false;
     }
 
     public ArrayList<Paddle> getPaddles(){
@@ -186,6 +164,11 @@ public class LevelScene extends Scene {
                 int randIndex = randomNumGen(0, numBlocks - 1);
                 removeBlock(randIndex);
             }
+        }
+
+        //adds a ball
+        else if (code == KeyCode.A){
+            addBall();
         }
 
         //Clears blocks and checks if it wins - it will
