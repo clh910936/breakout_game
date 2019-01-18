@@ -48,8 +48,7 @@ public class Paddle extends Rectangle {
                 return;
             }
         }
-        //TODO: else statement
-        if(!myWallCollideOn) {
+        else {
             dealWithWallCollision();
         }
         double newX = myLocation.getX() + mySpeed * elapsedTime * direction;

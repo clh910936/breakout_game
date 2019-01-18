@@ -1,7 +1,5 @@
 import javafx.scene.Group;
-
 import java.util.HashSet;
-import java.util.Random;
 
 public class LevelBonusScene extends LevelScene {
 

@@ -103,12 +103,16 @@ public class LevelScene extends Scene {
             if (checkShapeCollisionAndFlipSpeed(ball, currentBlock)) {
                 int score = currentBlock.blockHit();
                 if (score == 10) {
-                    myRoot.getChildren().remove(currentBlock);
-                    myBlocks.remove(k);
+                    removeBlock(k);
                     k -= 1;     //a block was removed so preventing k from indexing up
                 }
             }
         }
+    }
+
+    private void removeBlock(int index){
+        myRoot.getChildren().remove(index);
+        myBlocks.remove(index);
     }
 
     private boolean checkShapeCollisionAndFlipSpeed(Ball ball, Shape shape){
@@ -147,7 +151,23 @@ public class LevelScene extends Scene {
             else if(code == KeyCode.LEFT) {
                 currentPaddle.move(myElapsedTime, -1);
             }
-        }
 
+            //TODO: Glitchy needs to be dealt with
+            //remove random block
+            else if(code == KeyCode.R){
+                int numBlocks = myBlocks.size();
+                if(numBlocks > 0) {
+                    int randIndex = randomNumGen(0, numBlocks);
+                    removeBlock(randIndex);
+                }
+            }
+        }
     }
+
+    private void checkLevelWon(){
+        if(myBlocks.size() == 0){
+
+        }
+    }
+
 }
