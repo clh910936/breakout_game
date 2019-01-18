@@ -13,11 +13,12 @@ public class LevelScene extends Scene {
     public String myFile;
     public Group myRoot;
 
-    public ArrayList<Ball> myBalls= new ArrayList<>();
-    public ArrayList<Paddle> myPaddles = new ArrayList<>();
-    public ArrayList<Block> myBlocks = new ArrayList<>();
+    protected ArrayList<Ball> myBalls= new ArrayList<>();
+    protected ArrayList<Paddle> myPaddles = new ArrayList<>();
+    protected ArrayList<Block> myBlocks = new ArrayList<>();
 
-    private double myElapsedTime;
+    //need to be accessed by subclasses
+    protected double myElapsedTime;
     protected ArrayList<String> myNextScenes;
     protected boolean timeForSceneSwitch;
 
@@ -82,15 +83,20 @@ public class LevelScene extends Scene {
         checkLevelWon();
     }
 
-    private void updateBalls(){
+    //Needs to be accessed by LevelThreeScene
+    protected void updateBalls(){
         for(int k = 0; k < myBalls.size(); k++){
             Ball currentBall = myBalls.get(k);
             currentBall.move(myElapsedTime);
 
-            currentBall.checkWallCollision();
-            checkPaddleCollision(currentBall);
-            checkBlockCollision(currentBall);
+            checkAllCollisions(currentBall);
         }
+    }
+
+    protected void checkAllCollisions(Ball currentBall) {
+        currentBall.checkWallCollision();
+        checkPaddleCollision(currentBall);
+        checkBlockCollision(currentBall);
     }
 
     private void checkPaddleCollision(Ball ball){
@@ -161,14 +167,15 @@ public class LevelScene extends Scene {
             else if(code == KeyCode.R){
                 int numBlocks = myBlocks.size();
                 if(numBlocks > 0) {
-                    int randIndex = randomNumGen(0, numBlocks);
+                    int randIndex = randomNumGen(0, numBlocks - 1);
                     removeBlock(randIndex);
                 }
             }
         }
     }
 
-    private void checkLevelWon(){
+    //needs to be accessed by LevelThreeScene
+    protected void checkLevelWon(){
         if(myBlocks.size() == 0){
             myNextScenes.add("Win");
             timeForSceneSwitch = true;

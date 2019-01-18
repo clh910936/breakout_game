@@ -32,7 +32,7 @@ public class Breakout extends Application{
     private LevelScene myHomeScene;
     private LevelOneScene myLevelOneScene;
     private LevelTwoScene myLevelTwoScene;
-    private LevelScene myLevelThreeScene;
+    private LevelThreeScene myLevelThreeScene;
     private WinLoseScene myWinScene;
     private WinLoseScene myLoseScene;
     private LevelBonusScene myBonusLevelScene;
@@ -93,7 +93,7 @@ public class Breakout extends Application{
         myLevelOneScene = new LevelOneScene("Level1.txt", new Group());
 
         myLevelTwoScene = new LevelTwoScene("Level2.txt", new Group());
-        myLevelThreeScene = new LevelScene("Level3.txt", new Group());
+        myLevelThreeScene = new LevelThreeScene("Level3.txt", new Group());
         myBonusLevelScene = new LevelBonusScene(" ", new Group());
         myWinScene = new WinLoseScene(new Group(), myScore, "win");
         myLoseScene = new WinLoseScene(new Group(), myScore, "");
@@ -119,7 +119,10 @@ public class Breakout extends Application{
         }
     }
 
+
+    //TODO: not updating current level scene
     private void changeScene(String nextScene){
+
         myStage.setScene(myScenes.get(nextScene));
     }
 
