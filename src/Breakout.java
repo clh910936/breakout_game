@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -41,11 +42,9 @@ public class Breakout extends Application{
     private boolean myLevel = true;
     private Stage myStage;
 
-
     //Scene Components
     public static ArrayList<Point> myAllBlockCoordinates = new ArrayList<>();
 
-    private int myScore;
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -53,7 +52,6 @@ public class Breakout extends Application{
         makeAllBlockCoordinates();
 
         myStage = stage;
-        myScore = 0;
         myLogistics = new Logistics();
         initializeScenes();
 
@@ -130,9 +128,4 @@ public class Breakout extends Application{
         }
         myStage.setScene(myScenes.get(nextScene));
     }
-
-
-
-
-
 }

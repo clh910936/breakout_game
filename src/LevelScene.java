@@ -1,6 +1,12 @@
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -8,14 +14,14 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class LevelScene extends Scene {
-    public String myFile;
+    protected String myFile;
     public Group myRoot;
-
 
 
     protected ArrayList<Ball> myBalls= new ArrayList<>();
     protected ArrayList<Paddle> myPaddles = new ArrayList<>();
     protected ArrayList<Block> myBlocks = new ArrayList<>();
+    protected ArrayList<Text> myText = new ArrayList<>();
 
     //need to be accessed by subclasses
     protected double myElapsedTime;
@@ -23,6 +29,8 @@ public class LevelScene extends Scene {
     protected boolean timeForSceneSwitch;
 
     protected Logistics myLogistics;
+
+    private final Paint HEADER_COLOR = Color.WHITE;
 
     LevelScene(String fileName, Group root, Logistics logistic) throws Exception{
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
@@ -46,6 +54,8 @@ public class LevelScene extends Scene {
             myRoot.getChildren().add(blocks.get(k));
 
         }
+
+        makeScoreHeaderAndAddToScene();
     }
 
     //Create an ArrayList of Blocks for a level
@@ -84,7 +94,7 @@ public class LevelScene extends Scene {
         myElapsedTime = elapsedTime;
         updateBalls();
         checkLevelWon();
-
+        updateHeader();
     }
 
     //Needs to be accessed by LevelThreeScene
@@ -217,4 +227,38 @@ public class LevelScene extends Scene {
         return myNextScenesInfo;
     }
 
+    private void makeScoreHeaderAndAddToScene(){
+        Text levelText = new Text("Level: " + myLogistics.getLevel());
+        levelText.setFont(new Font(15));
+        levelText.setFill(Color.WHITE);
+        levelText.setX(0);
+        levelText.setY(15);
+
+        Text scoreText = new Text("Score: " + myLogistics.getScore());
+        scoreText.setFont(new Font(15));
+        scoreText.setFill(Color.WHITE);
+        scoreText.setX(100);
+        scoreText.setY(15);
+
+        Text livesText = new Text("Lives Left: " + myLogistics.getScore());
+        livesText.setFont(new Font(15));
+        livesText.setFill(Color.WHITE);
+        livesText.setX(200);
+        livesText.setY(15);
+
+        myText.add(levelText);
+        myText.add(scoreText);
+        myText.add(livesText);
+
+
+        myRoot.getChildren().add(levelText);
+        myRoot.getChildren().add(scoreText);
+        myRoot.getChildren().add(livesText);
+    }
+
+    private void updateHeader(){
+        myText.get(0).setText("Level: " + myLogistics.getLevel());
+        myText.get(1).setText("Score: " + myLogistics.getScore());
+        myText.get(2).setText("Lives Left: " + myLogistics.numLivesLeft());
+    }
 }

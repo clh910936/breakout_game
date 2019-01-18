@@ -36,4 +36,10 @@ public class Logistics {
     public void resetLevels(){
         myLevel = 1;
     }
+
+    public int getLevel(){
+        return myLevel;
+    }
 }
+
+
