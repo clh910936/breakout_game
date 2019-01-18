@@ -23,15 +23,14 @@ public class LevelThreeScene extends LevelScene {
         double shapeHeight = tempShape.getBoundsInLocal().getHeight();
         double shapeWidth = tempShape.getBoundsInLocal().getWidth();
 
-        if(shapeHeight != 0 || shapeWidth != 0){
-            ball.flipYSpeed();
-            ball.flipXSpeed();
+        if(shapeHeight > 0 || shapeWidth > 0){
+            myBouncyBlock.ballHit(ball);
         }
     }
 
     private void addBouncyBlock(){
         Point center = new Point(100, 100);
-        BouncyBlock bouncyBlock = new BouncyBlock(center);
+        BouncyBlock bouncyBlock = new BouncyBlock();
 
         myBouncyBlock = bouncyBlock;
         myRoot.getChildren().add(myBouncyBlock);

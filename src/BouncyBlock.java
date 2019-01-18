@@ -4,22 +4,22 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 
 public class BouncyBlock extends Circle {
-    private Point myPoint;
-    private static final int RADIUS = 10;
-    private final Paint MY_FILL = Color.BLACK;
-    private final Paint MY_STROKE = Color.BLACK;
+    private Point CENTER = new Point(200, 180);
+    private static final int RADIUS = 20;
+    private final Paint MY_FILL = Color.WHITE;
+    private final Paint MY_STROKE = Color.WHITE;
 
-    BouncyBlock(Point point){
-        myPoint = point;
+    BouncyBlock(){
+        initializeGraphics();
     }
 
     private void initializeGraphics(){
-        double x = myPoint.getX();
-        double y = myPoint.getY();
+        double x = CENTER.getX();
+        double y = CENTER.getY();
 
         this.setRadius(RADIUS);
         this.setFill(MY_FILL);
-        this.setStroke(MY_FILL);
+        this.setStroke(MY_STROKE);
         this.setCenterX(x);
         this.setCenterY(y);
     }

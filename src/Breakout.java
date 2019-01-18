@@ -117,6 +117,8 @@ public class Breakout extends Application{
                 myAllBlockCoordinates.add(temp);
             }
         }
+        System.out.println(myAllBlockCoordinates.get(95).myX);
+        System.out.println(myAllBlockCoordinates.get(95).myY);
     }
 
 
