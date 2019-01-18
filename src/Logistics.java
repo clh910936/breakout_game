@@ -16,4 +16,24 @@ public class Logistics {
     public int getScore(){
         return myScore;
     }
+
+    public boolean checkGameOver(){
+        return myLivesLeft < 0;
+    }
+
+    public void loseLife(){
+        myLivesLeft -= 1;
+    }
+
+    public void nextLevel(){
+        myLevel += 1;
+    }
+
+    public int numLivesLeft(){
+        return myLivesLeft;
+    }
+
+    public void resetLevels(){
+        myLevel = 1;
+    }
 }

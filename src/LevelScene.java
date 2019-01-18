@@ -84,6 +84,7 @@ public class LevelScene extends Scene {
         myElapsedTime = elapsedTime;
         updateBalls();
         checkLevelWon();
+
     }
 
     //Needs to be accessed by LevelThreeScene
@@ -92,6 +93,23 @@ public class LevelScene extends Scene {
             Ball currentBall = myBalls.get(k);
             currentBall.move(myElapsedTime);
             checkAllCollisions(currentBall);
+
+            if(currentBall.checkLostBall()){
+                myBalls.remove(currentBall);
+                myRoot.getChildren().remove(currentBall);
+
+                if(myBalls.size() == 0){
+                    myLogistics.loseLife();
+                    if(checkLevelLost()){
+                        myNextScenesInfo.add("Lose");
+                        myLogistics.resetLevels();
+                        timeForSceneSwitch = true;
+                    }
+                    else{
+                        addBall();
+                    }
+                }
+            }
         }
     }
 
@@ -179,13 +197,20 @@ public class LevelScene extends Scene {
     }
 
     //needs to be accessed by LevelThreeScene
-    protected void checkLevelWon(){
-        if(myBlocks.size() == 0 && myNextScenesInfo.size() == 0){
+    private void checkLevelWon(){
+        if(myBlocks.size() == 0){
             myNextScenesInfo.add("Win");
-            System.out.println("Win added");
+            myLogistics.nextLevel();
             timeForSceneSwitch = true;
         }
     }
+
+    //assumes #balls = 0 because it's called only after that's confirmed
+    private boolean checkLevelLost(){
+        return myLogistics.numLivesLeft() == 0;
+    }
+
+
 
     //Overriden by each subclass
     public ArrayList<String> checkSceneSwitch(){

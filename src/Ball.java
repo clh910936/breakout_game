@@ -79,6 +79,11 @@ public class Ball extends Circle {
         }
     }
 
+    public boolean checkLostBall(){
+        double y = myCenter.getY() + RADIUS;
+        return y > Breakout.SIZE;
+    }
+
     public void move(double elapsedTime){
         //ball moves freely
         if(!mySticky) {
