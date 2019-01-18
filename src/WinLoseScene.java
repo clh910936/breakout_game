@@ -1,12 +1,15 @@
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+
 
 public class WinLoseScene extends Scene {
     private final String WIN = "Congratulations, you win!";
     private final String LOSE = "Game Over";
+
+    private final Paint TEXT_COLOR = Color.WHITE;
 
     private int myScore;
     private String myString;
@@ -20,22 +23,48 @@ public class WinLoseScene extends Scene {
         myScore = score;
         myString = string;
         if(myString.equals("win")){
-            createWinScene();
+            createWinLoseHeader(WIN);
+            createSpaceBarText("Next Level");
         }
         else{
-            //createLoseScene();
+            createWinLoseHeader(LOSE);
+            createSpaceBarText("Menu");
         }
+        createScoreText();
     }
 
-    private void createWinScene(){
-        Text congratsLine = new Text(WIN);
+    private void createWinLoseHeader(String header){
+        BetterText congratsLine = new BetterText(header);
         congratsLine.setFont(new Font(20));
-        congratsLine.setTextAlignment(TextAlignment.JUSTIFY);
-        congratsLine.setX(0);
-        congratsLine.setY(100);
-        double height = congratsLine.getLayoutBounds().getHeight();
-        double width = congratsLine.getLayoutBounds().getWidth();
+        congratsLine.setFill(TEXT_COLOR);
+
+        congratsLine.setCenter(200, 170);
         myRoot.getChildren().add(congratsLine);
     }
+
+    public void setScore(int score){
+        myScore = score;
+    }
+
+    private void createScoreText(){
+        BetterText scoreLine = new BetterText("Final Score: " + myScore);
+        scoreLine.setFont(new Font(15));
+        scoreLine.setFill(TEXT_COLOR);
+
+        scoreLine.setCenter(200, 200);
+        myRoot.getChildren().add(scoreLine);
+    }
+
+    private void createSpaceBarText(String text){
+        BetterText spaceBarLine = new BetterText("Press Space Bar To Go To " + text);
+        spaceBarLine.setFont(new Font(10));
+        spaceBarLine.setFill(TEXT_COLOR);
+
+        spaceBarLine.setCenter(200, 240);
+        myRoot.getChildren().add(spaceBarLine);
+    }
+
+
+
 
 }

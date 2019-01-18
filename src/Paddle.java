@@ -3,7 +3,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class Paddle extends Rectangle {
-    private int mySpeed = 200;
+    private int mySpeed = 250;
     private Point myLocation;
     private final double myY = Breakout.SIZE - HEIGHT;
 

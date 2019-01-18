@@ -163,7 +163,6 @@ public class LevelScene extends Scene {
         return myPaddles;
     }
 
-    //Handling each KeyPress
     private void handleKeyInput(KeyCode code){
         for(int k = 0; k < myPaddles.size(); k++) {
             Paddle currentPaddle = myPaddles.get(k);

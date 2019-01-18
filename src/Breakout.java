@@ -26,7 +26,7 @@ public class Breakout extends Application{
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    public static final Paint BACKGROUND = Color.WHITE;
+    public static final Paint BACKGROUND = Color.BLACK;
 
     //Scenes
     private LevelScene myHomeScene;
@@ -55,6 +55,7 @@ public class Breakout extends Application{
         createAllScenes();
 
         myCurrentWinLoseScene = myWinScene;
+        myCurrentLevelScene = myLevelOneScene;
         stage.setScene(myCurrentWinLoseScene);
         stage.setTitle(TITLE);
         stage.show();
