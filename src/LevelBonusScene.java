@@ -1,4 +1,30 @@
-package PACKAGE_NAME;
+import javafx.scene.Group;
 
-public class LevelBonusScene {
+import java.util.HashSet;
+import java.util.Random;
+
+public class LevelBonusScene extends LevelScene {
+
+    LevelBonusScene(String filename, Group root) throws Exception {
+        super(filename, root);
+
+    }
+
+    @Override
+    public void createLevel(){
+        int numBlocks = randomNumGen(15, 179);
+        HashSet<Integer> points = new HashSet<>();
+
+        //TODO: make method
+        while(points.size() < numBlocks){
+            int coordinatesIndex = randomNumGen(0, 179);
+            if(points.add(coordinatesIndex)){
+                int health = randomNumGen(1, 5);
+                Block currentBlock = new Block(health, Breakout.myAllBlockCoordinates.get(coordinatesIndex));
+                myRoot.getChildren().add(currentBlock);
+            }
+        }
+    }
+
+
 }

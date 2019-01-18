@@ -30,18 +30,9 @@ public class LevelScene extends Scene {
         createLevel();
     }
 
-    //Generates a scene for a level with a text file as the parameter
-    //Used for Levels 1, 2, 3
-    private void createLevel() throws Exception{
-        if(myFile.equals(" ")) {
-            createBonusLevel();
-        }
-        else {
-            createRegularLevels();
-        }
-    }
 
-    private void createRegularLevels() throws Exception {
+    //This needs to be public so it can be overrriden in LevelBonusScene
+    public void createLevel() throws Exception {
         ArrayList<Block> blocks = generateLevelBlocks();
         myBlocks.addAll(blocks);
         for (int k = 0; k < blocks.size(); k++) {
@@ -68,26 +59,6 @@ public class LevelScene extends Scene {
             result.add(currentBlock);
         }
         return result;
-    }
-
-    private void createBonusLevel() {
-        int numBlocks = randomNumGen(15, 179);
-        HashSet<Integer> points = new HashSet<>();
-
-        //TODO: make method
-        while(points.size() < numBlocks){
-            int coordinatesIndex = randomNumGen(0, 179);
-            if(points.add(coordinatesIndex)){
-                int health = randomNumGen(1, 5);
-                Block currentBlock = new Block(health, Breakout.myAllBlockCoordinates.get(coordinatesIndex));
-                myRoot.getChildren().add(currentBlock);
-            }
-        }
-    }
-
-    private int randomNumGen(int min, int max){
-        Random generator = new Random();
-        return generator.nextInt(max-min+1) + min;
     }
 
     public void addBall(){
@@ -117,8 +88,6 @@ public class LevelScene extends Scene {
             checkBlockCollision(currentBall);
         }
     }
-
-
 
     private void checkPaddleCollision(Ball ball){
         for(int k = 0; k < myPaddles.size(); k++) {
@@ -161,6 +130,12 @@ public class LevelScene extends Scene {
 
     public ArrayList<Paddle> getPaddles(){
         return myPaddles;
+    }
+
+    //Needs to be available for BonusLevel and for cheatkeys
+    public int randomNumGen(int min, int max){
+        Random generator = new Random();
+        return generator.nextInt(max-min+1) + min;
     }
 
     private void handleKeyInput(KeyCode code){
