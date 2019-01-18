@@ -122,7 +122,13 @@ public class Breakout extends Application{
 
     //TODO: not updating current level scene
     private void changeScene(String nextScene){
-
+        Scene next = myScenes.get(nextScene);
+        if(next instanceof LevelScene){
+            myCurrentLevelScene = (LevelScene) next;
+        }
+        else{
+            myCurrentWinLoseScene = (WinLoseScene) next;
+        }
         myStage.setScene(myScenes.get(nextScene));
     }
 
