@@ -18,13 +18,15 @@ public class LevelScene extends Scene {
     public ArrayList<Block> myBlocks = new ArrayList<>();
 
     private double myElapsedTime;
-    private String myNextScene;
+    protected ArrayList<String> myNextScenes;
+    protected boolean timeForSceneSwitch;
 
     LevelScene(String fileName, Group root) throws Exception{
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
         this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         myFile = fileName;
         myRoot = root;
+        myNextScenes = new ArrayList<>();
 
         addBall();
         addPaddle();
@@ -168,11 +170,13 @@ public class LevelScene extends Scene {
 
     private void checkLevelWon(){
         if(myBlocks.size() == 0){
-            myNextScene = "Win";
+            myNextScenes.add("Win");
+            timeForSceneSwitch = true;
         }
     }
-    public String checkSceneSwitch(){
-        return myNextScene;
+
+    public ArrayList<String> checkSceneSwitch(){
+        return myNextScenes;
     }
 
 }

@@ -1,5 +1,7 @@
 import javafx.scene.Group;
 
+import java.util.ArrayList;
+
 public class LevelOneScene extends LevelScene {
 
     LevelOneScene(String fileName, Group root) throws Exception {
@@ -16,5 +18,14 @@ public class LevelOneScene extends LevelScene {
         for(int k = 0; k < myPaddles.size(); k++){
             myPaddles.get(k).setWallCollideOn(false);
         }
+    }
+
+    @Override
+    public ArrayList<String> checkSceneSwitch(){
+        if(timeForSceneSwitch) {
+            myNextScenes.add("LevelTwo");
+            return myNextScenes;
+        }
+        return new ArrayList<String>();
     }
 }

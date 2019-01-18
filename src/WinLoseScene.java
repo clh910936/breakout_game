@@ -1,5 +1,6 @@
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
@@ -15,9 +16,11 @@ public class WinLoseScene extends Scene {
     private String myString;
 
     public Group myRoot;
+    private boolean readyForNextLevel = false;
 
     WinLoseScene(Group root, int score, String string){
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
+        this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 
         myRoot = root;
         myScore = score;
@@ -33,6 +36,9 @@ public class WinLoseScene extends Scene {
         createScoreText();
     }
 
+    public boolean update(){
+        return readyForNextLevel;
+    }
     private void createWinLoseHeader(String header){
         BetterText congratsLine = new BetterText(header);
         congratsLine.setFont(new Font(20));
@@ -63,8 +69,11 @@ public class WinLoseScene extends Scene {
         spaceBarLine.setCenter(200, 240);
         myRoot.getChildren().add(spaceBarLine);
     }
-
-
+    private void handleKeyInput(KeyCode code) {
+        if (code == KeyCode.SPACE) {
+            readyForNextLevel = true;
+        }
+    }
 
 
 }
