@@ -12,12 +12,11 @@ public class WinLoseScene extends Scene {
 
     private final Paint TEXT_COLOR = Color.WHITE;
 
-    private int myScore;
     private String myString;
     private Logistics myLogistic;
 
     public Group myRoot;
-    private boolean readyForNextLevel = false;
+
 
     WinLoseScene(Group root, String string, Logistics logistic){
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
@@ -34,12 +33,13 @@ public class WinLoseScene extends Scene {
             createWinLoseHeader(LOSE);
             createSpaceBarText("Menu");
         }
-    }
-
-    public boolean update(){
         createScoreText();
-        return readyForNextLevel;
     }
+//TODO: delete this?
+//    public boolean update(){
+//        createScoreText();
+//        return readyForNextLevel;
+//    }
     private void createWinLoseHeader(String header){
         BetterText congratsLine = new BetterText(header);
         congratsLine.setFont(new Font(20));
@@ -69,7 +69,7 @@ public class WinLoseScene extends Scene {
     }
     private void handleKeyInput(KeyCode code) {
         if (code == KeyCode.SPACE) {
-            readyForNextLevel = true;
+            myLogistic.readyForSceneSwitch();
         }
     }
 

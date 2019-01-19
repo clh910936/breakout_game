@@ -21,11 +21,7 @@ public class LevelOneScene extends LevelScene {
     }
 
     @Override
-    public ArrayList<String> checkSceneSwitch(){
-        if(timeForSceneSwitch) {
-            myNextScenesInfo.add("LevelTwo");
-            return myNextScenesInfo;
-        }
-        return new ArrayList<String>();
+    protected void addNextLevel(){
+        myLogistics.addFutureScene("LevelTwo");
     }
 }

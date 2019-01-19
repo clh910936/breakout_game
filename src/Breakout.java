@@ -5,12 +5,12 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.logging.Level;
 
 
 public class Breakout extends Application{
@@ -25,7 +25,7 @@ public class Breakout extends Application{
     private Logistics myLogistics;
 
     //Scenes
-    private LevelScene myHomeScene;
+    private HomeScene myHomeScene;
     private LevelOneScene myLevelOneScene;
     private LevelTwoScene myLevelTwoScene;
     private LevelThreeScene myLevelThreeScene;
@@ -73,16 +73,23 @@ public class Breakout extends Application{
     }
 
     private void step(double elapsedTime, Stage stage){
-        if(myLevel) {
-            myCurrentLevelScene.update(elapsedTime);
-            ArrayList<String> nextLevels = myCurrentLevelScene.checkSceneSwitch();
-            if(nextLevels.size() != 0){
-                changeScene(nextLevels.get(0));
-                if(myCurrentWinLoseScene.update()){
-                    changeScene(nextLevels.get(1));
-                }
-            }
+        if(myLogistics.checkSceneSwitch()){
+            String sceneKey = myLogistics.getNextScene();
+            Scene nextScene = myScenes.get(sceneKey);
+            myStage.setScene(nextScene);
         }
+
+        if(myStage.getScene() instanceof LevelScene){
+            LevelScene tempScene = (LevelScene) myStage.getScene();
+            tempScene.update(elapsedTime);
+        }
+    }
+
+
+    private void switchScene() {
+        String sceneKey = myLogistics.getNextScene();
+        Scene nextScene = myScenes.get(sceneKey);
+        myStage.setScene(nextScene);
     }
 
     private void initializeScenes() throws Exception {
@@ -92,6 +99,7 @@ public class Breakout extends Application{
         myBonusLevelScene = new LevelBonusScene(" ", new Group(), myLogistics);
         myWinScene = new WinLoseScene(new Group(), "win", myLogistics);
         myLoseScene = new WinLoseScene(new Group(), "lose", myLogistics);
+        myHomeScene = new HomeScene(new Group());
 
         myScenes = new HashMap<>();
         myScenes.put("LevelOne", myLevelOneScene);
@@ -100,6 +108,7 @@ public class Breakout extends Application{
         myScenes.put("BonusLevel", myBonusLevelScene);
         myScenes.put("Win", myWinScene);
         myScenes.put("Lose", myLoseScene);
+        myScenes.put("Home", myHomeScene);
     }
 
 

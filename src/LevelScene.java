@@ -3,8 +3,6 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -25,8 +23,6 @@ public class LevelScene extends Scene {
 
     //need to be accessed by subclasses
     protected double myElapsedTime;
-    protected ArrayList<String> myNextScenesInfo;
-    protected boolean timeForSceneSwitch;
 
     protected Logistics myLogistics;
 
@@ -36,9 +32,8 @@ public class LevelScene extends Scene {
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
         this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         myFile = fileName;
-        myRoot = root;
-        myNextScenesInfo = new ArrayList<>();
         myLogistics = logistic;
+        myRoot = root;
 
         addPaddle();
         addBall();
@@ -55,7 +50,7 @@ public class LevelScene extends Scene {
 
         }
 
-        makeScoreHeaderAndAddToScene();
+        createAndAddHeader();
     }
 
     //Create an ArrayList of Blocks for a level
@@ -111,9 +106,11 @@ public class LevelScene extends Scene {
                 if(myBalls.size() == 0){
                     myLogistics.loseLife();
                     if(checkLevelLost()){
-                        myNextScenesInfo.add("Lose");
+                        //TODO: addFutureScene area - Lose then Menu
+                        myLogistics.addFutureScene("Lose");
+                        myLogistics.addFutureScene("Menu");
                         myLogistics.resetLevels();
-                        timeForSceneSwitch = true;
+                        myLogistics.readyForSceneSwitch();
                     }
                     else{
                         addBall();
@@ -209,9 +206,11 @@ public class LevelScene extends Scene {
     //needs to be accessed by LevelThreeScene
     private void checkLevelWon(){
         if(myBlocks.size() == 0){
-            myNextScenesInfo.add("Win");
+            //TODO: addFutureScene Win
+            myLogistics.addFutureScene("Win");
+            addNextLevel();
             myLogistics.nextLevel();
-            timeForSceneSwitch = true;
+            myLogistics.readyForSceneSwitch();
         }
     }
 
@@ -221,13 +220,7 @@ public class LevelScene extends Scene {
     }
 
 
-
-    //Overriden by each subclass
-    public ArrayList<String> checkSceneSwitch(){
-        return myNextScenesInfo;
-    }
-
-    private void makeScoreHeaderAndAddToScene(){
+    private void createAndAddHeader(){
         Text levelText = new Text("Level: " + myLogistics.getLevel());
         levelText.setFont(new Font(15));
         levelText.setFill(Color.WHITE);
@@ -260,5 +253,10 @@ public class LevelScene extends Scene {
         myText.get(0).setText("Level: " + myLogistics.getLevel());
         myText.get(1).setText("Score: " + myLogistics.getScore());
         myText.get(2).setText("Lives Left: " + myLogistics.numLivesLeft());
+    }
+
+    //Overriden by each subclass
+    protected void addNextLevel(){
+        myLogistics.addFutureScene("");
     }
 }
