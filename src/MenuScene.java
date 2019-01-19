@@ -4,22 +4,23 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-public class HomeScene extends Scene {
-    private boolean timeToSwitch;
+public class MenuScene extends Scene {
     private Group myRoot;
+    private Logistics myLogistic;
 
-    HomeScene(Group root){
+    MenuScene(Group root, Logistics logistic){
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
         this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 
         myRoot = root;
-        timeToSwitch = false;
+        myLogistic = logistic;
         createAndAddTitle();
     }
 
     private void handleKeyInput(KeyCode code) {
         if(code == KeyCode.SPACE){
-            timeToSwitch = true;
+            myLogistic.addFutureScene("LevelOne");
+            myLogistic.readyForSceneSwitch();
         }
     }
 

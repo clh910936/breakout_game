@@ -12,8 +12,10 @@ public class WinLoseScene extends Scene {
 
     private final Paint TEXT_COLOR = Color.WHITE;
 
-    private String myString;
+    private String myWinLoseString;
     private Logistics myLogistic;
+    private BetterText myScoreText;
+
 
     public Group myRoot;
 
@@ -24,8 +26,8 @@ public class WinLoseScene extends Scene {
 
         myRoot = root;
         myLogistic = logistic;
-        myString = string;
-        if(myString.equals("win")){
+        myWinLoseString = string;
+        if(myWinLoseString.equals("win")){
             createWinLoseHeader(WIN);
             createSpaceBarText("Next Level");
         }
@@ -35,11 +37,10 @@ public class WinLoseScene extends Scene {
         }
         createScoreText();
     }
-//TODO: delete this?
-//    public boolean update(){
-//        createScoreText();
-//        return readyForNextLevel;
-//    }
+
+    public void updateScoreText(){
+        myScoreText.setText("Final Score: " + myLogistic.getScore());
+    }
     private void createWinLoseHeader(String header){
         BetterText congratsLine = new BetterText(header);
         congratsLine.setFont(new Font(20));
@@ -51,12 +52,12 @@ public class WinLoseScene extends Scene {
 
 
     private void createScoreText(){
-        BetterText scoreLine = new BetterText("Final Score: " + myLogistic.getScore());
-        scoreLine.setFont(new Font(15));
-        scoreLine.setFill(TEXT_COLOR);
+        myScoreText = new BetterText("Final Score: " + myLogistic.getScore());
+        myScoreText.setFont(new Font(15));
+        myScoreText.setFill(TEXT_COLOR);
 
-        scoreLine.setCenter(200, 200);
-        myRoot.getChildren().add(scoreLine);
+        myScoreText.setCenter(200, 200);
+        myRoot.getChildren().add(myScoreText);
     }
 
     private void createSpaceBarText(String text){

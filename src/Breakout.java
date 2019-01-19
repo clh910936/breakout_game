@@ -10,7 +10,6 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
 
 
 public class Breakout extends Application{
@@ -25,7 +24,7 @@ public class Breakout extends Application{
     private Logistics myLogistics;
 
     //Scenes
-    private HomeScene myHomeScene;
+    private MenuScene myHomeScene;
     private LevelOneScene myLevelOneScene;
     private LevelTwoScene myLevelTwoScene;
     private LevelThreeScene myLevelThreeScene;
@@ -37,8 +36,6 @@ public class Breakout extends Application{
     private HashMap<String, Scene> myScenes;
 
     //keeping track of current scene and scene type
-    private LevelScene myCurrentLevelScene;
-    private WinLoseScene myCurrentWinLoseScene;
     private boolean myLevel = true;
     private Stage myStage;
 
@@ -55,9 +52,7 @@ public class Breakout extends Application{
         myLogistics = new Logistics();
         initializeScenes();
 
-        myCurrentWinLoseScene = myWinScene;
-        myCurrentLevelScene = myLevelOneScene;
-        myStage.setScene(myCurrentLevelScene);
+        myStage.setScene(myScenes.get("Menu"));
         myStage.setTitle(TITLE);
         myStage.show();
 
@@ -83,6 +78,10 @@ public class Breakout extends Application{
             LevelScene tempScene = (LevelScene) myStage.getScene();
             tempScene.update(elapsedTime);
         }
+        else if(myStage.getScene() instanceof WinLoseScene){
+            WinLoseScene tempScene = (WinLoseScene) myStage.getScene();
+            tempScene.updateScoreText();
+        }
     }
 
 
@@ -99,7 +98,7 @@ public class Breakout extends Application{
         myBonusLevelScene = new LevelBonusScene(" ", new Group(), myLogistics);
         myWinScene = new WinLoseScene(new Group(), "win", myLogistics);
         myLoseScene = new WinLoseScene(new Group(), "lose", myLogistics);
-        myHomeScene = new HomeScene(new Group());
+        myHomeScene = new MenuScene(new Group(), myLogistics);
 
         myScenes = new HashMap<>();
         myScenes.put("LevelOne", myLevelOneScene);
@@ -108,7 +107,7 @@ public class Breakout extends Application{
         myScenes.put("BonusLevel", myBonusLevelScene);
         myScenes.put("Win", myWinScene);
         myScenes.put("Lose", myLoseScene);
-        myScenes.put("Home", myHomeScene);
+        myScenes.put("Menu", myHomeScene);
     }
 
 
@@ -124,17 +123,5 @@ public class Breakout extends Application{
         }
         System.out.println(myAllBlockCoordinates.get(95).myX);
         System.out.println(myAllBlockCoordinates.get(95).myY);
-    }
-
-
-    private void changeScene(String nextScene){
-        Scene next = myScenes.get(nextScene);
-        if(next instanceof LevelScene){
-            myCurrentLevelScene = (LevelScene) next;
-        }
-        else if(next instanceof WinLoseScene){
-            myCurrentWinLoseScene = (WinLoseScene) next;
-        }
-        myStage.setScene(myScenes.get(nextScene));
     }
 }
