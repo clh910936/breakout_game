@@ -9,6 +9,7 @@ import javafx.scene.text.Text;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 public class LevelScene extends Scene {
@@ -20,6 +21,8 @@ public class LevelScene extends Scene {
     protected ArrayList<Paddle> myPaddles = new ArrayList<>();
     protected ArrayList<Block> myBlocks = new ArrayList<>();
     protected ArrayList<Text> myText = new ArrayList<>();
+
+    private HashSet<Integer> myPowerUpsEarned;
 
     //need to be accessed by subclasses
     protected double myElapsedTime;
@@ -34,6 +37,7 @@ public class LevelScene extends Scene {
         myFile = fileName;
         myLogistics = logistic;
         myRoot = root;
+        myPowerUpsEarned = new HashSet<>();
 
         addPaddle();
         addBall();
@@ -67,7 +71,7 @@ public class LevelScene extends Scene {
             int health = Integer.parseInt(split[1]);
             Point currentPoint = Breakout.myAllBlockCoordinates.get(index);
 
-            Block currentBlock = new Block(health, currentPoint);
+            Block currentBlock = new Block(health, currentPoint, myLogistics);
             result.add(currentBlock);
         }
         return result;
@@ -90,6 +94,7 @@ public class LevelScene extends Scene {
         updateBalls();
         checkLevelWon();
         updateHeader();
+        checkForPowerUps();
     }
 
     //Needs to be accessed by LevelThreeScene
@@ -137,9 +142,7 @@ public class LevelScene extends Scene {
             Block currentBlock = myBlocks.get(k);
 
             if (ball.checkShapeCollisionAndFlipSpeed(currentBlock)) {
-                int score = currentBlock.blockHit();
-                myLogistics.increaseScore(score);
-                if (score == 10) {
+                if (currentBlock.blockHitAndReturnIfDestroyed()) {
                     removeBlock(k);
                     k -= 1;     //a block was removed so preventing k from indexing up
                 }
@@ -270,5 +273,17 @@ public class LevelScene extends Scene {
     //Overriden by each subclass
     protected void addNextLevel(){
         myLogistics.addFutureScene("");
+    }
+
+    private void checkForPowerUps(){
+        int currentScore = myLogistics.getScore();
+
+        if(currentScore % 1000 == 0 && myPowerUpsEarned.add(currentScore)){
+            myLogistics.addLife();
+        }
+        else if(currentScore % 500 == 0 && myPowerUpsEarned.add(currentScore)){
+            addBall();
+        }
+
     }
 }

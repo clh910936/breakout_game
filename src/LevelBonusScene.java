@@ -18,7 +18,7 @@ public class LevelBonusScene extends LevelScene {
             int coordinatesIndex = randomNumGen(0, 169);
             if(points.add(coordinatesIndex)){
                 int health = randomNumGen(1, 5);
-                Block currentBlock = new Block(health, Breakout.myAllBlockCoordinates.get(coordinatesIndex));
+                Block currentBlock = new Block(health, Breakout.myAllBlockCoordinates.get(coordinatesIndex), myLogistics);
                 myRoot.getChildren().add(currentBlock);
             }
         }

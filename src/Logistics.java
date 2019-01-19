@@ -33,6 +33,10 @@ public class Logistics {
         myLivesLeft -= 1;
     }
 
+    public void addLife(){
+        myLivesLeft += 1;
+    }
+
     public void nextLevel(){
         myLevel += 1;
     }

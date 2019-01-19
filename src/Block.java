@@ -15,12 +15,14 @@ public class Block extends Rectangle {
     private final Paint FOURHEALTH = Color.rgb(240, 150, 66);
     private final Paint FIVEHEALTH = Color.rgb(200, 0, 0);
     private final Paint OUTLINE = Color.BLACK;
+    private Logistics myLogistic;
 
 
-    Block(int health, Point point){
+    Block(int health, Point point, Logistics logistic){
         myHealth = health;
         myX = point.getX();
         myY = point.getY();
+        myLogistic = logistic;
 
 
         //Setting Properties
@@ -52,15 +54,20 @@ public class Block extends Rectangle {
 
     }
 
-    public int blockHit(){
+    public boolean blockHitAndReturnIfDestroyed(){
         myHealth -= 1;
-        if(myHealth == 0){
-            return 10;
-        }
-        else {
+        //TODO: DEAL WITH THIS - BACK TO 10
+        myLogistic.increaseScore(10);
+        if(myHealth != 0){
             this.setFill(determineColor());
-            return 5;
+            return false;
         }
+        else{
+            return true;
+        }
+
+
     }
+
 
 }
