@@ -106,7 +106,6 @@ public class LevelScene extends Scene {
                 if(myBalls.size() == 0){
                     myLogistics.loseLife();
                     if(checkLevelLost()){
-                        //TODO: addFutureScene area - Lose then Menu
                         myLogistics.addFutureScene("Lose");
                         myLogistics.addFutureScene("Menu");
                         myLogistics.resetLevels();
@@ -166,6 +165,7 @@ public class LevelScene extends Scene {
     private void handleKeyInput(KeyCode code){
         for(int k = 0; k < myPaddles.size(); k++) {
             Paddle currentPaddle = myPaddles.get(k);
+
             if (code == KeyCode.RIGHT) {
                 currentPaddle.move(myElapsedTime, 1);
             } else if (code == KeyCode.LEFT) {

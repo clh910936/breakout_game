@@ -5,7 +5,8 @@ import javafx.scene.shape.Rectangle;
 public class Paddle extends Rectangle {
     private int mySpeed = 250;
     private Point myLocation;
-    private boolean myWallCollideOn = true;
+    private boolean isWallCollideOn = true;
+    private boolean isInvertPaddle = false;
     private final double myY = Breakout.SIZE - HEIGHT;
 
     public static final double WIDTH = 50.0;
@@ -40,16 +41,22 @@ public class Paddle extends Rectangle {
     }
 
     public void move(double elapsedTime, int direction){
-        if(myWallCollideOn){
+
+        //inverted paddle needs to be 100% flipped in speed and key direction- problems were solved doing this
+        if(isInvertPaddle){
+            direction *= -1;
+        }
+        if(isWallCollideOn){
             if(checkLeftWallCollision() && direction < 0){
                 return;
             }
             else if(checkRightWallCollision() && direction > 0){
+                System.out.println("Right wall collision");
                 return;
             }
         }
         else {
-            dealWithWallCollision();
+            jumpToOtherWall();
         }
         double newX = myLocation.getX() + mySpeed * elapsedTime * direction;
         setLocation(newX);
@@ -67,7 +74,7 @@ public class Paddle extends Rectangle {
         return false;
     }
 
-    private void dealWithWallCollision(){
+    private void jumpToOtherWall(){
         double xLeft = myLocation.getX();
         double xRight = xLeft + WIDTH;
 
@@ -79,12 +86,22 @@ public class Paddle extends Rectangle {
         }
     }
 
-    public void setWallCollideOn(boolean arg){
-        myWallCollideOn = arg;
+    public void isWallCollide(boolean arg){
+        isWallCollideOn = arg;
     }
+
 
     //used by ball to determine where it should start/move
     public Point getLocation(){
         return myLocation;
+    }
+
+    //used by level2 scene
+    public void flipSpeed(){
+        mySpeed *= -1;
+    }
+
+    public void invertPaddle(){
+        isInvertPaddle = true;
     }
 }

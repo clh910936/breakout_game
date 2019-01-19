@@ -16,7 +16,7 @@ public class LevelOneScene extends LevelScene {
     //Sets paddle to not hit walls - go around the corner
     private void turnOffPaddleWallCollide(){
         for(int k = 0; k < myPaddles.size(); k++){
-            myPaddles.get(k).setWallCollideOn(false);
+            myPaddles.get(k).isWallCollide(false);
         }
     }
 
