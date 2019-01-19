@@ -165,57 +165,6 @@ public class LevelScene extends Scene {
         return generator.nextInt(max-min+1) + min;
     }
 
-    private void handleKeyInput(KeyCode code){
-        for(int k = 0; k < myPaddles.size(); k++) {
-            Paddle currentPaddle = myPaddles.get(k);
-
-            if (code == KeyCode.RIGHT) {
-                if(currentPaddle.isConstantMove()){
-                    currentPaddle.setDirection(1);
-                }
-                else {
-                    currentPaddle.move(myElapsedTime, 1);
-                }
-            } else if (code == KeyCode.LEFT) {
-                if(currentPaddle.isConstantMove()){
-                    currentPaddle.setDirection(-1);
-                }
-                else {
-                    currentPaddle.move(myElapsedTime, -1);
-                }
-            }
-
-
-        }
-        //releases ball at start
-        if (code == KeyCode.UP) {
-            for (int k = 0; k < myBalls.size(); k++) {
-                if (myBalls.get(k).isSticky()) {
-                    myBalls.get(k).flipSticky();
-                    break;
-                }
-            }
-        }
-        //remove random block
-        else if(code == KeyCode.R){
-            int numBlocks = myBlocks.size();
-            if(numBlocks > 0) {
-                int randIndex = randomNumGen(0, numBlocks - 1);
-                removeBlock(randIndex);
-            }
-        }
-
-        //adds a ball
-        else if (code == KeyCode.A){
-            addBall();
-        }
-
-        //Clears blocks and checks if it wins - it will
-        else if(code == KeyCode.N){
-            myBlocks.clear();
-            myRoot.getChildren().clear();
-        }
-    }
 
     //needs to be accessed by LevelThreeScene
     private void checkLevelWon(){
@@ -289,4 +238,61 @@ public class LevelScene extends Scene {
             addBall();
         }
     }
+
+    private void handleKeyInput(KeyCode code){
+        for(int k = 0; k < myPaddles.size(); k++) {
+            Paddle currentPaddle = myPaddles.get(k);
+
+            if (code == KeyCode.RIGHT) {
+                if(currentPaddle.isConstantMove()){
+                    currentPaddle.setDirection(1);
+                }
+                else {
+                    currentPaddle.move(myElapsedTime, 1);
+                }
+            } else if (code == KeyCode.LEFT) {
+                if(currentPaddle.isConstantMove()){
+                    currentPaddle.setDirection(-1);
+                }
+                else {
+                    currentPaddle.move(myElapsedTime, -1);
+                }
+            }
+
+
+        }
+        //releases ball at start
+        if (code == KeyCode.UP) {
+            for (int k = 0; k < myBalls.size(); k++) {
+                if (myBalls.get(k).isSticky()) {
+                    myBalls.get(k).flipSticky();
+                    break;
+                }
+            }
+        }
+        //remove random block
+        if(code == KeyCode.R){
+            int numBlocks = myBlocks.size();
+            if(numBlocks > 0) {
+                int randIndex = randomNumGen(0, numBlocks - 1);
+                removeBlock(randIndex);
+            }
+        }
+
+        //adds a ball
+        if (code == KeyCode.B){
+            addBall();
+        }
+
+        //Clears blocks and checks if it wins - it will
+        if(code == KeyCode.N){
+            myBlocks.clear();
+            myRoot.getChildren().clear();
+        }
+        //Adds a life
+        if(code == KeyCode.L){
+            myLogistics.addLife();
+        }
+    }
+
 }
