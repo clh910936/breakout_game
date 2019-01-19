@@ -24,4 +24,6 @@ public class LevelOneScene extends LevelScene {
     protected void addNextLevel(){
         myLogistics.addFutureScene("LevelTwo");
     }
+
+
 }

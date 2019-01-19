@@ -12,12 +12,31 @@ public class LevelThreeScene extends LevelScene {
 
     private void initializeLevelThree(){
         addBouncyBlock();
+        for(int k = 0; k < myPaddles.size(); k++){
+            myPaddles.get(k).setConstantMovePaddle();
+            myPaddles.get(k).setSpeed(150);
+        }
     }
 
     @Override
     protected void checkAllCollisions(Ball ball){
         super.checkAllCollisions(ball);
         checkBouncyBlockCollision(ball);
+    }
+
+    @Override
+    public void update(double elapsedTime){
+        super.update(elapsedTime);
+        updateConstantMovePaddle(elapsedTime);
+    }
+
+    private void updateConstantMovePaddle(double elapsedTime){
+        for(int k = 0; k < myPaddles.size(); k++){
+            Paddle currentPaddle = myPaddles.get(k);
+            if(currentPaddle.isConstantMove()){
+                currentPaddle.move(elapsedTime);
+            }
+        }
     }
 
     private void checkBouncyBlockCollision(Ball ball){

@@ -167,10 +167,22 @@ public class LevelScene extends Scene {
             Paddle currentPaddle = myPaddles.get(k);
 
             if (code == KeyCode.RIGHT) {
-                currentPaddle.move(myElapsedTime, 1);
+                if(currentPaddle.isConstantMove()){
+                    currentPaddle.setDirection(1);
+                }
+                else {
+                    currentPaddle.move(myElapsedTime, 1);
+                }
             } else if (code == KeyCode.LEFT) {
-                currentPaddle.move(myElapsedTime, -1);
+                if(currentPaddle.isConstantMove()){
+                    currentPaddle.setDirection(-1);
+                }
+                else {
+                    currentPaddle.move(myElapsedTime, -1);
+                }
             }
+
+
         }
 
         if (code == KeyCode.UP) {

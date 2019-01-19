@@ -4,9 +4,11 @@ import javafx.scene.shape.Rectangle;
 
 public class Paddle extends Rectangle {
     private int mySpeed = 250;
+    private int myDirection;
     private Point myLocation;
     private boolean isWallCollideOn = true;
     private boolean isInvertPaddle = false;
+    private boolean isConstantMovePaddle = false;
     private final double myY = Breakout.SIZE - HEIGHT;
 
     public static final double WIDTH = 50.0;
@@ -21,6 +23,7 @@ public class Paddle extends Rectangle {
         this.setFill(paddleFill);
         this.setStroke(paddleStroke);
 
+        setDirection(0);
         calcAndSetStartLocation();
     }
 
@@ -31,6 +34,14 @@ public class Paddle extends Rectangle {
 
     public void setSpeed(int speed){
         mySpeed = speed;
+    }
+
+    /**
+     *
+     * @param direction 1 for right, -1 for left, 0 for not moving
+     */
+    public void setDirection(int direction){
+        myDirection = direction;
     }
 
     //Y never changes so don't need to change that
@@ -59,6 +70,18 @@ public class Paddle extends Rectangle {
             jumpToOtherWall();
         }
         double newX = myLocation.getX() + mySpeed * elapsedTime * direction;
+        setLocation(newX);
+    }
+
+    //used for a constant move paddle
+    public void move(double elapsedTime){
+        if(checkLeftWallCollision()){
+            setDirection(1);
+        }
+        else if(checkRightWallCollision()){
+            setDirection(-1);
+        }
+        double newX = myLocation.getX() + mySpeed * elapsedTime * myDirection;
         setLocation(newX);
     }
 
@@ -103,5 +126,15 @@ public class Paddle extends Rectangle {
 
     public void invertPaddle(){
         isInvertPaddle = true;
+    }
+
+    //used by level 3
+    public void setConstantMovePaddle(){
+        isConstantMovePaddle = true;
+    }
+
+    //used in LevelScene
+    public boolean isConstantMove(){
+        return isConstantMovePaddle;
     }
 }
