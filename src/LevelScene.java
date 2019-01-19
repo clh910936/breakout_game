@@ -293,6 +293,10 @@ public class LevelScene extends Scene {
         if(code == KeyCode.L){
             myLogistics.addLife();
         }
+
+        if(code == KeyCode.M){
+            myLogistics.flipePointMultiplier();
+        }
     }
 
 }

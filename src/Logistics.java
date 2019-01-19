@@ -4,6 +4,7 @@ public class Logistics {
     private int myLevel;
     private int myScore;
     private int myLivesLeft;
+    private int myPointMultiplier;
     //TODO: ask megan about naming this
     private boolean timeForSceneSwitch;
     private ArrayList<String> myNextScenes;
@@ -12,13 +13,14 @@ public class Logistics {
         myLevel = 1;
         myScore = 0;
         myLivesLeft = 2;
+        myPointMultiplier = 1;
 
         timeForSceneSwitch = false;
         myNextScenes = new ArrayList<>();
     }
 
     public void increaseScore(int score){
-        myScore += score;
+        myScore += score * myPointMultiplier;
     }
 
     public int getScore(){
@@ -69,6 +71,15 @@ public class Logistics {
     public String getNextScene(){
         timeForSceneSwitch = false;
         return myNextScenes.remove(0);
+    }
+
+    public void flipePointMultiplier(){
+        if(myPointMultiplier == 1){
+            myPointMultiplier = 5;
+        }
+        else{
+            myPointMultiplier = 1;
+        }
     }
 }
 
