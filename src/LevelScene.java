@@ -187,7 +187,7 @@ public class LevelScene extends Scene {
 
 
         }
-
+        //releases ball at start
         if (code == KeyCode.UP) {
             for (int k = 0; k < myBalls.size(); k++) {
                 if (myBalls.get(k).isSticky()) {
@@ -196,7 +196,6 @@ public class LevelScene extends Scene {
                 }
             }
         }
-//            //TODO: Glitchy needs to be dealt with
         //remove random block
         else if(code == KeyCode.R){
             int numBlocks = myBlocks.size();
@@ -278,12 +277,16 @@ public class LevelScene extends Scene {
     private void checkForPowerUps(){
         int currentScore = myLogistics.getScore();
 
-        if(currentScore % 1000 == 0 && myPowerUpsEarned.add(currentScore)){
+        if(currentScore % 1500 == 0 && myPowerUpsEarned.add(currentScore)){
             myLogistics.addLife();
+        }
+        else if(currentScore % 1000 == 0 && myPowerUpsEarned.add(currentScore)){
+            for(int k = 0; k < myBalls.size(); k++){
+                myBalls.get(k).setSlowBall();
+            }
         }
         else if(currentScore % 500 == 0 && myPowerUpsEarned.add(currentScore)){
             addBall();
         }
-
     }
 }

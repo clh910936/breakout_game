@@ -7,11 +7,16 @@ public class Ball extends Circle {
     private Point myCenter;
     private boolean mySticky;
     private Paddle myPaddle;        //the paddle the ball starts on
+    private boolean isSlow = false;
+
+    private long myStartTimer;
+    private final long SLOW_TIME_LENGTH = 7000;
 
     //TODO: figure out radius
     public static final double RADIUS = 7;
-    private int myXSpeed = -50;
-    private int myYSpeed = -50;
+    private int myXSpeed = -100;
+    private int myYSpeed = -100;
+    private int SLOW_SPEED = 50;
 
     private final Paint ballColor = Color.AQUAMARINE;
     private final Paint ballOutlineColor = Color.BLACK;
@@ -97,6 +102,13 @@ public class Ball extends Circle {
             calcStartLocation();
             setLocation(myCenter);
         }
+        if(isSlow){
+            if(System.currentTimeMillis() - myStartTimer > SLOW_TIME_LENGTH){
+                isSlow = false;
+                setYSpeed((int)Math.signum(myYSpeed) * 75);
+                setXSpeed((int)Math.signum(myXSpeed) * 75);
+            }
+        }
     }
 
     public void flipSticky(){
@@ -136,5 +148,12 @@ public class Ball extends Circle {
         double newY = myCenter.getY() + Integer.signum(myYSpeed) * 3;
         Point newPosition = new Point(newX, newY);
         this.setLocation(newPosition);
+    }
+
+    public void setSlowBall(){
+        isSlow = true;
+        setXSpeed(SLOW_SPEED);
+        setYSpeed(SLOW_SPEED);
+        myStartTimer = System.currentTimeMillis();
     }
 }
