@@ -1,26 +1,30 @@
+/**
+ * @author Carrie Hunner
+ * this class is an extension of LevelScene and turns off wall collide for the paddle on the scene
+ */
+
 import javafx.scene.Group;
 
-import java.util.ArrayList;
-
 public class LevelOneScene extends LevelScene {
-
     LevelOneScene(String fileName, Group root, Logistics logistic) throws Exception {
         super(fileName, root, logistic);
         turnOffPaddleWallCollide();
     }
 
-    //Sets paddle to not hit walls - go around the corner
+    //Sets paddle to not hit walls - go around the corner/teleport
     private void turnOffPaddleWallCollide(){
         for(int k = 0; k < myPaddles.size(); k++){
             myPaddles.get(k).isWallCollide(false);
         }
     }
 
+    //Ensures that after the win scene it goes to Level Two
     @Override
     protected void addNextLevel(){
         myLogistics.addFutureScene("LevelTwo");
     }
 
+    //ensures that when the levels are reset, the paddles still maintain their teleportation abilities
     @Override
     public void reset() throws Exception {
         super.reset();
