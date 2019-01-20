@@ -3,18 +3,26 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class MenuScene extends Scene {
     private Group myRoot;
     private Logistics myLogistic;
 
-    MenuScene(Group root, Logistics logistic){
+    MenuScene(Group root, Logistics logistic) throws Exception {
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
         this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
 
         myRoot = root;
         myLogistic = logistic;
         createAndAddTitle();
+        createAndAddRules();
+        createAndAddStart();
     }
 
     private void handleKeyInput(KeyCode code) {
@@ -26,11 +34,36 @@ public class MenuScene extends Scene {
 
     private void createAndAddTitle(){
         BetterText title = new BetterText("Breakout");
-        title.setFont(new Font(50));
-        title.setFill(Color.WHITE);
+        title.setFont(new Font(30));
+        title.setFill(Color.rgb(0, 188, 255));
         title.isUnderline();
-        title.setCenter(Breakout.SIZE/2, 50);
+        title.setCenter(Breakout.SIZE/2, 30);
 
         myRoot.getChildren().add(title);
+    }
+
+    private void createAndAddRules() throws Exception {
+        BufferedReader in = new BufferedReader(new FileReader("Rules.txt"));
+        int yValue = 50;
+        while(in.ready()) {
+            yValue += 15;
+            String line = in.readLine();
+            Text rules = new Text(line);
+            rules.setFont(new Font(12));
+            rules.setFill(Color.WHITE);
+            rules.setX(10);
+            rules.setY(yValue);
+            myRoot.getChildren().add(rules);
+        }
+    }
+
+    private void createAndAddStart(){
+        BetterText spacebarText = new BetterText("Press SpaceBar to Begin");
+        spacebarText.setFont(new Font(15));
+        spacebarText.setFill(Color.WHITE);
+        spacebarText.isUnderline();
+        spacebarText.setCenter(Breakout.SIZE/2, 380);
+
+        myRoot.getChildren().add(spacebarText);
     }
 }

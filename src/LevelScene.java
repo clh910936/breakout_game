@@ -225,17 +225,16 @@ public class LevelScene extends Scene {
 
     private void checkForPowerUps(){
         int currentScore = myLogistics.getScore();
-
-        if(currentScore % 1500 == 0 && myPowerUpsEarned.add(currentScore)){
-            myLogistics.addLife();
+        if(currentScore % 500 == 0 && myPowerUpsEarned.add(currentScore)){
+            addBall();
         }
         else if(currentScore % 1000 == 0 && myPowerUpsEarned.add(currentScore)){
             for(int k = 0; k < myBalls.size(); k++){
                 myBalls.get(k).setSlowBall();
             }
         }
-        else if(currentScore % 500 == 0 && myPowerUpsEarned.add(currentScore)){
-            addBall();
+        else if(currentScore % 1500 == 0 && myPowerUpsEarned.add(currentScore)){
+            myLogistics.addLife();
         }
     }
 
@@ -294,8 +293,9 @@ public class LevelScene extends Scene {
             myLogistics.addLife();
         }
 
+        //Point multiplier
         if(code == KeyCode.M){
-            myLogistics.flipePointMultiplier();
+            myLogistics.flipPointMultiplier();
         }
     }
 

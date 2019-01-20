@@ -1,0 +1,21 @@
+Controls:
+	-Left/Right arrow keys control direction
+	-Up arrow key releases the ball when on the paddle
+Blocks:
+	-Every block hit is worth 10 pts.
+	-Blocks take a specific number of hits to break
+		-Blue:   1 hit
+		-Green:  2 hits
+		-Yellow: 3 hits
+		-Orange: 4 hits
+		-Red:    5 hits
+Powerups:
+	-every 500 pts.  another ball is earned
+	-every 1000 pts. the balls are slowed down for 7 seconds
+	-every 1500 pts. another life is earned
+Levels Abilities:
+	-1: Paddle can teleport from one side to another when it hits a wall
+	-2: One normal paddle, One that does the opposite of the commands
+	-3: Paddle never stops moving, keys only change the direction
+	- Bonus Level:Block pattern is randomly generated
+

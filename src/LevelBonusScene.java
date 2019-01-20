@@ -24,5 +24,10 @@ public class LevelBonusScene extends LevelScene {
         }
     }
 
+    @Override
+    protected void addNextLevel(){
+        myLogistics.addFutureScene("Menu");
+    }
+
 
 }

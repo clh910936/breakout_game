@@ -105,8 +105,8 @@ public class Ball extends Circle {
         if(isSlow){
             if(System.currentTimeMillis() - myStartTimer > SLOW_TIME_LENGTH){
                 isSlow = false;
-                setYSpeed((int)Math.signum(myYSpeed) * 75);
-                setXSpeed((int)Math.signum(myXSpeed) * 75);
+                setYSpeed((int)Math.signum(myYSpeed) * 100);
+                setXSpeed((int)Math.signum(myXSpeed) * 100);
             }
         }
     }

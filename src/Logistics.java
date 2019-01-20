@@ -73,7 +73,8 @@ public class Logistics {
         return myNextScenes.remove(0);
     }
 
-    public void flipePointMultiplier(){
+    //TODO: deal with points getting off with multiplier
+    public void flipPointMultiplier(){
         if(myPointMultiplier == 1){
             myPointMultiplier = 5;
         }
