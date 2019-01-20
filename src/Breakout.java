@@ -32,6 +32,7 @@ public class Breakout extends Application{
     private WinLoseScene myLoseScene;
     private LevelBonusScene myBonusLevelScene;
     private WinLoseScene myBeatTheGameScene;
+    private boolean hasBeenReset;
 
     //keep track of all the scenes
     private HashMap<String, Scene> myScenes;
@@ -51,13 +52,20 @@ public class Breakout extends Application{
 
         myStage = stage;
         myLogistics = new Logistics();
+        hasBeenReset = true;    //Doesn't need to reset at the very beginning
         initializeScenes();
 
         myStage.setScene(myScenes.get("Menu"));
         myStage.setTitle(TITLE);
         myStage.show();
 
-        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY, stage));
+        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
+            try {
+                step(SECOND_DELAY, stage);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
         var animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
@@ -68,11 +76,15 @@ public class Breakout extends Application{
         launch(args);
     }
 
-    private void step(double elapsedTime, Stage stage){
+    private void step(double elapsedTime, Stage stage) throws Exception {
         if(myLogistics.checkSceneSwitch()){
             String sceneKey = myLogistics.getNextScene();
+            System.out.println(sceneKey);
             Scene nextScene = myScenes.get(sceneKey);
             myStage.setScene(nextScene);
+            if(nextScene instanceof MenuScene){
+                hasBeenReset = false;
+            }
         }
 
         if(myStage.getScene() instanceof LevelScene){
@@ -83,6 +95,16 @@ public class Breakout extends Application{
             WinLoseScene tempScene = (WinLoseScene) myStage.getScene();
             tempScene.updateScoreText();
         }
+        else if(myStage.getScene() instanceof MenuScene && !hasBeenReset){
+            myLevelOneScene.reset();
+            myLevelTwoScene.reset();
+            myLevelThreeScene.reset();
+            myBonusLevelScene.reset() ;
+            myLogistics.reset();
+
+            hasBeenReset = true;
+        }
+
     }
 
 
@@ -100,6 +122,7 @@ public class Breakout extends Application{
         myWinScene = new WinLoseScene(new Group(), "win", myLogistics);
         myLoseScene = new WinLoseScene(new Group(), "lose", myLogistics);
         myHomeScene = new MenuScene(new Group(), myLogistics);
+        myBeatTheGameScene = new WinLoseScene(new Group(), "", myLogistics);
 
         myScenes = new HashMap<>();
         myScenes.put("LevelOne", myLevelOneScene);
@@ -123,7 +146,5 @@ public class Breakout extends Application{
                 myAllBlockCoordinates.add(temp);
             }
         }
-        System.out.println(myAllBlockCoordinates.get(95).myX);
-        System.out.println(myAllBlockCoordinates.get(95).myY);
     }
 }

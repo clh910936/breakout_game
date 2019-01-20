@@ -39,6 +39,10 @@ public class LevelScene extends Scene {
         myRoot = root;
         myPowerUpsEarned = new HashSet<>();
 
+        addAllChildren();
+    }
+
+    private void addAllChildren() throws Exception {
         addPaddle();
         addBall();
         createLevel();
@@ -225,16 +229,32 @@ public class LevelScene extends Scene {
     private void checkForPowerUps(){
         int currentScore = myLogistics.getScore();
         if(currentScore != 0) {     //prevents powerups from all being added at the beginning
-            if (currentScore % 500 == 0 && myPowerUpsEarned.add(currentScore)) {
-                addBall();
-            } else if (currentScore % 1000 == 0 && myPowerUpsEarned.add(currentScore)) {
+            if (currentScore % 1500 == 0 && !myPowerUpsEarned.contains(currentScore)) {
+                myLogistics.addLife();
+            }
+            if (currentScore % 1000 == 0 && !myPowerUpsEarned.contains(currentScore)) {
                 for (int k = 0; k < myBalls.size(); k++) {
                     myBalls.get(k).setSlowBall();
                 }
-            } else if (currentScore % 1500 == 0 && myPowerUpsEarned.add(currentScore)) {
-                myLogistics.addLife();
             }
+            if (currentScore % 500 == 0 && !myPowerUpsEarned.contains(currentScore)) {
+                addBall();
+                myPowerUpsEarned.add(currentScore);
+            }
+
+
         }
+    }
+
+    public void reset() throws Exception {
+        myRoot.getChildren().clear();
+        myPowerUpsEarned.clear();
+        myBalls.clear();
+        myPaddles.clear();
+        myBlocks.clear();
+        myText.clear();
+
+        addAllChildren();
     }
 
     private void handleKeyInput(KeyCode code){

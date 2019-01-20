@@ -6,7 +6,7 @@ public class LevelOneScene extends LevelScene {
 
     LevelOneScene(String fileName, Group root, Logistics logistic) throws Exception {
         super(fileName, root, logistic);
-        initializeLevelOne();
+        turnOffPaddleWallCollide();
     }
 
     private void initializeLevelOne(){
@@ -25,5 +25,9 @@ public class LevelOneScene extends LevelScene {
         myLogistics.addFutureScene("LevelTwo");
     }
 
-
+    @Override
+    public void reset() throws Exception {
+        super.reset();
+        turnOffPaddleWallCollide();
+    }
 }

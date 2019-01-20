@@ -28,6 +28,10 @@ public class WinLoseScene extends Scene {
         myRoot = root;
         myLogistic = logistic;
         myWinLoseString = string;
+        addAllChildren();
+    }
+
+    private void addAllChildren() {
         if(myWinLoseString.equals("win")){
             createWinLoseHeader(WIN);
             createSpaceBarText("Next Level");

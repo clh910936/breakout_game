@@ -10,9 +10,9 @@ Blocks:
 		-Orange: 4 hits
 		-Red:    5 hits
 Powerups:
-	-every 500 pts.  another ball is earned
-	-every 1000 pts. the balls are slowed down for 7 seconds
-	-every 1500 pts. another life is earned
+	-every exact 500 pts.  another ball is earned
+	-every exact 1000 pts. the balls are slowed down for 7 seconds
+	-every exact 1500 pts. another life is earned
 Levels Abilities:
 	-1: Paddle can teleport from one side to another when it hits a wall
 	-2: One normal paddle, One that does the opposite of the commands

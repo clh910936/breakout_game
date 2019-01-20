@@ -10,13 +10,17 @@ public class Logistics {
     private ArrayList<String> myNextScenes;
 
     Logistics(){
+        initializeAllVariables();
+        myNextScenes = new ArrayList<>();
+    }
+
+    private void initializeAllVariables() {
         myLevel = 1;
         myScore = 0;
         myLivesLeft = 2;
         myPointMultiplier = 1;
 
         timeForSceneSwitch = false;
-        myNextScenes = new ArrayList<>();
     }
 
     public void increaseScore(int score){
@@ -81,6 +85,10 @@ public class Logistics {
         else{
             myPointMultiplier = 1;
         }
+    }
+
+    public void reset(){
+        initializeAllVariables();
     }
 }
 

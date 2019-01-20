@@ -3,7 +3,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class Paddle extends Rectangle {
-    private int mySpeed = 300;
+    private int mySpeed = 350;
     private int myDirection;
     private Point myLocation;
     private boolean isWallCollideOn = true;
@@ -62,7 +62,6 @@ public class Paddle extends Rectangle {
                 return;
             }
             else if(checkRightWallCollision() && direction > 0){
-                System.out.println("Right wall collision");
                 return;
             }
         }

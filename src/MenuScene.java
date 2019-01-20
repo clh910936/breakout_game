@@ -20,6 +20,10 @@ public class MenuScene extends Scene {
 
         myRoot = root;
         myLogistic = logistic;
+        addAllChildren();
+    }
+
+    private void addAllChildren() throws Exception {
         createAndAddTitle();
         createAndAddRules();
         createAndAddStart();

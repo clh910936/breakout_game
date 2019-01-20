@@ -59,7 +59,7 @@ public class LevelThreeScene extends LevelScene {
 
     @Override
     protected void addNextLevel(){
-        myLogistics.addFutureScene("BonusLevel");
+        myLogistics.addFutureScene("Menu");
     }
 
     @Override
@@ -71,5 +71,12 @@ public class LevelThreeScene extends LevelScene {
             myLogistics.readyForSceneSwitch();
 
         }
+    }
+
+    @Override
+    public void reset() throws Exception {
+        super.reset();
+
+        initializeLevelThree();
     }
 }

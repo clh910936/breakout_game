@@ -29,4 +29,12 @@ public class LevelTwoScene extends LevelScene {
     protected void addNextLevel(){
         myLogistics.addFutureScene("LevelThree");
     }
+
+    @Override
+    public void reset() throws Exception {
+        super.reset();
+
+        addPaddle();
+        setupPaddles();
+    }
 }
