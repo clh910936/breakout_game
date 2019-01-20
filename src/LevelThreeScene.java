@@ -87,7 +87,7 @@ public class LevelThreeScene extends LevelScene {
 
         }
     }
-    
+
     @Override
     public void reset() throws Exception {
         super.reset();

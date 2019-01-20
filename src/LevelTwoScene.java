@@ -1,12 +1,17 @@
-import javafx.scene.Group;
+/**
+ * @author Carrie Hunner
+ *This class extends LevelScene and makes small adjustments to increase the ball speed and
+ * add a second paddle that behaves inversely to user input
+ * Dependent on LevelScene and an instance of Logistics
+ */
 
-import java.util.ArrayList;
+import javafx.scene.Group;
 
 public class LevelTwoScene extends LevelScene {
 
     //Experimented with Paddle starts and this works best
-    private final double PADDLE_ONE_START = 125;
-    private final double PADDLE_TWO_START = 225;
+    private final double PADDLE_ONE_X_START = 125;
+    private final double PADDLE_TWO_X_START = 225;
 
     LevelTwoScene(String fileName, Group root, Logistics logistic) throws Exception {
         super(fileName, root, logistic);
@@ -26,22 +31,25 @@ public class LevelTwoScene extends LevelScene {
         }
     }
 
+    //sets paddle locations and sets up second paddle to be inverted
     private void setupPaddles(){
         Paddle paddle1 = myPaddles.get(0);
-        paddle1.setLocation(PADDLE_ONE_START);
+        paddle1.setLocation(PADDLE_ONE_X_START);
 
         Paddle paddle2 = myPaddles.get(1);
-        paddle2.setLocation(PADDLE_TWO_START);
+        paddle2.setLocation(PADDLE_TWO_X_START);
         paddle2.invertPaddle();
         paddle2.isWallCollide(true);
     }
 
 
+    //ensures after winning, the player goes to Level Three
     @Override
     protected void addNextLevel(){
         myLogistics.addFutureScene("LevelThree");
     }
 
+    //resets and initializes the level
     @Override
     public void reset() throws Exception {
         super.reset();
