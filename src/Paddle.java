@@ -3,7 +3,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class Paddle extends Rectangle {
-    private int mySpeed = 250;
+    private int mySpeed = 300;
     private int myDirection;
     private Point myLocation;
     private boolean isWallCollideOn = true;

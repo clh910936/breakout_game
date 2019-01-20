@@ -23,11 +23,16 @@ public class MenuScene extends Scene {
         createAndAddTitle();
         createAndAddRules();
         createAndAddStart();
+        createAndAddBonusText();
     }
 
     private void handleKeyInput(KeyCode code) {
         if(code == KeyCode.SPACE){
             myLogistic.addFutureScene("LevelOne");
+            myLogistic.readyForSceneSwitch();
+        }
+        else if(code == KeyCode.B){
+            myLogistic.addFutureScene("BonusLevel");
             myLogistic.readyForSceneSwitch();
         }
     }
@@ -62,8 +67,18 @@ public class MenuScene extends Scene {
         spacebarText.setFont(new Font(15));
         spacebarText.setFill(Color.WHITE);
         spacebarText.isUnderline();
-        spacebarText.setCenter(Breakout.SIZE/2, 380);
+        spacebarText.setCenter(Breakout.SIZE/2, 370);
 
         myRoot.getChildren().add(spacebarText);
+    }
+
+    private void createAndAddBonusText(){
+        BetterText bonusLevelText = new BetterText("Press [B] to start Bonus level");
+        bonusLevelText.setFont(new Font(15));
+        bonusLevelText.setFill(Color.WHITE);
+        bonusLevelText.isUnderline();
+        bonusLevelText.setCenter(Breakout.SIZE/2, 390);
+
+        myRoot.getChildren().add(bonusLevelText);
     }
 }

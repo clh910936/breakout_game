@@ -59,6 +59,17 @@ public class LevelThreeScene extends LevelScene {
 
     @Override
     protected void addNextLevel(){
-        myLogistics.addFutureScene("Menu");
+        myLogistics.addFutureScene("BonusLevel");
+    }
+
+    @Override
+    protected void checkLevelWon(){
+        if(myBlocks.size() == 0){
+            myLogistics.addFutureScene("BeatTheGame");
+            addNextLevel();
+            myLogistics.nextLevel();
+            myLogistics.readyForSceneSwitch();
+
+        }
     }
 }

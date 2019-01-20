@@ -31,6 +31,7 @@ public class Breakout extends Application{
     private WinLoseScene myWinScene;
     private WinLoseScene myLoseScene;
     private LevelBonusScene myBonusLevelScene;
+    private WinLoseScene myBeatTheGameScene;
 
     //keep track of all the scenes
     private HashMap<String, Scene> myScenes;
@@ -108,6 +109,7 @@ public class Breakout extends Application{
         myScenes.put("Win", myWinScene);
         myScenes.put("Lose", myLoseScene);
         myScenes.put("Menu", myHomeScene);
+        myScenes.put("BeatTheGame", myBeatTheGameScene);
     }
 
 

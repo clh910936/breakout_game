@@ -42,6 +42,7 @@ public class LevelScene extends Scene {
         addPaddle();
         addBall();
         createLevel();
+        createAndAddHeader();
     }
 
 
@@ -51,10 +52,8 @@ public class LevelScene extends Scene {
         myBlocks.addAll(blocks);
         for (int k = 0; k < blocks.size(); k++) {
             myRoot.getChildren().add(blocks.get(k));
-
         }
 
-        createAndAddHeader();
     }
 
     //Create an ArrayList of Blocks for a level
@@ -167,7 +166,7 @@ public class LevelScene extends Scene {
 
 
     //needs to be accessed by LevelThreeScene
-    private void checkLevelWon(){
+    protected void checkLevelWon(){
         if(myBlocks.size() == 0){
             //TODO: addFutureScene Win
             myLogistics.addFutureScene("Win");
@@ -225,16 +224,16 @@ public class LevelScene extends Scene {
 
     private void checkForPowerUps(){
         int currentScore = myLogistics.getScore();
-        if(currentScore % 500 == 0 && myPowerUpsEarned.add(currentScore)){
-            addBall();
-        }
-        else if(currentScore % 1000 == 0 && myPowerUpsEarned.add(currentScore)){
-            for(int k = 0; k < myBalls.size(); k++){
-                myBalls.get(k).setSlowBall();
+        if(currentScore != 0) {     //prevents powerups from all being added at the beginning
+            if (currentScore % 500 == 0 && myPowerUpsEarned.add(currentScore)) {
+                addBall();
+            } else if (currentScore % 1000 == 0 && myPowerUpsEarned.add(currentScore)) {
+                for (int k = 0; k < myBalls.size(); k++) {
+                    myBalls.get(k).setSlowBall();
+                }
+            } else if (currentScore % 1500 == 0 && myPowerUpsEarned.add(currentScore)) {
+                myLogistics.addLife();
             }
-        }
-        else if(currentScore % 1500 == 0 && myPowerUpsEarned.add(currentScore)){
-            myLogistics.addLife();
         }
     }
 

@@ -9,6 +9,7 @@ import javafx.scene.text.Font;
 public class WinLoseScene extends Scene {
     private final String WIN = "Congratulations, you win!";
     private final String LOSE = "Game Over";
+    private final String BEAT_THE_GAME = "Congratulations, you beat the game!";
 
     private final Paint TEXT_COLOR = Color.WHITE;
 
@@ -31,8 +32,12 @@ public class WinLoseScene extends Scene {
             createWinLoseHeader(WIN);
             createSpaceBarText("Next Level");
         }
-        else{
+        else if(myWinLoseString.equals("lose")){
             createWinLoseHeader(LOSE);
+            createSpaceBarText("Menu");
+        }
+        else{
+            createWinLoseHeader(BEAT_THE_GAME);
             createSpaceBarText("Menu");
         }
         createScoreText();
