@@ -149,7 +149,8 @@ public class LevelScene extends Scene {
             Block currentBlock = myBlocks.get(k);
 
             if (ball.checkShapeCollisionAndFlipSpeed(currentBlock)) {
-                if (currentBlock.blockHitAndReturnIfDestroyed()) {
+                currentBlock.blockHit();
+                if (currentBlock.isBlockDestroyed()) {
                     removeBlock(k);
                     k -= 1;     //a block was removed so preventing k from indexing up
                 }

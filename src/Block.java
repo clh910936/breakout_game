@@ -1,13 +1,25 @@
+/**
+ * @author Carrie Hunner
+ * This class creates a rectangular block
+ * It keeps track of the "health" of the block, determines the corresponding color,
+ * and if the block is hit it increases the score in the Logistics class
+ *
+ * Dependent on Logistics class for logging the score increase that accompanies hitting
+ * a block
+ */
+
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class Block extends Rectangle {
-    public int myHealth;
     public static final double myHeight = 20;
     public static final double myWidth = 40;
-    public double myX;
-    public double myY;
+
+    private double myX;
+    private double myY;
+    private int myHealth;
+    private Logistics myLogistic;
 
     private final Paint ONE_HEALTH = Color.rgb(0, 188, 255);
     private final Paint TWO_HEALTH = Color.rgb(0, 255, 17);
@@ -15,8 +27,6 @@ public class Block extends Rectangle {
     private final Paint FOUR_HEALTH = Color.rgb(240, 150, 66);
     private final Paint FIVE_HEALTH = Color.rgb(200, 0, 0);
     private final Paint OUTLINE = Color.BLACK;
-    private Logistics myLogistic;
-
 
     Block(int health, Point point, Logistics logistic){
         myHealth = health;
@@ -24,8 +34,38 @@ public class Block extends Rectangle {
         myY = point.getY();
         myLogistic = logistic;
 
+        setBlockProperties();
 
-        //Setting Properties
+
+    }
+
+    /*
+    Public Methods
+     */
+
+    //Updates health and logistics score
+    public void blockHit(){
+        myHealth -= 1;
+        myLogistic.increaseScore(10);
+    }
+
+    //Returns true of block is destroyed, false otherwise
+    public boolean isBlockDestroyed(){
+        if(myHealth != 0){
+            this.setFill(determineColor());
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+    /*
+    Private Helper Methods
+     */
+
+    //Sets graphics of Block
+    private void setBlockProperties() {
         this.setWidth(myWidth);
         this.setHeight(myHeight);
         this.setStroke(OUTLINE);
@@ -50,20 +90,6 @@ public class Block extends Rectangle {
         }
         else{
             return FIVE_HEALTH;
-        }
-
-    }
-
-    public boolean blockHitAndReturnIfDestroyed(){
-        myHealth -= 1;
-        //TODO: DEAL WITH THIS - BACK TO 10
-        myLogistic.increaseScore(10);
-        if(myHealth != 0){
-            this.setFill(determineColor());
-            return false;
-        }
-        else{
-            return true;
         }
     }
 }

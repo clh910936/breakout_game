@@ -24,7 +24,7 @@ public class BetterText extends Text {
 
     }
 
-    //Sets the center of a text object 
+    //Sets the center of a text object
     public void setCenter(double x, double y){
         myWidth = this.getLayoutBounds().getWidth();
         myHeight = this.getLayoutBounds().getHeight();
