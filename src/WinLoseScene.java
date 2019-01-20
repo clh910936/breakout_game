@@ -1,3 +1,9 @@
+/**
+ * @author Carrie Hunner
+ * This class generates and updates the Win/Lose/BeatGame scene
+ * It is an extension of the scene class
+ */
+
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -10,15 +16,13 @@ public class WinLoseScene extends Scene {
     private final String WIN = "Congratulations, you win!";
     private final String LOSE = "Game Over";
     private final String BEAT_THE_GAME = "Congratulations, you beat the game!";
-
     private final Paint TEXT_COLOR = Color.WHITE;
 
     private String myWinLoseString;
     private Logistics myLogistic;
     private BetterText myScoreText;
 
-
-    public Group myRoot;
+    private Group myRoot;
 
 
     WinLoseScene(Group root, String string, Logistics logistic){
@@ -47,9 +51,14 @@ public class WinLoseScene extends Scene {
         createScoreText();
     }
 
+    /**
+     * Updates the Text containing the player's score
+     */
     public void updateScoreText(){
         myScoreText.setText("Final Score: " + myLogistic.getScore());
     }
+
+    //creates a header of the string input
     private void createWinLoseHeader(String header){
         BetterText congratsLine = new BetterText(header);
         congratsLine.setFont(new Font(20));
@@ -59,7 +68,7 @@ public class WinLoseScene extends Scene {
         myRoot.getChildren().add(congratsLine);
     }
 
-
+    //displays final score
     private void createScoreText(){
         myScoreText = new BetterText("Final Score: " + myLogistic.getScore());
         myScoreText.setFont(new Font(15));
@@ -69,6 +78,7 @@ public class WinLoseScene extends Scene {
         myRoot.getChildren().add(myScoreText);
     }
 
+    //creates the text instructing the player on how to continue
     private void createSpaceBarText(String text){
         BetterText spaceBarLine = new BetterText("Press Space Bar To Go To " + text);
         spaceBarLine.setFont(new Font(10));
@@ -77,6 +87,7 @@ public class WinLoseScene extends Scene {
         spaceBarLine.setCenter(200, 240);
         myRoot.getChildren().add(spaceBarLine);
     }
+
     private void handleKeyInput(KeyCode code) {
         if (code == KeyCode.SPACE) {
             myLogistic.setReadyForSceneSwitch();
@@ -88,6 +99,4 @@ public class WinLoseScene extends Scene {
             myLogistic.setReadyForSceneSwitch();
         }
     }
-
-
 }
