@@ -22,6 +22,7 @@ public class LevelScene extends Scene {
     protected ArrayList<Block> myBlocks = new ArrayList<>();
     protected ArrayList<Text> myText = new ArrayList<>();
 
+    protected ArrayList<Point> myAllBlockCoordinates = new ArrayList<>();
     private HashSet<Integer> myPowerUpsEarned;
 
     //need to be accessed by subclasses
@@ -34,6 +35,7 @@ public class LevelScene extends Scene {
     LevelScene(String fileName, Group root, Logistics logistic) throws Exception{
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
         this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+        makeAllBlockCoordinates();
         myFile = fileName;
         myLogistics = logistic;
         myRoot = root;
@@ -72,7 +74,7 @@ public class LevelScene extends Scene {
             String[] split = line.split(" ");
             int index = Integer.parseInt(split[0]);
             int health = Integer.parseInt(split[1]);
-            Point currentPoint = Breakout.myAllBlockCoordinates.get(index);
+            Point currentPoint = myAllBlockCoordinates.get(index);
 
             Block currentBlock = new Block(health, currentPoint, myLogistics);
             result.add(currentBlock);
@@ -260,6 +262,15 @@ public class LevelScene extends Scene {
         myText.clear();
 
         addAllChildren();
+    }
+
+    private void makeAllBlockCoordinates(){
+        for(int k = 0; k < Breakout.SIZE-2; k += Breakout.SIZE/20){
+            for(int j = 0; j < Breakout.SIZE; j += Breakout.SIZE/10){
+                Point temp = new Point(j, k);
+                myAllBlockCoordinates.add(temp);
+            }
+        }
     }
 
     private void handleKeyInput(KeyCode code){

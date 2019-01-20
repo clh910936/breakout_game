@@ -5,8 +5,7 @@ public class Logistics {
     private int myScore;
     private int myLivesLeft;
     private int myPointMultiplier;
-    //TODO: ask megan about naming this
-    private boolean timeForSceneSwitch;
+    private boolean isTimeForSceneSwitch;
     private ArrayList<String> myNextScenes;
 
     Logistics(){
@@ -20,7 +19,7 @@ public class Logistics {
         myLivesLeft = 2;
         myPointMultiplier = 1;
 
-        timeForSceneSwitch = false;
+        isTimeForSceneSwitch = false;
     }
 
     public void increaseScore(int score){
@@ -64,16 +63,16 @@ public class Logistics {
     }
 
     public void isReadyForSceneSwitch(){
-        timeForSceneSwitch = true;
+        isTimeForSceneSwitch = true;
     }
 
-    public boolean checkSceneSwitch(){
-        return timeForSceneSwitch;
+    public boolean isTimeForSceneSwitch(){
+        return isTimeForSceneSwitch;
     }
 
     //assumes there is a next scene set
     public String getNextScene(){
-        timeForSceneSwitch = false;
+        isTimeForSceneSwitch = false;
         return myNextScenes.remove(0);
     }
 

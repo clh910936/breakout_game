@@ -1,3 +1,10 @@
+/**
+ * @author Carrie Hunner
+ * This class drives the game and is dependent on every other class in the project
+ * It initializes its scenes, creates the levels, and then runs between them and updates
+ * the scenes accordingly
+ */
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -14,14 +21,13 @@ import java.util.HashMap;
 
 public class Breakout extends Application{
     //Background and Setup
-    public static final String TITLE = "Breakout";
-    public static final int SIZE = 400;
-    public static final int FRAMES_PER_SECOND = 60;
-    public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-    public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    public static final Paint BACKGROUND = Color.BLACK;
+    private static final String TITLE = "Breakout";
+    private static final int FRAMES_PER_SECOND = 60;
+    private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+    private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 
-    private Logistics myLogistics;
+    public static final int SIZE = 400;
+    public static final Paint BACKGROUND = Color.BLACK;
 
     //Scenes
     private MenuScene myHomeScene;
@@ -34,87 +40,52 @@ public class Breakout extends Application{
     private WinLoseScene myBeatTheGameScene;
     private boolean hasBeenReset;
 
-    //keep track of all the scenes
     private HashMap<String, Scene> myScenes;
 
-    //keeping track of current scene and scene type
-    private boolean myLevel = true;
+    //Other
     private Stage myStage;
-
-    //Scene Components
-    public static ArrayList<Point> myAllBlockCoordinates = new ArrayList<>();
+    private Logistics myLogistics;
 
 
+    //Initialize and setup the scenes
     @Override
     public void start(Stage stage) throws Exception {
-        //Initialize stuff
-        makeAllBlockCoordinates();
-
         myStage = stage;
         myLogistics = new Logistics();
         hasBeenReset = true;    //Doesn't need to reset at the very beginning
+
         initializeScenes();
 
         myStage.setScene(myScenes.get("Menu"));
         myStage.setTitle(TITLE);
         myStage.show();
 
-        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
-            try {
-                step(SECOND_DELAY, stage);
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        });
-        var animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play();
+        initializeAndStartAnimation(stage);
     }
 
+    //Runs the application
     public static void main(String args[]){
         launch(args);
     }
 
+    //Updates all the scenes and their children
     private void step(double elapsedTime, Stage stage) throws Exception {
-        if(myLogistics.checkSceneSwitch()){
-            String sceneKey = myLogistics.getNextScene();
-            System.out.println(sceneKey);
-            Scene nextScene = myScenes.get(sceneKey);
-            myStage.setScene(nextScene);
-            if(nextScene instanceof MenuScene){
-                hasBeenReset = false;
-            }
+        if(myLogistics.isTimeForSceneSwitch()){
+            handleSceneSwitch();
         }
 
         if(myStage.getScene() instanceof LevelScene){
-            LevelScene tempScene = (LevelScene) myStage.getScene();
-            tempScene.update(elapsedTime);
+            updateLevel(elapsedTime);
         }
         else if(myStage.getScene() instanceof WinLoseScene){
-            WinLoseScene tempScene = (WinLoseScene) myStage.getScene();
-            tempScene.updateScoreText();
+            updateWinLoseScene();
         }
         else if(myStage.getScene() instanceof MenuScene && !hasBeenReset){
-            myLogistics.reset();
-            myLevelOneScene.reset();
-            myLevelTwoScene.reset();
-            myLevelThreeScene.reset();
-            myBonusLevelScene.reset() ;
-
-
-            hasBeenReset = true;
+            resetScenesAndLogistics();
         }
-
     }
 
-
-    private void switchScene() {
-        String sceneKey = myLogistics.getNextScene();
-        Scene nextScene = myScenes.get(sceneKey);
-        myStage.setScene(nextScene);
-    }
-
+    //Creates all the scenes and adds them to myScenes HashMap
     private void initializeScenes() throws Exception {
         myLevelOneScene = new LevelOneScene("Level1.txt", new Group(), myLogistics);
         myLevelTwoScene = new LevelTwoScene("Level2.txt", new Group(), myLogistics);
@@ -136,16 +107,50 @@ public class Breakout extends Application{
         myScenes.put("BeatTheGame", myBeatTheGameScene);
     }
 
+    //Used when returning to the Menu screen and starting the game again
+    private void resetScenesAndLogistics() throws Exception {
+        myLogistics.reset();
+        myLevelOneScene.reset();
+        myLevelTwoScene.reset();
+        myLevelThreeScene.reset();
+        myBonusLevelScene.reset() ;
 
+        hasBeenReset = true;
+    }
 
-    //TODO: move to LevelScene
-    //Creating an Arraylist of all upper left corner points for Blocks
-    private void makeAllBlockCoordinates(){
-        for(int k = 0; k < SIZE-2; k += SIZE/20){
-            for(int j = 0; j < SIZE; j += SIZE/10){
-                Point temp = new Point(j, k);
-                myAllBlockCoordinates.add(temp);
-            }
+    private void updateWinLoseScene() {
+        WinLoseScene tempScene = (WinLoseScene) myStage.getScene();
+        tempScene.updateScoreText();
+    }
+
+    private void updateLevel(double elapsedTime) {
+        LevelScene tempScene = (LevelScene) myStage.getScene();
+        tempScene.update(elapsedTime);
+    }
+
+    //Switches to the next scene using Logistics Class
+    private void handleSceneSwitch() {
+        String sceneKey = myLogistics.getNextScene();
+        System.out.println(sceneKey);
+        Scene nextScene = myScenes.get(sceneKey);
+        myStage.setScene(nextScene);
+        if(nextScene instanceof MenuScene){
+            hasBeenReset = false;
         }
+    }
+
+
+    private void initializeAndStartAnimation(Stage stage) {
+        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> {
+            try {
+                step(SECOND_DELAY, stage);
+            } catch (Exception e1) {
+                e1.printStackTrace();
+            }
+        });
+        var animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+        animation.play();
     }
 }
