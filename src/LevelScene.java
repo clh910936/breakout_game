@@ -1,8 +1,14 @@
+/**
+ * @author Carrie Hunner
+ * This Class serves as a superclass for all the Level Scenes
+ * It sets up all the children within the scene, handles user input and powerups
+ * It is dependent on am instance of the Logistics class for several of its methods
+ */
+
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -12,9 +18,13 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
+//TODO: organize methods?
 public class LevelScene extends Scene {
+    //These variables need to be accessed by Level subclasses
     protected String myFile;
-    public Group myRoot;
+    protected Group myRoot;
+    protected double myElapsedTime;
+    protected Logistics myLogistics;
 
 
     protected ArrayList<Ball> myBalls= new ArrayList<>();
@@ -23,27 +33,24 @@ public class LevelScene extends Scene {
     protected ArrayList<Text> myText = new ArrayList<>();
 
     protected ArrayList<Point> myAllBlockCoordinates = new ArrayList<>();
+
+    //Specific to LevelScene class
     private HashSet<Integer> myPowerUpsEarned;
-
-    //need to be accessed by subclasses
-    protected double myElapsedTime;
-
-    protected Logistics myLogistics;
-
-    private final Paint HEADER_COLOR = Color.WHITE;
 
     LevelScene(String fileName, Group root, Logistics logistic) throws Exception{
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
         this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-        makeAllBlockCoordinates();
+
         myFile = fileName;
         myLogistics = logistic;
         myRoot = root;
         myPowerUpsEarned = new HashSet<>();
 
+        makeAllBlockCoordinates();
         addAllChildren();
     }
 
+    //adds all the graphics to the level
     private void addAllChildren() throws Exception {
         addPaddle();
         addBall();
@@ -53,8 +60,9 @@ public class LevelScene extends Scene {
 
 
     //This needs to be protected so it can be overrriden in LevelBonusScene
+    //Generates and adds all blocks to the level
     protected void createLevel() throws Exception {
-        ArrayList<Block> blocks = generateLevelBlocks();
+        ArrayList<Block> blocks = readFileAndGenerateCorrespondingBlocks();
         myBlocks.addAll(blocks);
         for (int k = 0; k < blocks.size(); k++) {
             myRoot.getChildren().add(blocks.get(k));
@@ -65,10 +73,9 @@ public class LevelScene extends Scene {
     //Create an ArrayList of Blocks for a level
     //The first number on the line will be the index of the coordinates to the block from the myAllBlockCoordinates array
     //The second number will be the health of the block
-    private ArrayList<Block> generateLevelBlocks() throws Exception{
+    private ArrayList<Block> readFileAndGenerateCorrespondingBlocks() throws Exception{
         ArrayList<Block> result = new ArrayList<>();
         BufferedReader in = new BufferedReader(new FileReader(myFile));
-        //TODO: Make this a method
         while(in.ready()) {
             String line = in.readLine();
             String[] split = line.split(" ");
@@ -82,18 +89,21 @@ public class LevelScene extends Scene {
         return result;
     }
 
+    //Adds a generic ball to the scene and the ArrayList
     public void addBall(){
         Ball tempBall = new Ball(myPaddles.get(0));
         myBalls.add(tempBall);
         myRoot.getChildren().add(tempBall);
     }
 
+    //adds a generic paddle to the scene and ArrayList
     public void addPaddle(){
         Paddle tempPaddle = new Paddle();
         myPaddles.add(tempPaddle);
         myRoot.getChildren().add(tempPaddle);
     }
 
+    //Updates all the children that change in the scene
     public void update(double elapsedTime){
         myElapsedTime = elapsedTime;
         updateBalls();
@@ -102,10 +112,11 @@ public class LevelScene extends Scene {
         checkForPowerUps();
     }
 
-    //Needs to be accessed by LevelThreeScene
-    protected void updateBalls(){
+    //Checks all balls for movement and collisions
+    private void updateBalls(){
         for(int k = 0; k < myBalls.size(); k++){
             Ball currentBall = myBalls.get(k);
+
             currentBall.move(myElapsedTime);
             checkAllCollisions(currentBall);
 
@@ -113,19 +124,24 @@ public class LevelScene extends Scene {
                 myBalls.remove(currentBall);
                 myRoot.getChildren().remove(currentBall);
 
-                if(myBalls.size() == 0){
-                    myLogistics.loseLife();
-                    if(checkLevelLost()){
-                        endLevelAddLoseScene();
-                    }
-                    else{
-                        addBall();
-                    }
-                }
+                checksAndDealsWithLifeLost();
             }
         }
     }
 
+    private void checksAndDealsWithLifeLost() {
+        if(myBalls.size() == 0){
+            myLogistics.loseLife();
+            if(checkLevelLost()){
+                endLevelAddLoseScene();
+            }
+            else{
+                addBall();
+            }
+        }
+    }
+
+    //Sets the Lose scene to be next and the menu after that
     private void endLevelAddLoseScene() {
         myLogistics.addFutureScene("Lose");
         myLogistics.addFutureScene("Menu");
@@ -133,6 +149,8 @@ public class LevelScene extends Scene {
         myLogistics.isReadyForSceneSwitch();
     }
 
+    //checks for collisions with walls, paddles, and blocks
+    //Overriden in Level 3
     protected void checkAllCollisions(Ball currentBall) {
         currentBall.checkWallCollision();
         checkPaddleCollision(currentBall);
@@ -160,26 +178,25 @@ public class LevelScene extends Scene {
         }
     }
 
+    //removes block from scene and myBlocks ArrayList
     private void removeBlock(int index){
         myRoot.getChildren().remove(myBlocks.get(index));
         myBlocks.remove(index);
     }
 
-    public ArrayList<Paddle> getPaddles(){
-        return myPaddles;
-    }
 
+    //Generates a random number between the two ints - inclusive
     //Needs to be available for BonusLevel and for cheatkeys
-    public int randomNumGen(int min, int max){
+    protected int randomNumGen(int min, int max){
         Random generator = new Random();
         return generator.nextInt(max-min+1) + min;
     }
 
 
+    //Checks if the level is won and adds the next level to the future scenes
     //needs to be accessed by LevelThreeScene
-    protected void checkLevelWon(){
+    private void checkLevelWon(){
         if(myBlocks.size() == 0){
-            //TODO: addFutureScene Win
             myLogistics.addFutureScene("Win");
             addNextLevel();
             myLogistics.nextLevel();
@@ -192,7 +209,7 @@ public class LevelScene extends Scene {
         return myLogistics.numLivesLeft() == 0;
     }
 
-
+    //score header
     private void createAndAddHeader(){
         Text levelText = new Text("Level: " + myLogistics.getLevel());
         levelText.setFont(new Font(15));
@@ -222,6 +239,7 @@ public class LevelScene extends Scene {
         myRoot.getChildren().add(livesText);
     }
 
+    //updates score header
     private void updateHeader(){
         myText.get(0).setText("Level: " + myLogistics.getLevel());
         myText.get(1).setText("Score: " + myLogistics.getScore());
@@ -229,10 +247,12 @@ public class LevelScene extends Scene {
     }
 
     //Overriden by each subclass
+    //Holds place in other methods where it needs to be called
     protected void addNextLevel(){
         myLogistics.addFutureScene("");
     }
 
+    //deals with powerups at 500, 100, 1500 pts
     private void checkForPowerUps(){
         int currentScore = myLogistics.getScore();
         if(currentScore != 0) {     //prevents powerups from all being added at the beginning
@@ -248,11 +268,10 @@ public class LevelScene extends Scene {
                 addBall();
                 myPowerUpsEarned.add(currentScore);
             }
-
-
         }
     }
 
+    //removes all children and resets everything
     public void reset() throws Exception {
         myRoot.getChildren().clear();
         myPowerUpsEarned.clear();
@@ -264,6 +283,7 @@ public class LevelScene extends Scene {
         addAllChildren();
     }
 
+    //generates all possible block coordinates - used in the creation of the Levels
     private void makeAllBlockCoordinates(){
         for(int k = 0; k < Breakout.SIZE-2; k += Breakout.SIZE/20){
             for(int j = 0; j < Breakout.SIZE; j += Breakout.SIZE/10){
@@ -274,6 +294,7 @@ public class LevelScene extends Scene {
     }
 
     private void handleKeyInput(KeyCode code){
+        //Paddle motion and ball release
         for(int k = 0; k < myPaddles.size(); k++) {
             Paddle currentPaddle = myPaddles.get(k);
 
@@ -292,8 +313,6 @@ public class LevelScene extends Scene {
                     currentPaddle.move(myElapsedTime, -1);
                 }
             }
-
-
         }
         //releases ball at start
         if (code == KeyCode.UP) {
@@ -358,5 +377,4 @@ public class LevelScene extends Scene {
             }
         }
     }
-
 }
