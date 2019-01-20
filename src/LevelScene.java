@@ -146,7 +146,7 @@ public class LevelScene extends Scene {
         myLogistics.addFutureScene("Lose");
         myLogistics.addFutureScene("Menu");
         myLogistics.resetLevels();
-        myLogistics.isReadyForSceneSwitch();
+        myLogistics.setReadyForSceneSwitch();
     }
 
     //checks for collisions with walls, paddles, and blocks
@@ -200,7 +200,7 @@ public class LevelScene extends Scene {
             myLogistics.addFutureScene("Win");
             addNextLevel();
             myLogistics.nextLevel();
-            myLogistics.isReadyForSceneSwitch();
+            myLogistics.setReadyForSceneSwitch();
         }
     }
 
@@ -352,7 +352,7 @@ public class LevelScene extends Scene {
         //Auto to nect level - skip win scene
         if(code == KeyCode.N){
             addNextLevel();
-            myLogistics.isReadyForSceneSwitch();
+            myLogistics.setReadyForSceneSwitch();
         }
         //Adds a life
         if(code == KeyCode.A){
@@ -367,7 +367,7 @@ public class LevelScene extends Scene {
         //return home
         if(code == KeyCode.H){
             myLogistics.setMenuNext();
-            myLogistics.isReadyForSceneSwitch();
+            myLogistics.setReadyForSceneSwitch();
         }
 
         //Speed up the balls

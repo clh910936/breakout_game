@@ -31,11 +31,11 @@ public class MenuScene extends Scene {
     private void handleKeyInput(KeyCode code) {
         if(code == KeyCode.SPACE){
             myLogistic.addFutureScene("LevelOne");
-            myLogistic.isReadyForSceneSwitch();
+            myLogistic.setReadyForSceneSwitch();
         }
         else if(code == KeyCode.B){
             myLogistic.addFutureScene("BonusLevel");
-            myLogistic.isReadyForSceneSwitch();
+            myLogistic.setReadyForSceneSwitch();
         }
     }
 

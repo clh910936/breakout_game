@@ -79,13 +79,13 @@ public class WinLoseScene extends Scene {
     }
     private void handleKeyInput(KeyCode code) {
         if (code == KeyCode.SPACE) {
-            myLogistic.isReadyForSceneSwitch();
+            myLogistic.setReadyForSceneSwitch();
         }
 
         //return home
         if(code == KeyCode.H){
             myLogistic.setMenuNext();
-            myLogistic.isReadyForSceneSwitch();
+            myLogistic.setReadyForSceneSwitch();
         }
     }
 

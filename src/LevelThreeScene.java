@@ -83,7 +83,7 @@ public class LevelThreeScene extends LevelScene {
             myLogistics.addFutureScene("BeatTheGame");
             addNextLevel();
             myLogistics.nextLevel();
-            myLogistics.isReadyForSceneSwitch();
+            myLogistics.setReadyForSceneSwitch();
 
         }
     }
