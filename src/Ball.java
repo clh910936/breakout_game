@@ -82,10 +82,12 @@ public class Ball extends Circle {
         myYSpeed = ySpeed;
     }
 
+    //flips the sign of the Xspeed
     public void flipXSpeedDirection(){
         myXSpeed *= -1;
     }
 
+    //flips the sign of the y speed
     public void flipYSpeedDirection(){
         myYSpeed *= -1;
     }
@@ -96,6 +98,7 @@ public class Ball extends Circle {
         this.setCenterY(myCenter.getY());
     }
 
+    //checks for wall collision and flips the speed
     public void checkWallCollision(){
         double x = myCenter.getX();
         double y = myCenter.getY();
