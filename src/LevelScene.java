@@ -107,7 +107,7 @@ public class LevelScene extends Scene {
             currentBall.move(myElapsedTime);
             checkAllCollisions(currentBall);
 
-            if(currentBall.checkLostBall()){
+            if(currentBall.isBallLost()){
                 myBalls.remove(currentBall);
                 myRoot.getChildren().remove(currentBall);
 
@@ -287,7 +287,7 @@ public class LevelScene extends Scene {
         if (code == KeyCode.UP) {
             for (int k = 0; k < myBalls.size(); k++) {
                 if (myBalls.get(k).isSticky()) {
-                    myBalls.get(k).flipSticky();
+                    myBalls.get(k).turnStickyOff();
                     break;
                 }
             }

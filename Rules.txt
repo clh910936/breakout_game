@@ -15,7 +15,7 @@ Powerups:
 	-every exact 1500 pts. another life is earned
 Levels Abilities:
 	-1: Paddle can teleport from one side to another when it hits a wall
-	-2: One normal paddle, One that does the opposite of the commands
+	-2: One normal paddle, One inverse command paddle, Ball speeds up
 	-3: Paddle never stops moving, keys only change the direction
 	- Bonus Level:Block pattern is randomly generated
 

@@ -1,7 +1,6 @@
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
 
 public class BouncyBlock extends Circle {
     private Point CENTER = new Point(200, 180);
@@ -25,7 +24,7 @@ public class BouncyBlock extends Circle {
     }
 
     public void ballHit(Ball ball){
-        ball.flipXSpeed();
-        ball.flipYSpeed();
+        ball.flipXSpeedDirection();
+        ball.flipYSpeedDirection();
     }
 }

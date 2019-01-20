@@ -58,7 +58,7 @@ public class MenuScene extends Scene {
             Text rules = new Text(line);
             rules.setFont(new Font(12));
             rules.setFill(Color.WHITE);
-            rules.setX(10);
+            rules.setX(5);
             rules.setY(yValue);
             myRoot.getChildren().add(rules);
         }

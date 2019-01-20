@@ -5,32 +5,40 @@ import javafx.scene.shape.Shape;
 
 public class Ball extends Circle {
     private Point myCenter;
-    private boolean mySticky;
-    private Paddle myPaddle;        //the paddle the ball starts on
-    private boolean isSlow = false;
-
+    private Paddle myPaddle;    //paddle the ball will start on
     private long myStartTimer;
-    private final long SLOW_TIME_LENGTH = 7000;
 
-    //TODO: figure out radius
-    public static final double RADIUS = 7;
+    //Optional properties
+    private boolean isSlow;
+    private boolean isSticky;   //is ball attached to paddle - used when a ball is added
+
     private int myXSpeed = -75;
     private int myYSpeed = -75;
     private int SLOW_SPEED = 50;
-
+    private final long SLOW_TIME_LENGTH = 7000;
     private final Paint ballColor = Color.AQUAMARINE;
     private final Paint ballOutlineColor = Color.BLACK;
 
+    public static final double RADIUS = 7;
+
     Ball(Paddle paddle){
+        myPaddle = paddle;
+
+        isSticky = true;
+        isSlow = false;
+
+        createAndSetBallGraphics();
+    }
+
+    /*
+    Methods that Initialize the Ball and Properties
+     */
+    private void createAndSetBallGraphics() {
         this.setFill(ballColor);
         this.setStroke(ballOutlineColor);
         this.setRadius(RADIUS);
-
-        mySticky = true;
-        myPaddle = paddle;
-
         calcStartLocation();
-        setLocation(myCenter);
+        setCenterLocation(myCenter);
     }
 
     private void calcStartLocation(){
@@ -41,35 +49,43 @@ public class Ball extends Circle {
 
     }
 
+    /*
+    Methods that are publicly accessible
+     */
+
+    /**
+     * Sets the ball's X direction speed
+     * @param xSpeed new x direction speed
+     *               Assumes negative number indicates moving left
+     *               Assumes positive number indicates moving right
+     */
     public void setXSpeed(int xSpeed){
         myXSpeed = xSpeed;
     }
+
+    /**
+     * Sets the ball's Y direction speed
+     * @param ySpeed new y direction speed
+     *               Assumes negative number means moving up
+     *               Assumes positive number means moving down
+     */
 
     public void setYSpeed(int ySpeed){
         myYSpeed = ySpeed;
     }
 
-    public void flipXSpeed(){
+    public void flipXSpeedDirection(){
         myXSpeed *= -1;
     }
 
-    public void flipYSpeed(){
+    public void flipYSpeedDirection(){
         myYSpeed *= -1;
     }
 
-
-    public void setLocation(Point point){
+    public void setCenterLocation(Point point){
         myCenter = point;
         this.setCenterX(myCenter.getX());
         this.setCenterY(myCenter.getY());
-    }
-
-    public int getXSpeed(){
-        return myXSpeed;
-    }
-
-    public int getYSpeed(){
-        return myYSpeed;
     }
 
     public void checkWallCollision(){
@@ -85,56 +101,66 @@ public class Ball extends Circle {
         }
     }
 
-    public boolean checkLostBall(){
+    //Determines if the ball has fallen off the bottom of the screen
+    public boolean isBallLost(){
         double y = myCenter.getY() + RADIUS;
         return y > Breakout.SIZE;
     }
 
+    //Moves the ball based on the speed instance variables and the time elapsed
+    //Sticky property checked to determine if ball should move with paddle or independently
     public void move(double elapsedTime){
-        //ball moves freely
-        if(!mySticky) {
+        //ball moves independently
+        if(!isSticky) {
             double newX = myCenter.getX() + myXSpeed * elapsedTime;
             double newY = myCenter.getY() + myYSpeed * elapsedTime;
             Point newPosition = new Point(newX, newY);
-            this.setLocation(newPosition);
+            this.setCenterLocation(newPosition);
         }
-        //Ball aligns with paddle
+        //Ball moves with paddle
         else{
             calcStartLocation();
-            setLocation(myCenter);
+            setCenterLocation(myCenter);
         }
+
+        //Ball Slow powerup is enabled
         if(isSlow){
-            if(System.currentTimeMillis() - myStartTimer > SLOW_TIME_LENGTH){
-                isSlow = false;
-                setYSpeed((int)Math.signum(myYSpeed) * 100);
-                setXSpeed((int)Math.signum(myXSpeed) * 100);
-            }
+            checkSlowTimer();
         }
     }
 
-    public void flipSticky(){
-        mySticky = false;
+
+    //Ball released from paddle and can be used independently
+    //Used in LevelScene when the up button is pushed
+    public void turnStickyOff(){
+        isSticky = false;
     }
 
     //used in LevelScene controls so the first ball found to be sticky is flipped
     public boolean isSticky(){
-        return mySticky;
+        return isSticky;
     }
 
+    //Checks if ball collides with shape
+    //Adjusts the speed signs accordingly
     public boolean checkShapeCollisionAndFlipSpeed(Shape shape){
         Shape tempShape = intersect(this, shape);
         double shapeHeight = tempShape.getBoundsInLocal().getHeight();
         double shapeWidth = tempShape.getBoundsInLocal().getWidth();
 
+        //Collides
         if(shapeHeight != -1 || shapeWidth != -1){
+            //Hit on left or right side
             if(shapeHeight > shapeWidth){
                 myXSpeed *= -1;
             }
+            //Hit perfectly
             if(shapeHeight == shapeWidth){
                 myXSpeed *= -1;
                 myYSpeed *= -1;
                 movementJump();
             }
+            //Hit on the top or bottom
             else{
                 myYSpeed *= -1;
             }
@@ -143,23 +169,40 @@ public class Ball extends Circle {
         return false;
     }
 
-    //skips the ball slightly in one direction to try to reduce glitches/getting stuck
-    private void movementJump(){
-        double newX = myCenter.getX() + Integer.signum(myXSpeed) * 3;
-        double newY = myCenter.getY() + Integer.signum(myYSpeed) * 3;
-        Point newPosition = new Point(newX, newY);
-        this.setLocation(newPosition);
-    }
-
+    //Turns on slow powerup
+    //Used in LevelScene PowerUps @1000 pts
     public void setSlowBall(){
         isSlow = true;
-        setXSpeed(SLOW_SPEED * (int)Math.signum(myXSpeed));
-        setYSpeed(SLOW_SPEED * (int)Math.signum(myYSpeed));
+        myXSpeed = SLOW_SPEED * (int)Math.signum(myXSpeed);
+        myYSpeed = SLOW_SPEED * (int)Math.signum(myYSpeed);
         myStartTimer = System.currentTimeMillis();
     }
 
+    //Increases ball speed by 10 - used in cheat key
     public void increaseSpeed(){
         myXSpeed = (int)Math.signum(myXSpeed) * (Math.abs(myXSpeed) + 10);
         myYSpeed = (int)Math.signum(myYSpeed) * (Math.abs(myYSpeed) + 10);
+    }
+
+    /*
+    Private Helper Methods
+     */
+
+    //checks if slow powerup is over
+    private void checkSlowTimer() {
+        if(System.currentTimeMillis() - myStartTimer > SLOW_TIME_LENGTH){
+            isSlow = false;
+            myYSpeed = (int)Math.signum(myYSpeed) * 100;
+            myXSpeed = (int)Math.signum(myXSpeed) * 100;
+        }
+    }
+
+
+    //skips the ball slightly in one direction to reduce glitches/getting stuck
+    private void movementJump(){
+        double newX = myCenter.getX() + Integer.signum(myXSpeed) * 5;
+        double newY = myCenter.getY() + Integer.signum(myYSpeed) * 5;
+        Point newPosition = new Point(newX, newY);
+        this.setCenterLocation(newPosition);
     }
 }
