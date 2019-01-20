@@ -2,7 +2,7 @@ game Source Code
 ===
 **Author:** Carrie Hunner  
 **Date Started:** 1/12/19  
-**Date Finished:** 1/20/19
+**Date Finished:** 1/20/19  
 **Estimated Number of Hours:** 
 Put your source code here.
 

@@ -349,7 +349,7 @@ public class LevelScene extends Scene {
             endLevelAddLoseScene();
         }
 
-        //Auto to nect level - skip win scene
+        //Auto to next level - skip win scene
         if(code == KeyCode.N){
             addNextLevel();
             myLogistics.setReadyForSceneSwitch();
