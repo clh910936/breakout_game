@@ -1,3 +1,11 @@
+/**
+ * @author Carrie Hunner
+ * This class is used to create a ball and set its properties and physics
+ * It is dependent on a paddle input such that whenever a ball is added, it starts
+ * by being attached to the paddle.
+ *
+ */
+
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
