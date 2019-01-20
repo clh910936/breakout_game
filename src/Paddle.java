@@ -1,27 +1,39 @@
+/**
+ * @author Carrie Hunner
+ * Paddle Class creates a paddle object and sets its properties.
+ * It has three abilities that can be turned on and off through boolean
+ * variables: inverse Paddle, wall collision, and constant moving.
+ */
+
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
 
 public class Paddle extends Rectangle {
+
+    private final double myY = Breakout.SIZE - HEIGHT;
+    private static final double WIDTH = 50.0;
+    private static final double HEIGHT = 10.0;
+    private static final Paint paddleFill = Color.CORAL;
+    private static final Paint paddleStroke = Color.BLACK;
+
     private int mySpeed = 350;
     private int myDirection;
     private Point myLocation;
-    private boolean isWallCollideOn = true;
-    private boolean isInvertPaddle = false;
-    private boolean isConstantMovePaddle = false;
-    private final double myY = Breakout.SIZE - HEIGHT;
+    private boolean isWallCollideOn;
+    private boolean isInvertPaddle;
+    private boolean isConstantMovePaddle;
 
-    public static final double WIDTH = 50.0;
-    public static final double HEIGHT = 10.0;
-
-    private static final Paint paddleFill = Color.CORAL;
-    private static final Paint paddleStroke = Color.BLACK;
 
     Paddle(){
         this.setHeight(HEIGHT);
         this.setWidth(WIDTH);
         this.setFill(paddleFill);
         this.setStroke(paddleStroke);
+
+        isWallCollideOn = true;
+        isInvertPaddle = false;
+        isConstantMovePaddle = false;
 
         setDirection(0);
         calcAndSetStartLocation();
@@ -32,25 +44,42 @@ public class Paddle extends Rectangle {
         this.setLocation(x);
     }
 
+    /**
+     * Sets the speed value of the paddle
+     * @param speed int value of the desired speed
+     *              Assumes @param speed has signs indicating direction
+     */
     public void setSpeed(int speed){
         mySpeed = speed;
     }
 
     /**
-     *
+     *sets the direction of the paddle
      * @param direction 1 for right, -1 for left, 0 for not moving
      */
     public void setDirection(int direction){
         myDirection = direction;
     }
 
-    //Y never changes so don't need to change that
+
+    /**
+     * Sets the location of the X value of the paddle
+     * Assumes paddle doesn't move vertically so Y value never changes
+     * @param newX double value of the desired X location for upper left corner
+     *             of the paddle
+     */
     public void setLocation(double newX){
         myLocation = new Point(newX, myY);
         this.setX(newX);
         this.setY(myY);
     }
 
+    /**
+     * Moves the paddle after checking and accounting for all the special abilities
+     * This method is used when the paddle is not constantly moving
+     * @param elapsedTime double indicating the amount of time that's passed
+     * @param direction int indicating direction of paddle movement, 1 is right and -1 is left
+     */
     public void move(double elapsedTime, int direction){
 
         //inverted paddle needs to be 100% flipped in speed and key direction- problems were solved doing this
@@ -72,7 +101,10 @@ public class Paddle extends Rectangle {
         setLocation(newX);
     }
 
-    //used for a constant move paddle
+    /**
+     * Moves the paddle and flips directions if it collides with the edge of the screen
+     * @param elapsedTime double indicating the amount of time passed
+     */
     public void move(double elapsedTime){
         if(checkLeftWallCollision()){
             setDirection(1);
@@ -96,6 +128,7 @@ public class Paddle extends Rectangle {
         return false;
     }
 
+    //used for the teleporting paddle ability
     private void jumpToOtherWall(){
         double xLeft = myLocation.getX();
         double xRight = xLeft + WIDTH;
@@ -108,31 +141,52 @@ public class Paddle extends Rectangle {
         }
     }
 
+    /**
+     *
+     * @param arg boolean determining if the paddle will collide with walls
+     *            True: paddle will collide with walls
+     *            False: paddle will teleport to opposite wall if it makes contact
+     */
     public void isWallCollide(boolean arg){
         isWallCollideOn = arg;
     }
 
 
     //used by ball to determine where it should start/move
+
+    /**
+     * @return Point location of the upper left corner of the paddle
+     */
     public Point getLocation(){
         return myLocation;
     }
 
-    //used by level2 scene
-    public void flipSpeed(){
-        mySpeed *= -1;
-    }
-
+    /**
+     * Turns on invert paddle effect
+     * The paddle will now respond inversely to user input
+     */
     public void invertPaddle(){
         isInvertPaddle = true;
     }
 
     //used by level 3
+
+    /**
+     * Turns on the constant moving effect
+     * The paddle will now be constantly in motion and
+     * will only use player input to change directions
+     */
     public void setConstantMovePaddle(){
         isConstantMovePaddle = true;
     }
 
     //used in LevelScene
+
+    /**
+     * @return
+     *      True: it's in constant motion
+     *      False: it's not in constant motion
+     */
     public boolean isConstantMove(){
         return isConstantMovePaddle;
     }
