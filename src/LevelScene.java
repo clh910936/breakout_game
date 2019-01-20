@@ -195,7 +195,7 @@ public class LevelScene extends Scene {
 
     //Checks if the level is won and adds the next level to the future scenes
     //needs to be accessed by LevelThreeScene
-    private void checkLevelWon(){
+    protected void checkLevelWon(){
         if(myBlocks.size() == 0){
             myLogistics.addFutureScene("Win");
             addNextLevel();
