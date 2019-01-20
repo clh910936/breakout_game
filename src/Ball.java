@@ -44,6 +44,7 @@ public class Ball extends Circle {
     public void setXSpeed(int xSpeed){
         myXSpeed = xSpeed;
     }
+
     public void setYSpeed(int ySpeed){
         myYSpeed = ySpeed;
     }
@@ -152,8 +153,13 @@ public class Ball extends Circle {
 
     public void setSlowBall(){
         isSlow = true;
-        setXSpeed(SLOW_SPEED);
-        setYSpeed(SLOW_SPEED);
+        setXSpeed(SLOW_SPEED * (int)Math.signum(myXSpeed));
+        setYSpeed(SLOW_SPEED * (int)Math.signum(myYSpeed));
         myStartTimer = System.currentTimeMillis();
+    }
+
+    public void increaseSpeed(){
+        myXSpeed = (int)Math.signum(myXSpeed) * (Math.abs(myXSpeed) + 10);
+        myYSpeed = (int)Math.signum(myYSpeed) * (Math.abs(myYSpeed) + 10);
     }
 }

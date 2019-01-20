@@ -339,7 +339,12 @@ public class LevelScene extends Scene {
             myLogistics.isReadyForSceneSwitch();
         }
 
-        //
+        //Speed up the balls
+        if(code == KeyCode.S){
+            for(int k = 0; k <myBalls.size(); k++){
+                myBalls.get(k).increaseSpeed();
+            }
+        }
     }
 
 }
