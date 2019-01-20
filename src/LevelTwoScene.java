@@ -10,8 +10,20 @@ public class LevelTwoScene extends LevelScene {
 
     LevelTwoScene(String fileName, Group root, Logistics logistic) throws Exception {
         super(fileName, root, logistic);
+        initializeLevelTwo();
+    }
+
+    private void initializeLevelTwo() {
         addPaddle();
         setupPaddles();
+        increaseBallSpeed();
+    }
+
+    private void increaseBallSpeed() {
+        for(int k = 0; k < myBalls.size(); k++){
+            myBalls.get(k).setYSpeed(-100);
+            myBalls.get(k).setXSpeed(-100);
+        }
     }
 
     private void setupPaddles(){
@@ -34,7 +46,6 @@ public class LevelTwoScene extends LevelScene {
     public void reset() throws Exception {
         super.reset();
 
-        addPaddle();
-        setupPaddles();
+        initializeLevelTwo();
     }
 }

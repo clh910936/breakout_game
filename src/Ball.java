@@ -14,8 +14,8 @@ public class Ball extends Circle {
 
     //TODO: figure out radius
     public static final double RADIUS = 7;
-    private int myXSpeed = -100;
-    private int myYSpeed = -100;
+    private int myXSpeed = -75;
+    private int myYSpeed = -75;
     private int SLOW_SPEED = 50;
 
     private final Paint ballColor = Color.AQUAMARINE;

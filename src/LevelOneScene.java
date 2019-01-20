@@ -9,10 +9,6 @@ public class LevelOneScene extends LevelScene {
         turnOffPaddleWallCollide();
     }
 
-    private void initializeLevelOne(){
-        turnOffPaddleWallCollide();
-    }
-
     //Sets paddle to not hit walls - go around the corner
     private void turnOffPaddleWallCollide(){
         for(int k = 0; k < myPaddles.size(); k++){

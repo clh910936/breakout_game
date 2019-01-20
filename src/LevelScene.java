@@ -114,10 +114,7 @@ public class LevelScene extends Scene {
                 if(myBalls.size() == 0){
                     myLogistics.loseLife();
                     if(checkLevelLost()){
-                        myLogistics.addFutureScene("Lose");
-                        myLogistics.addFutureScene("Menu");
-                        myLogistics.resetLevels();
-                        myLogistics.readyForSceneSwitch();
+                        endLevelAddLoseScene();
                     }
                     else{
                         addBall();
@@ -125,6 +122,13 @@ public class LevelScene extends Scene {
                 }
             }
         }
+    }
+
+    private void endLevelAddLoseScene() {
+        myLogistics.addFutureScene("Lose");
+        myLogistics.addFutureScene("Menu");
+        myLogistics.resetLevels();
+        myLogistics.isReadyForSceneSwitch();
     }
 
     protected void checkAllCollisions(Ball currentBall) {
@@ -176,7 +180,7 @@ public class LevelScene extends Scene {
             myLogistics.addFutureScene("Win");
             addNextLevel();
             myLogistics.nextLevel();
-            myLogistics.readyForSceneSwitch();
+            myLogistics.isReadyForSceneSwitch();
         }
     }
 
@@ -302,13 +306,25 @@ public class LevelScene extends Scene {
             addBall();
         }
 
-        //Clears blocks and checks if it wins - it will
-        if(code == KeyCode.N){
+        //Auto wins the level
+        if(code == KeyCode.W){
             myBlocks.clear();
             myRoot.getChildren().clear();
         }
-        //Adds a life
+
+        //Auto loses the level
         if(code == KeyCode.L){
+            myLogistics.loseAllLives();
+            endLevelAddLoseScene();
+        }
+
+        //Auto to nect level - skip win scene
+        if(code == KeyCode.N){
+            addNextLevel();
+            myLogistics.isReadyForSceneSwitch();
+        }
+        //Adds a life
+        if(code == KeyCode.A){
             myLogistics.addLife();
         }
 
@@ -316,6 +332,14 @@ public class LevelScene extends Scene {
         if(code == KeyCode.M){
             myLogistics.flipPointMultiplier();
         }
+
+        //return home
+        if(code == KeyCode.H){
+            myLogistics.setMenuNext();
+            myLogistics.isReadyForSceneSwitch();
+        }
+
+        //
     }
 
 }

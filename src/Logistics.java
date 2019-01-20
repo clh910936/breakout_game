@@ -63,7 +63,7 @@ public class Logistics {
         myNextScenes.add(name);
     }
 
-    public void readyForSceneSwitch(){
+    public void isReadyForSceneSwitch(){
         timeForSceneSwitch = true;
     }
 
@@ -89,6 +89,17 @@ public class Logistics {
 
     public void reset(){
         initializeAllVariables();
+        myNextScenes.clear();
+    }
+
+    //Used for "M" cheat key to go directly to the menu
+    public void setMenuNext(){
+        myNextScenes.add(0, "Menu");
+    }
+
+    //used in cheats to skip to the end of the level
+    public void loseAllLives(){
+        myLivesLeft = 0;
     }
 }
 

@@ -6,9 +6,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.io.IOException;
 
 public class MenuScene extends Scene {
     private Group myRoot;
@@ -33,11 +31,11 @@ public class MenuScene extends Scene {
     private void handleKeyInput(KeyCode code) {
         if(code == KeyCode.SPACE){
             myLogistic.addFutureScene("LevelOne");
-            myLogistic.readyForSceneSwitch();
+            myLogistic.isReadyForSceneSwitch();
         }
         else if(code == KeyCode.B){
             myLogistic.addFutureScene("BonusLevel");
-            myLogistic.readyForSceneSwitch();
+            myLogistic.isReadyForSceneSwitch();
         }
     }
 

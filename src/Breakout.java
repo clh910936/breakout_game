@@ -96,11 +96,12 @@ public class Breakout extends Application{
             tempScene.updateScoreText();
         }
         else if(myStage.getScene() instanceof MenuScene && !hasBeenReset){
+            myLogistics.reset();
             myLevelOneScene.reset();
             myLevelTwoScene.reset();
             myLevelThreeScene.reset();
             myBonusLevelScene.reset() ;
-            myLogistics.reset();
+
 
             hasBeenReset = true;
         }
