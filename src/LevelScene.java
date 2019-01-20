@@ -52,8 +52,8 @@ public class LevelScene extends Scene {
     }
 
 
-    //This needs to be public so it can be overrriden in LevelBonusScene
-    public void createLevel() throws Exception {
+    //This needs to be protected so it can be overrriden in LevelBonusScene
+    protected void createLevel() throws Exception {
         ArrayList<Block> blocks = generateLevelBlocks();
         myBlocks.addAll(blocks);
         for (int k = 0; k < blocks.size(); k++) {

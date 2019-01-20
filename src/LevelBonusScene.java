@@ -1,3 +1,9 @@
+/**
+ * @author Carrie Hunner
+ * This class is an extension of LevelScene
+ * It creates a level of randomly generated blocksd
+ */
+
 import javafx.scene.Group;
 import java.util.HashSet;
 
@@ -8,12 +14,18 @@ public class LevelBonusScene extends LevelScene {
 
     }
 
+    //Generates a random number of blocks at random coordinates with random health to create the level
+    //Overrides the createLevel() in LevelScene
     @Override
     public void createLevel(){
-        int numBlocks = randomNumGen(15, 179);
+        //numbers chosen so the whole screen can't be too full or too empty
+        int numBlocks = randomNumGen(15, 149);
         HashSet<Integer> points = new HashSet<>();
 
-        //TODO: make method
+        generateAndAddRandomBlocks(numBlocks, points);
+    }
+
+    private void generateAndAddRandomBlocks(int numBlocks, HashSet<Integer> points) {
         while(points.size() < numBlocks){
             int coordinatesIndex = randomNumGen(10, 159);   //ignoring the topmost row for the score header
             if(points.add(coordinatesIndex)){
@@ -25,11 +37,9 @@ public class LevelBonusScene extends LevelScene {
         }
     }
 
+    //ensures the Menu is the scene after the bonus level Win/Lose scene
     @Override
     protected void addNextLevel(){
         myLogistics.addFutureScene("Menu");
     }
-
-
-
 }
