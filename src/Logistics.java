@@ -14,6 +14,12 @@ public class Logistics {
     private boolean isTimeForSceneSwitch;
     private ArrayList<String> myNextScenes;
 
+    /**
+     * Initializes all of the variables to their starting values
+     * Level: 1
+     * Score: 0
+     * Lives Left: 2
+     */
     Logistics(){
         initializeAllVariables();
         myNextScenes = new ArrayList<>();
@@ -113,12 +119,20 @@ public class Logistics {
 
     //returns the string of the next scene on the ArrayList
     //assumes there is a next scene set
+
+    /**
+     * Turns off being ready for a scene switch and returns next scene
+     * @return String: name of the next scene corresponding to the Key of that scene
+     * in Breakout's HashMap containing all the scenes
+     */
     public String getNextScene(){
         isTimeForSceneSwitch = false;
         return myNextScenes.remove(0);
     }
 
-    //Turns on/off the point multiplier
+    /**
+     * Flips the point multiplier on/off
+     */
     public void flipPointMultiplier(){
         if(myPointMultiplier == 1){
             myPointMultiplier = 5;
@@ -128,20 +142,28 @@ public class Logistics {
         }
     }
 
-    //resets the Logistics class
+    /**
+     * Re-initializes all the variables to their starting values.
+     * Clears the list of future scenes
+     */
     public void reset(){
         initializeAllVariables();
         myNextScenes.clear();
     }
 
-    //Used for "M" cheat key to go directly to the menu
-    //assumes that Breakout will call to clear the rest of the scenes on the ArrayList
+    /**
+     * Puts the Menu as the next scene.
+     * Used for the [M] cheat key.
+     * assumes that Breakout will call to clear the rest of the scenes on the ArrayList.
+     */
     public void setMenuNext(){
         myNextScenes.add(0, "Menu");
     }
 
-    //sets lives to 0
-    //used in cheats to skip to the end of the level
+    /**
+     * Removes all remaining lives.
+     * used in cheats to skip to the end of the level.
+     */
     public void loseAllLives(){
         myLivesLeft = 0;
     }
