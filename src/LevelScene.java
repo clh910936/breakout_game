@@ -166,7 +166,7 @@ public class LevelScene extends Scene {
     //checks for collisions with walls, paddles, and blocks
     //Overriden in Level 3
     protected void checkAllCollisions(Ball currentBall) {
-        currentBall.checkWallCollision();
+        currentBall.checkAndHandleWallCollision();
         checkPaddleCollision(currentBall);
         checkBlockCollision(currentBall);
     }

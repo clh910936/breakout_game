@@ -54,11 +54,11 @@ public class Ball extends Circle {
         this.setFill(ballColor);
         this.setStroke(ballOutlineColor);
         this.setRadius(RADIUS);
-        calcStartLocation();
+        calcLocationWithPaddle();
         setCenterLocation(myCenter);
     }
 
-    private void calcStartLocation(){
+    private void calcLocationWithPaddle(){
         Point paddlePoint = myPaddle.getLocation();
         double x = paddlePoint.getX() + myPaddle.getWidth()/2;
         double y = paddlePoint.getY() - RADIUS;
@@ -128,7 +128,7 @@ public class Ball extends Circle {
      * Checks if the ball collides with any of the edges of the screen.
      * It then adjusts the direction of the ball's speed appropriately.
      */
-    public void checkWallCollision(){
+    public void checkAndHandleWallCollision(){
         double x = myCenter.getX();
         double y = myCenter.getY();
 
@@ -167,7 +167,7 @@ public class Ball extends Circle {
         }
         //Ball moves with paddle
         else{
-            calcStartLocation();
+            calcLocationWithPaddle();
             setCenterLocation(myCenter);
         }
 
