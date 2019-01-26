@@ -25,6 +25,15 @@ public class WinLoseScene extends Scene {
     private Group myRoot;
 
 
+    /**
+     * Creates and initializes the scene
+     * @param root: root of the program
+     * @param string: determines if the scene is win, lose, or beat game
+     *              "win" - generates a win scene
+     *              "lose" - generates a lose scene
+     *              "" (any other string) - generates a beat the game scene
+     * @param logistic: instance of the Logistics class used by other classes
+     */
     WinLoseScene(Group root, String string, Logistics logistic){
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
         this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
