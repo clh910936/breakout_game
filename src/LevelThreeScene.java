@@ -12,6 +12,12 @@ import javafx.scene.shape.Shape;
 public class LevelThreeScene extends LevelScene {
     private BouncyBlock myBouncyBlock;
 
+    /**
+     *calls the LevelScene constructor and sets up the level
+     * @param fileName: name of the .txt file to read for generating the blocks
+     * @param root: root of the program
+     * @param logistic: instance of logistics class used by other classes
+     */
     LevelThreeScene(String fileName, Group root, Logistics logistic) throws Exception {
         super(fileName, root, logistic);
         initializeLevelThree();
@@ -33,7 +39,10 @@ public class LevelThreeScene extends LevelScene {
         checkBouncyBlockCollision(ball);
     }
 
-    //Adjusts the update for the paddle being in constant motion
+    /**
+     * Adjusts the update for the paddle being in constant motion
+     * @param elapsedTime: double of the amount if time passed
+     */
     @Override
     public void update(double elapsedTime){
         super.update(elapsedTime);
@@ -88,6 +97,9 @@ public class LevelThreeScene extends LevelScene {
         }
     }
 
+    /**
+     * Calls the LevelScene reset and re-initializes level three
+     */
     @Override
     public void reset() throws Exception {
         super.reset();

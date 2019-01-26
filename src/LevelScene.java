@@ -37,6 +37,7 @@ public class LevelScene extends Scene {
     private HashSet<Integer> myPowerUpsEarned;
 
     /**
+     * Sets all of the instance variables and sets up the elements of the level
      * @param fileName: name of the .txt file to read for generating the blocks
      * @param root: root of the program
      * @param logistic: instance of logistics class used by other classes
