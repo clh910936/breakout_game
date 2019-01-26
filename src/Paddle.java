@@ -25,6 +25,10 @@ public class Paddle extends Rectangle {
     private boolean isConstantMovePaddle;
 
 
+    /**
+     * Sets the graphics of the paddle and initializes all the abilities
+     * to be turned off.
+     */
     Paddle(){
         this.setHeight(HEIGHT);
         this.setWidth(WIDTH);
