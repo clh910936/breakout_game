@@ -3,6 +3,7 @@
  * This class is used to create a ball and set its properties and physics.
  * It extends the Circle class to use its graphics and location methods.
  *
+ * @example: Ball myBall = new Ball(paddle_1);
  */
 
 import javafx.scene.paint.Color;
@@ -111,6 +112,10 @@ public class Ball extends Circle {
         myYSpeed *= -1;
     }
 
+    /**
+     * Sets the center of the ball using a point for the parameter.
+     * @param point: desired new center point location
+     */
     public void setCenterLocation(Point point){
         myCenter = point;
         this.setCenterX(myCenter.getX());
@@ -118,6 +123,11 @@ public class Ball extends Circle {
     }
 
     //checks for wall collision and flips the speed
+
+    /**
+     * Checks if the ball collides with any of the edges of the screen.
+     * It then adjusts the direction of the ball's speed appropriately.
+     */
     public void checkWallCollision(){
         double x = myCenter.getX();
         double y = myCenter.getY();
@@ -131,14 +141,22 @@ public class Ball extends Circle {
         }
     }
 
-    //Determines if the ball has fallen off the bottom of the screen
+    /**
+     * Checks if the ball has fallen off the bottom of the screen
+     * @return boolean: returns true if the ball has fallen off,
+     *              false if it didn't
+     */
     public boolean isBallLost(){
         double y = myCenter.getY() + RADIUS;
         return y > Breakout.SIZE;
     }
 
-    //Moves the ball based on the speed instance variables and the time elapsed
-    //Sticky property checked to determine if ball should move with paddle or independently
+    /**
+     * Moves the ball based on the speed and the time elapsed.
+     * It also checks if the ball is sticky and if it is, it moves the ball
+     * with its corresponding paddle as opposed to independently.
+     * @param elapsedTime: amount of time passed
+     */
     public void move(double elapsedTime){
         //ball moves independently
         if(!isSticky) {
@@ -159,20 +177,34 @@ public class Ball extends Circle {
         }
     }
 
-
-    //Ball released from paddle and can be used independently
-    //Used in LevelScene when the up button is pushed
+    /**
+     * Releases the ball from the paddle.
+     * It is now able to move independently.
+     * Does this by switching the instance variable associated with the sticky
+     * paddle to false;
+     */
     public void turnStickyOff(){
         isSticky = false;
     }
 
-    //used in LevelScene controls so the first ball found to be sticky is flipped
+    /**
+     * Checks if the ball currently has the sticky property enabled
+     * @return boolean: if true, the ball is sticky. if false, it is not sticky
+     */
     public boolean isSticky(){
         return isSticky;
     }
 
-    //Checks if ball collides with shape
-    //Adjusts the speed signs accordingly
+    /**
+     * Checks if the ball and the shape parameter collide by using the shape's method intersect.
+     * If they do collide, the shape formed by the collision is checked what is bigger: its height or width.
+     * If the width is bigger, then the ball likely collided on top or bottom and the Y speed direction of
+     * the ball is flipped. Conversely if the height is bigger, the X speed direction is flipped.
+     *
+     * This can be used to check for Block, Paddle, or any other class that extends shape.
+     * @param shape: shape the ball needs to be checked with for collision
+     * @return boolean: true if collided, false if not collided
+     */
     public boolean checkShapeCollisionAndFlipSpeed(Shape shape){
         Shape tempShape = intersect(this, shape);
         double shapeHeight = tempShape.getBoundsInLocal().getHeight();
@@ -199,8 +231,10 @@ public class Ball extends Circle {
         return false;
     }
 
-    //Turns on slow powerup
-    //Used in LevelScene PowerUps @1000 pts
+    /**
+     * Sets the ball to slow speed.
+     * This is used to start the slow powerup.
+     */
     public void setSlowBall(){
         isSlow = true;
         myXSpeed = SLOW_SPEED * (int)Math.signum(myXSpeed);
@@ -208,7 +242,10 @@ public class Ball extends Circle {
         myStartTimer = System.currentTimeMillis();
     }
 
-    //Increases ball speed by 10 - used in cheat key
+    /**
+     * This increases the ball speed by 10 every time called.
+     * It is currently used for a cheat key.
+     */
     public void increaseSpeed(){
         myXSpeed = (int)Math.signum(myXSpeed) * (Math.abs(myXSpeed) + 10);
         myYSpeed = (int)Math.signum(myYSpeed) * (Math.abs(myYSpeed) + 10);
