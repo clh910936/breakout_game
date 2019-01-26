@@ -13,6 +13,12 @@ public class LevelTwoScene extends LevelScene {
     private final double PADDLE_ONE_X_START = 125;
     private final double PADDLE_TWO_X_START = 225;
 
+    /**
+     *Calls LevelScene constructor and initializes LevelTwoScene
+     * @param fileName: name of the .txt file to read for generating the blocks
+     * @param root: root of the program
+     * @param logistic: instance of logistics class used by other classes
+     */
     LevelTwoScene(String fileName, Group root, Logistics logistic) throws Exception {
         super(fileName, root, logistic);
         initializeLevelTwo();
@@ -49,11 +55,12 @@ public class LevelTwoScene extends LevelScene {
         myLogistics.addFutureScene("LevelThree");
     }
 
-    //resets and initializes the level
+    /**
+     * Calls the LevelScene reset() and re-initializes LevelTwo
+     */
     @Override
     public void reset() throws Exception {
         super.reset();
-
         initializeLevelTwo();
     }
 }
