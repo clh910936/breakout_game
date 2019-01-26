@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
-//TODO: organize methods?
 public class LevelScene extends Scene {
     //These variables need to be accessed by Level subclasses
     protected String myFile;
@@ -37,6 +36,11 @@ public class LevelScene extends Scene {
     //Specific to LevelScene class
     private HashSet<Integer> myPowerUpsEarned;
 
+    /**
+     * @param fileName: name of the .txt file to read for generating the blocks
+     * @param root: root of the program
+     * @param logistic: instance of logistics class used by other classes
+     */
     LevelScene(String fileName, Group root, Logistics logistic) throws Exception{
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
         this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
@@ -89,21 +93,30 @@ public class LevelScene extends Scene {
         return result;
     }
 
-    //Adds a generic ball to the scene and the ArrayList
+
+    /**
+     * Adds a ball to the scene
+     */
     public void addBall(){
         Ball tempBall = new Ball(myPaddles.get(0));
         myBalls.add(tempBall);
         myRoot.getChildren().add(tempBall);
     }
 
-    //adds a generic paddle to the scene and ArrayList
+    /**
+     * adds a generic paddle to the scene and ArrayList
+     */
     public void addPaddle(){
         Paddle tempPaddle = new Paddle();
         myPaddles.add(tempPaddle);
         myRoot.getChildren().add(tempPaddle);
     }
 
-    //Updates all the children that change in the scene
+    /**
+     * Updates all the children that change in the scene
+     * Moves all objects that need to move
+     * @param elapsedTime: double of the amount if time passed
+     */
     public void update(double elapsedTime){
         myElapsedTime = elapsedTime;
         updateBalls();
@@ -271,7 +284,10 @@ public class LevelScene extends Scene {
         }
     }
 
-    //removes all children and resets everything
+    /**
+     * removes all the children from the root and re-initializes every object
+     * that should be in the scene
+     */
     public void reset() throws Exception {
         myRoot.getChildren().clear();
         myPowerUpsEarned.clear();
