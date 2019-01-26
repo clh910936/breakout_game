@@ -15,7 +15,6 @@ import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -46,8 +45,11 @@ public class Breakout extends Application{
     private Stage myStage;
     private Logistics myLogistics;
 
-
-    //Initialize and setup the scenes
+    /**
+     * Initializes all of the instance variables and creates all of the scenes
+     * @param stage: takes in the stage such that this can be saved to an instance
+     *             variable and it can be called later to get the scene that is currently up.
+     */
     @Override
     public void start(Stage stage) throws Exception {
         myStage = stage;
@@ -63,10 +65,6 @@ public class Breakout extends Application{
         initializeAndStartAnimation(stage);
     }
 
-    //Runs the application
-    public static void main(String args[]){
-        launch(args);
-    }
 
     //Updates all the scenes and their children
     private void step(double elapsedTime, Stage stage) throws Exception {
