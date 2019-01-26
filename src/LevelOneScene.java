@@ -6,6 +6,13 @@
 import javafx.scene.Group;
 
 public class LevelOneScene extends LevelScene {
+    /**
+     * Calls the constructor from LevelScene and turns off wall collision for the paddle
+     * @param fileName: name of the .txt file to use to create the blocks
+     * @param root: root of the program
+     * @param logistic: instance of Logistic class used by other classes
+     * @throws Exception
+     */
     LevelOneScene(String fileName, Group root, Logistics logistic) throws Exception {
         super(fileName, root, logistic);
         turnOffPaddleWallCollide();
@@ -24,7 +31,11 @@ public class LevelOneScene extends LevelScene {
         myLogistics.addFutureScene("LevelTwo");
     }
 
-    //ensures that when the levels are reset, the paddles still maintain their teleportation abilities
+
+    /**
+     * Calls the LevelScene reset
+     * ensures that when the levels are reset, the paddles still maintain their teleportation abilities
+     */
     @Override
     public void reset() throws Exception {
         super.reset();
