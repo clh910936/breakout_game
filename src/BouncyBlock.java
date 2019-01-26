@@ -5,6 +5,8 @@
  * that hits it
  *
  * It's dependent on the Ball class for responding to being hit
+ * @example BouncyBlock tester = new BouncyBlock();
+ * This is currently hardcoded for location because it is only used once in my current game.
  */
 
 import javafx.scene.paint.Color;
@@ -18,6 +20,9 @@ public class BouncyBlock extends Circle {
 
     private Point CENTER = new Point(200, 180);
 
+    /**
+     * Sets up the graphics of BouncyBlock as well as the location
+     */
     BouncyBlock(){
         initializeGraphics();
     }
@@ -33,8 +38,11 @@ public class BouncyBlock extends Circle {
         this.setCenterY(y);
     }
 
-    //Deflects the ball by flipping its directions
-    //Used in LevelThreeScene
+
+    /**
+     * Deflects the ball by flipping its directions
+     * @param ball: that needs to be deflected
+     */
     public void ballHit(Ball ball){
         ball.flipXSpeedDirection();
         ball.flipYSpeedDirection();
