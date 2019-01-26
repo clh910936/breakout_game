@@ -18,6 +18,11 @@ public class MenuScene extends Scene {
     private Group myRoot;
     private Logistics myLogistic;
 
+    /**
+     * creates the menu screen.
+     * @param root: root of the scene
+     * @param logistic: instance of Logistic class used by other Classes
+     */
     MenuScene(Group root, Logistics logistic) throws Exception {
         super(root, Breakout.SIZE, Breakout.SIZE, Breakout.BACKGROUND);
         this.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
