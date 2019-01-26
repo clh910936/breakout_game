@@ -1,8 +1,7 @@
 /**
  * @author Carrie Hunner
- * This class is used to create a ball and set its properties and physics
- * It is dependent on a paddle input such that whenever a ball is added, it starts
- * by being attached to the paddle.
+ * This class is used to create a ball and set its properties and physics.
+ * It extends the Circle class to use its graphics and location methods.
  *
  */
 
@@ -29,6 +28,15 @@ public class Ball extends Circle {
 
     public static final double RADIUS = 7;
 
+    /**
+     *Initializes the ball to start on the paddle, sets the ball's graphic properties, and defaults to the
+     * ball not being slow. The graphic is set to be blue with a radius of 7.  The start location is then
+     * calculated and set using the paddle's coordinates.
+     * @param paddle This is the paddle the ball will start out sticky to.
+     *               Example: Ball myBall = new Ball(paddle_1);
+     *               This will create a ball with its sticky property activated, causing it to be attached
+     *               to paddle_1.
+     */
     Ball(Paddle paddle){
         myPaddle = paddle;
 
@@ -62,32 +70,43 @@ public class Ball extends Circle {
      */
 
     /**
-     * Sets the ball's X direction speed
-     * @param xSpeed new x direction speed
-     *               Assumes negative number indicates moving left
-     *               Assumes positive number indicates moving right
+     * Sets the ball's X direction speed.
+     * Assumes negative number indicates moving left.
+     * Assumes positive number indicates moving right.
+     * @param xSpeed new x direction speed.
+     *
      */
     public void setXSpeed(int xSpeed){
         myXSpeed = xSpeed;
     }
 
     /**
-     * Sets the ball's Y direction speed
-     * @param ySpeed new y direction speed
-     *               Assumes negative number means moving up
-     *               Assumes positive number means moving down
+     * Sets the ball's Y direction speed.
+     * Assumes negative number means moving up
+     * Assumes positive number means moving down.
+     * @param ySpeed new y direction speed.
      */
 
     public void setYSpeed(int ySpeed){
         myYSpeed = ySpeed;
     }
 
-    //flips the sign of the Xspeed
+
+    /**
+     * Inverts the sign of the X direction velocity.
+     * Eg. if the ball is moving to the right, calling this method would
+     * cause it to move left.
+     */
     public void flipXSpeedDirection(){
         myXSpeed *= -1;
     }
 
-    //flips the sign of the y speed
+
+    /**
+     * Inverts the sign of the Y direction velocity.
+     * Eg. if the ball is moving to the up, calling this method would
+     * cause it to move down.
+     */
     public void flipYSpeedDirection(){
         myYSpeed *= -1;
     }

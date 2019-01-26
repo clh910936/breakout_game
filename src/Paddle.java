@@ -103,6 +103,7 @@ public class Paddle extends Rectangle {
 
     /**
      * Moves the paddle and flips directions if it collides with the edge of the screen
+     * This method is used when the paddle is constantly moving
      * @param elapsedTime double indicating the amount of time passed
      */
     public void move(double elapsedTime){
