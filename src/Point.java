@@ -3,6 +3,7 @@
  * This class represents a Point consisting of an X and Y double
  * The coordinates are set when the Point is created
  * There are methods to return either the X or the Y value
+ * @example Point temp = new Point(10, 15);
  */
 
 public class Point {
@@ -15,6 +16,7 @@ public class Point {
     }
 
     /**
+     * Gets the x coordinate
      * @return double of the X coordinate
      */
     public double getX(){
@@ -22,6 +24,7 @@ public class Point {
     }
 
     /**
+     * Gets the y coordinate
      * @return double of the Y coordinate
      */
     public double getY(){
